@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      [
+        'tools/reference-converter/**',
+        '.github/workflows/reference-converter.yml',
+      ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      cwd: ./tools/reference-converter
+    steps:
+      - uses: actions/checkout@v3
+      - run: make build
+        working-directory: ${{env.cwd}}
+      # TODO: re-use common/action.yml, need to refactor out some docs-specific steps
