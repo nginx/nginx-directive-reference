@@ -14,8 +14,23 @@ jobs:
     runs-on: ubuntu-latest
     env:
       cwd: ./tools/reference-converter
+      testResults: ./tools/reference-converter/results/test.xml
     steps:
+      # TODO: re-use common/action.yml, need to refactor out some docs-specific steps
       - uses: actions/checkout@v3
       - run: make build
-        working-directory: ${{env.cwd}}
-      # TODO: re-use common/action.yml, need to refactor out some docs-specific steps
+        working-directory: ${{ env.cwd }}
+      - run: make test
+        working-directory: ${{ env.cwd }}
+      - name: archive test artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report
+          path: ${{ env.testResults }}
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Test Report
+          path: ${{ env.testResults }}
+          reporter: jest-junit
