@@ -9,19 +9,20 @@ on:
         '.github/workflows/reference-converter.yml',
       ]
 
+defaults:
+  run:
+    working-directory: ./tools/reference-converter
+
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      cwd: ./tools/reference-converter
       testResults: ./tools/reference-converter/results/test.xml
     steps:
       # TODO: re-use common/action.yml, need to refactor out some docs-specific steps
       - uses: actions/checkout@v3
       - run: make build
-        working-directory: ${{ env.cwd }}
       - run: make test
-        working-directory: ${{ env.cwd }}
       - name: archive test artifacts
         uses: actions/upload-artifact@v3
         with:

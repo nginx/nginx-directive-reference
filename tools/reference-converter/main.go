@@ -7,6 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/nginxinc/ampex-apps/tools/reference-converter/parse"
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/tarball"
 	"golang.org/x/exp/slog"
 )
@@ -37,12 +38,28 @@ func main() {
 	// TODO: get the latest version from the atom feed
 	// TODO: get the latest version from the destination
 	// TODO: exit if the versions match
-	_, err := tarball.Open(ctx, *sourceFlag)
+	// unpack the tarball
+	files, err := tarball.Open(ctx, *sourceFlag)
 	if err != nil {
 		slog.ErrorCtx(ctx, "failed to read", slog.Any("error", err), slog.String("src", *sourceFlag))
 		return
 	}
-	// TODO: find module XML files
-	// TODO: parse into structs
+
+	// find module XML files
+	var modules []*parse.Module
+	for _, f := range files {
+		if !parse.IsModule(f) {
+			continue
+		}
+		// parse into structs
+		m, err := parse.NewModule(f)
+		if err != nil {
+			slog.ErrorCtx(ctx, "failed to parse", slog.Any("error", err), slog.String("file", f.Name))
+			return
+		}
+		modules = append(modules, m)
+	}
+	slog.InfoCtx(ctx, "parsed into modules", slog.Int("n", len(modules)))
+
 	// TODO: marshall to json
 }

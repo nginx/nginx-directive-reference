@@ -93,7 +93,7 @@ func open(ctx context.Context, raw io.ReadCloser, log *slog.Logger) ([]File, err
 
 		header, err := tr.Next()
 
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			break
 		}
 		if err != nil {
