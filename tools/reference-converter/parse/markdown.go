@@ -6,17 +6,15 @@ import (
 	"fmt"
 	"io"
 	"strings"
+
+	"golang.org/x/exp/slog"
 )
 
-// Paragraphs contain the markdown converted content
-type Paragraph struct {
-	Content string
-}
-
-func (p *Paragraph) ToMarkdown() string { return p.Content }
-
-// UnmarshalXML processes the elements in-order to generate correct content
-func (p *Paragraph) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+// unmarshalMarkdownXML reads the XML in-order and converts it to markdown.
+//
+// Use it from xml.Unmashaler implementations for elements that need to convert
+// their inner XML to markdown.
+func unmarshalMarkdownXML(d *xml.Decoder, parent xml.StartElement) (string, error) {
 	var content strings.Builder
 LOOP:
 	for {
@@ -25,7 +23,7 @@ LOOP:
 			break
 		}
 		if err != nil {
-			return err
+			return "", err
 		}
 
 		switch t := token.(type) {
@@ -36,32 +34,21 @@ LOOP:
 
 			// consume child element
 			if err := d.DecodeElement(md, &t); err != nil {
-				return fmt.Errorf("failed to decode <%s>: %w", t.Name.Local, err)
+				return "", fmt.Errorf("failed to decode <%s>: %w", t.Name.Local, err)
 			}
 			content.WriteString(md.ToMarkdown())
 
 		case xml.EndElement:
-			if t.Name.Local != start.Name.Local {
-				return fmt.Errorf("unexpected </%s>, wanted </%s>", t.Name.Local, start.Name.Local)
+			if t.Name.Local != parent.Name.Local {
+				return "", fmt.Errorf("unexpected </%s>, wanted </%s>", t.Name.Local, parent.Name.Local)
 			}
 			break LOOP
 		case xml.Comment, xml.ProcInst, xml.Directive:
 			// no processing needed
 		}
 	}
-	*p = Paragraph{Content: strings.Trim(content.String(), "\n ")}
-	return nil
-}
 
-// Prose is a collection of paragraphs
-type Prose []Paragraph
-
-func (t Prose) ToMarkdown() string {
-	paras := make([]string, 0, len(t))
-	for _, p := range t {
-		paras = append(paras, p.ToMarkdown())
-	}
-	return strings.Join(paras, "\n\n")
+	return strings.Trim(content.String(), "\n "), nil
 }
 
 type markdowner interface {
@@ -73,9 +60,12 @@ func chooseMarkdowner(name xml.Name) markdowner {
 	// TODO(AMPEX-72): handle other prose-y tags
 	case "literal":
 		return &code{}
+	case "value":
+		return &code{isEmphasized: true}
 	case "example":
 		return &fence{}
 	default:
+		slog.Warn("unsupprted tag", slog.String("name", name.Local))
 		return &unsupportedTag{}
 	}
 }
@@ -90,10 +80,14 @@ func (t *unsupportedTag) ToMarkdown() string {
 }
 
 type code struct {
-	Content string `xml:",chardata"`
+	isEmphasized bool
+	Content      string `xml:",chardata"`
 }
 
 func (t *code) ToMarkdown() string {
+	if t.isEmphasized {
+		return fmt.Sprintf("*`%s`*", t.Content)
+	}
 	return fmt.Sprintf("`%s`", t.Content)
 }
 

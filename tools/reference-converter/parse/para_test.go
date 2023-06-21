@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestToMarkdown(t *testing.T) {
+func TestPara_ToMarkdown(t *testing.T) {
 	t.Parallel()
 	testcases := map[string]struct {
 		XML  string

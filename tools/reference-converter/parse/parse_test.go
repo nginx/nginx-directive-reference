@@ -65,7 +65,7 @@ func TestNewModule(t *testing.T) {
 								Default:  "on",
 								Contexts: []string{"http", "server", "location"},
 								Syntax: parse.Syntax{
-									Literals: []string{"on", "off"},
+									Content: "`on` | `off`",
 								},
 								Prose: parse.Prose{
 									{Content: "Free form test."},

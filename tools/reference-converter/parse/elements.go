@@ -1,11 +1,54 @@
 package parse
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"strings"
+)
 
-// TODO: this might need in-order parsing, it's almost BNF
+// Syntax contain the markdown formatted syntax for the directive, very close to
+// https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form
 type Syntax struct {
-	Values   []string `xml:"value"`
-	Literals []string `xml:"literal"`
+	Content string
+}
+
+func (s *Syntax) ToMarkdown() string { return s.Content }
+
+// UnmarshalXML processes the elements in-order to generate correct content
+func (s *Syntax) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	content, err := unmarshalMarkdownXML(d, start)
+	if err != nil {
+		return err
+	}
+	*s = Syntax{Content: content}
+	return nil
+}
+
+// Paragraphs contain the markdown converted content
+type Paragraph struct {
+	Content string
+}
+
+func (p *Paragraph) ToMarkdown() string { return p.Content }
+
+// UnmarshalXML processes the elements in-order to generate correct content
+func (p *Paragraph) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	content, err := unmarshalMarkdownXML(d, start)
+	if err != nil {
+		return err
+	}
+	*p = Paragraph{Content: content}
+	return nil
+}
+
+// Prose is a collection of paragraphs
+type Prose []Paragraph
+
+func (t Prose) ToMarkdown() string {
+	paras := make([]string, 0, len(t))
+	for _, p := range t {
+		paras = append(paras, p.ToMarkdown())
+	}
+	return strings.Join(paras, "\n\n")
 }
 
 type Directive struct {
