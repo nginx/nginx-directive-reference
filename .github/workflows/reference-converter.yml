@@ -7,16 +7,19 @@ on:
       [
         'tools/reference-converter/**',
         '.github/workflows/reference-converter.yml',
+        '.golangci.yml',
       ]
 
 defaults:
   run:
     working-directory: ./tools/reference-converter
+    shell: bash
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
+      working-directory: ./tools/reference-converter
       testResults: ./tools/reference-converter/results/test.xml
     steps:
       # TODO: re-use common/action.yml, need to refactor out some docs-specific steps
@@ -35,3 +38,21 @@ jobs:
           name: Test Report
           path: ${{ env.testResults }}
           reporter: jest-junit
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./tools/reference-converter
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: ${{ env.working-directory }}/go.mod
+          cache: false
+      - name: read GOLANGCI_LINT_VERSION from Makefile
+        run: |
+          grep -m1 GOLANGCI_LINT_VERSION Makefile | \
+            sed -E 's/([A-Z]+).?=(.+)/\1=v\2/' >> "$GITHUB_ENV"
+      - uses: golangci/golangci-lint-action@v3
+        with:
+          working-directory: ${{ env.working-directory }}
+          version: ${{ env.GOLANGCI_LINT_VERSION }}

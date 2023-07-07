@@ -1,0 +1,12 @@
+linters:
+  # add non-default linters https://golangci-lint.run/usage/linters/#disabled-by-default
+  enable:
+    - bodyclose
+    - errorlint
+
+issues:
+  # Disable maximum issues count per one linter
+  max-issues-per-linter: 0
+
+  # Disable maximum count of issues with the same text
+  max-same-issues: 0
