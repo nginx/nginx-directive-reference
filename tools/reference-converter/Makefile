@@ -1,3 +1,5 @@
+# TODO: use the devtools image
+
 ROOT_DIR:=$(shell git rev-parse --show-toplevel)
 GO_VERSION=$(shell grep --max-count 1 'go ' go.mod |  cut -d' ' -f2)
 GO_JUNIT_REPORT_VERSION?=latest
