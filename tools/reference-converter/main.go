@@ -7,6 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/nginxinc/ampex-apps/tools/reference-converter/atom"
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/parse"
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/tarball"
 	"golang.org/x/exp/slog"
@@ -35,7 +36,15 @@ func main() {
 		slog.String("base-url", *baseURLFlag)))
 	defer slog.InfoCtx(ctx, "finished")
 
-	// TODO: get the latest version from the atom feed
+	// TODO: get the latest version from the atom feed (atom.go)
+	v1, err := atom.GetVersion(ctx, *feedURLFlag)
+	if err != nil {
+		slog.ErrorCtx(ctx, "failed to get the version", slog.Any("error", err), slog.String("src", *feedURLFlag))
+	}
+	slog.InfoCtx(ctx, "Comparing Versions", slog.String("atom", v1))
+	// TODO: get the latest version from the destination
+
+	//v2 :=
 	// TODO: get the latest version from the destination
 	// TODO: exit if the versions match
 	// unpack the tarball
