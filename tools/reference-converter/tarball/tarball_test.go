@@ -16,8 +16,8 @@ func TestOpen_File(t *testing.T) {
 
 	require.NoError(t, err)
 	require.ElementsMatch(t, files, []tarball.File{
-		{Name: "foo.txt", Contents: []byte("foo\n")},
-		{Name: "bar.txt", Contents: []byte("bar\n")},
+		{Name: "foo.xml", Contents: []byte("foo\n")},
+		{Name: "bar.xml", Contents: []byte("bar\n")},
 	})
 }
 
@@ -33,7 +33,7 @@ func TestOpen_Url(t *testing.T) {
 
 	require.NoError(t, err)
 	require.ElementsMatch(t, files, []tarball.File{
-		{Name: "foo.txt", Contents: []byte("foo\n")},
-		{Name: "bar.txt", Contents: []byte("bar\n")},
+		{Name: "foo.xml", Contents: []byte("foo\n")},
+		{Name: "bar.xml", Contents: []byte("bar\n")},
 	})
 }

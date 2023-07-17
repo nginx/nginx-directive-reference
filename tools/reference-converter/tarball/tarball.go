@@ -19,6 +19,9 @@ type File struct {
 	Contents []byte
 }
 
+// Contains reports whether substr is in this file's contents
+func (f *File) Contains(substr string) bool { return strings.Contains(string(f.Contents), substr) }
+
 type config struct {
 	Client http.Client
 }
@@ -31,7 +34,7 @@ func WithHttpClient(c http.Client) Option {
 }
 
 // Open reads a tarball from the given path or url, and returns a slice of all
-// the files inside.
+// the xml files inside.
 func Open(ctx context.Context, pathOrURL string, opts ...Option) ([]File, error) {
 	if !strings.HasSuffix(pathOrURL, ".tar.gz") {
 		return nil, errors.New("invalid source, must be a tar.gz")
@@ -103,6 +106,11 @@ func open(ctx context.Context, raw io.Reader, log *slog.Logger) ([]File, error) 
 
 		// we only care about regular files
 		if header.Typeflag != tar.TypeReg {
+			continue
+		}
+
+		// we only care about XML files
+		if !strings.HasSuffix(header.Name, ".xml") {
 			continue
 		}
 

@@ -72,3 +72,10 @@ type Module struct {
 	Lang     string    `xml:"lang,attr"`
 	Sections []Section `xml:"section"`
 }
+
+// page represents <article>s or <module>s that are used with <link>
+type page struct {
+	Name string `xml:"name,attr"`
+	Link string `xml:"link,attr"`
+	path string // Path to the xml file
+}

@@ -1,40 +1,34 @@
 package parse
 
 import (
-	"bytes"
-	"encoding/xml"
 	"fmt"
-	"strings"
+	"sync"
 
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/tarball"
-	"golang.org/x/exp/slog"
 )
 
-// IsModule checks if this looks like it contains module definitions.
-func IsModule(f tarball.File) bool {
-	return strings.HasSuffix(f.Name, ".xml") && strings.Contains(string(f.Contents), "dtd/module.dtd")
-}
+// current refers to the Reference currently being parsed.
+//
+// xml.Decoder.Decode gives no way to pass contextual information. Deep in the
+// XML tree we need to know things like the current module being parsed or an
+// attribute from another XML file via relative path.
+var current *Reference
+var currentMu sync.Mutex // protects current
 
-// NewModule parses the module XML, converting to markdown while reading.
-func NewModule(f tarball.File) (*Module, error) {
+// Parse reads and parses all the XML files, converting prose to markdown on the
+// way to respect the ordering of XML elements.
+func Parse(xmlFiles []tarball.File, baseURL string) (*Reference, error) {
+	ref := &Reference{baseURL: baseURL}
 
-	contents := f.Contents
-	// some files are missing a closing tag
-	if !strings.Contains(string(contents), "</module>") {
-		slog.Warn("fixed missing </module>", slog.String("file", f.Name))
-		contents = append(f.Contents, []byte("</module>")...)
+	// read all the files so we can build links
+	if err := ref.parsePages(xmlFiles); err != nil {
+		return nil, fmt.Errorf("failed to parse articles: %w", err)
 	}
 
-	var res Module
-	// needs a custom decoder to handle HTML entities
-	decoder := xml.NewDecoder(bytes.NewReader(contents))
-	decoder.Entity = map[string]string{
-		"nbsp":  " ",
-		"mdash": "—",
+	// read all modules
+	if err := ref.parseModules(xmlFiles); err != nil {
+		return nil, fmt.Errorf("failed to parse modules: %w", err)
 	}
 
-	if err := decoder.Decode(&res); err != nil {
-		return nil, fmt.Errorf("unable to parse %s: %w", f.Name, err)
-	}
-	return &res, nil
+	return ref, nil
 }

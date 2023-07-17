@@ -54,21 +54,13 @@ func main() {
 		return
 	}
 
-	// find module XML files
-	var modules []*parse.Module
-	for _, f := range files {
-		if !parse.IsModule(f) {
-			continue
-		}
-		// parse into structs
-		m, err := parse.NewModule(f)
-		if err != nil {
-			slog.ErrorCtx(ctx, "failed to parse", slog.Any("error", err), slog.String("file", f.Name))
-			return
-		}
-		modules = append(modules, m)
+	// reading files, converts XML to markdown
+	r, err := parse.Parse(files, *baseURLFlag)
+	if err != nil {
+		slog.ErrorCtx(ctx, "failed to parse", slog.Any("error", err))
+		return
 	}
-	slog.InfoCtx(ctx, "parsed into modules", slog.Int("n", len(modules)))
+	slog.InfoCtx(ctx, "parsed into modules", slog.Int("n", len(r.Modules)))
 
 	// TODO: marshall to json
 }

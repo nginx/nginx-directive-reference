@@ -10,48 +10,16 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestIsModule(t *testing.T) {
-	t.Parallel()
-	testcases := map[string]struct {
-		filename string
-		want     bool
-	}{
-		"module": {
-			filename: "module.xml",
-			want:     true,
-		},
-		"incomplete module": {
-			filename: "incomplete.xml",
-			want:     true,
-		},
-		"not a module": {
-			filename: "not-a-module.xml",
-			want:     false,
-		},
-	}
-	for name, tc := range testcases {
-		tc := tc
-		t.Run(name, func(t *testing.T) {
-			t.Parallel()
-			f := readTestFile(t, tc.filename)
-
-			got := parse.IsModule(f)
-
-			require.Equal(t, tc.want, got)
-		})
-	}
-}
-
-func TestNewModule(t *testing.T) {
+func TestParse(t *testing.T) {
 	t.Parallel()
 	testcases := map[string]struct {
 		filename  string
 		wantError bool
-		want      parse.Module
+		want      *parse.Module
 	}{
 		"module file": {
 			filename: "module.xml",
-			want: parse.Module{
+			want: &parse.Module{
 				XMLName: xml.Name{Local: "module"},
 				Name:    "Module ngx_FAKE_TEST_module",
 				Link:    "/en/docs/FAKE/ngx_FAKE_TEST_module.html",
@@ -79,7 +47,7 @@ func TestNewModule(t *testing.T) {
 		},
 		"incomplete module": {
 			filename: "incomplete.xml",
-			want: parse.Module{
+			want: &parse.Module{
 				XMLName: xml.Name{Local: "module"},
 				Name:    "Module ngx_FAKE_TEST_module",
 				Link:    "/en/docs/FAKE/ngx_FAKE_TEST_module.html",
@@ -95,8 +63,7 @@ func TestNewModule(t *testing.T) {
 			},
 		},
 		"not a module": {
-			filename:  "not-a-module.xml",
-			wantError: true,
+			filename: "not-a-module.xml",
 		},
 	}
 	for name, tc := range testcases {
@@ -104,15 +71,20 @@ func TestNewModule(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			f := readTestFile(t, tc.filename)
-			got, err := parse.NewModule(f)
+			got, err := parse.Parse([]tarball.File{f}, "")
 
 			if tc.wantError {
 				require.Error(t, err)
 			} else {
 				require.NoError(t, err)
-				require.Equal(t, tc.want, *got)
 			}
 
+			if tc.want == nil {
+				require.Equal(t, 0, len(got.Modules))
+			} else {
+				require.Equal(t, 1, len(got.Modules))
+				require.Equal(t, *tc.want, *got.Modules[0])
+			}
 		})
 	}
 }
@@ -125,5 +97,4 @@ func readTestFile(t *testing.T, filename string) tarball.File {
 		Name:     filename,
 		Contents: content,
 	}
-
 }

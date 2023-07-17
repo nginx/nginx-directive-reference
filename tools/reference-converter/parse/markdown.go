@@ -64,6 +64,8 @@ func chooseMarkdowner(name xml.Name) markdowner {
 		return &code{isEmphasized: true}
 	case "example":
 		return &fence{}
+	case "link":
+		return &link{}
 	default:
 		slog.Warn("unsupprted tag", slog.String("name", name.Local))
 		return &unsupportedTag{}
