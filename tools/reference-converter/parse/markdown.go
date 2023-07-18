@@ -57,17 +57,21 @@ type markdowner interface {
 
 func chooseMarkdowner(name xml.Name) markdowner {
 	switch name.Local {
-	// TODO(AMPEX-72): handle other prose-y tags
-	case "literal":
+	case "literal", "var", "command", "path", "c-def":
 		return &code{}
+	case "c-func":
+		return &code{suffix: "()"}
 	case "value":
 		return &code{isEmphasized: true}
 	case "example":
 		return &fence{}
 	case "link":
 		return &link{}
+	// TODO(AMPEX-72): handle other prose-y tags
+	case "note", "list", "http-status", "header", "commercial_version", "emphasis":
+		return &unsupportedTag{}
 	default:
-		slog.Warn("unsupprted tag", slog.String("name", name.Local))
+		slog.Warn("unsupported tag", slog.String("name", name.Local))
 		return &unsupportedTag{}
 	}
 }
@@ -83,14 +87,21 @@ func (t *unsupportedTag) ToMarkdown() string {
 
 type code struct {
 	isEmphasized bool
+	suffix       string // additional content to add, inside the code block
 	Content      string `xml:",chardata"`
 }
 
 func (t *code) ToMarkdown() string {
-	if t.isEmphasized {
-		return fmt.Sprintf("*`%s`*", t.Content)
+	s := t.Content
+	if t.suffix != "" {
+		s += t.suffix
 	}
-	return fmt.Sprintf("`%s`", t.Content)
+	s = fmt.Sprintf("`%s`", s)
+
+	if t.isEmphasized {
+		return fmt.Sprintf("*%s*", s)
+	}
+	return s
 }
 
 type fence struct {
