@@ -12,6 +12,7 @@ type Reference struct {
 	baseURL     string          // where the official docs live
 	pages       map[string]page // used to build links from directives
 	currentPage page            // file currently being parsed, used to build links
+	listDepth   int             // tracks nested <list> usage
 }
 
 func (r *Reference) parsePages(files []tarball.File) error {

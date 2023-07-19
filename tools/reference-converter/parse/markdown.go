@@ -28,7 +28,7 @@ LOOP:
 
 		switch t := token.(type) {
 		case xml.CharData: // consume inline text
-			content.WriteString(string(t))
+			content.WriteString(strings.Trim(string(t), "\t"))
 		case xml.StartElement:
 			md := chooseMarkdowner(t.Name)
 
@@ -67,8 +67,12 @@ func chooseMarkdowner(name xml.Name) markdowner {
 		return &fence{}
 	case "link":
 		return &link{}
+	case "list":
+		return &list{}
+	case "para":
+		return &Paragraph{}
 	// TODO(AMPEX-72): handle other prose-y tags
-	case "note", "list", "http-status", "header", "commercial_version", "emphasis":
+	case "note", "http-status", "header", "commercial_version", "emphasis":
 		return &unsupportedTag{}
 	default:
 		slog.Warn("unsupported tag", slog.String("name", name.Local))

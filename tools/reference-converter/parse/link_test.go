@@ -10,9 +10,10 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+const baseURL = "http://example.com"
+
 func TestLink_ToMarkdown(t *testing.T) {
 	t.Parallel()
-	baseURL := "http://example.com"
 	testModulePath := "/xml/en/test.xml"
 	// simulate other pages in the tarball
 	pages := []tarball.File{
