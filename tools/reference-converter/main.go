@@ -8,6 +8,7 @@ import (
 	"syscall"
 
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/atom"
+	"github.com/nginxinc/ampex-apps/tools/reference-converter/output"
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/parse"
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/tarball"
 	"golang.org/x/exp/slog"
@@ -62,5 +63,18 @@ func main() {
 	}
 	slog.InfoCtx(ctx, "parsed into modules", slog.Int("n", len(r.Modules)))
 
-	// TODO: marshall to json
+	// convert XML types to JSON types
+	ref := output.New(v1, r.Modules)
+
+	// marshall to json
+	dst, err := os.Open(*destFlag)
+	if err != nil {
+		slog.ErrorCtx(ctx, "failed to open dst", slog.Any("error", err))
+		return
+	}
+	defer dst.Close()
+	if err := ref.Write(ctx, dst); err != nil {
+		slog.ErrorCtx(ctx, "failed to save", slog.Any("error", err))
+		return
+	}
 }
