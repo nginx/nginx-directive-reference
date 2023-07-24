@@ -24,6 +24,10 @@ jobs:
     steps:
       # TODO: re-use common/action.yml, need to refactor out some docs-specific steps
       - uses: actions/checkout@v3
+      # TODO: publish the devtools image to a registry and use it as `jobs.build.container`
+      - run: make devtools-image
+      - name: let the build create files
+        run: chmod 777 .
       - run: make build
       - run: make test
       - name: archive test artifacts
@@ -48,11 +52,9 @@ jobs:
         with:
           go-version-file: ${{ env.working-directory }}/go.mod
           cache: false
-      - name: read GOLANGCI_LINT_VERSION from Makefile
-        run: |
-          grep -m1 GOLANGCI_LINT_VERSION Makefile | \
-            sed -E 's/([A-Z]+).?=(.+)/\1=v\2/' >> "$GITHUB_ENV"
+      - name: use the same version of GOLANGCI_LINT_VERSION as devtools
+        run: make devtools-versions >> "$GITHUB_ENV"
       - uses: golangci/golangci-lint-action@v3
         with:
           working-directory: ${{ env.working-directory }}
-          version: ${{ env.GOLANGCI_LINT_VERSION }}
+          version: v${{ env.GOLANGCI_LINT_VERSION }}
