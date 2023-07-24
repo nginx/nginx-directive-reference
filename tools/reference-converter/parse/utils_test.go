@@ -15,20 +15,37 @@ import (
 func lines(l ...string) string { return strings.Join(l, "\n") }
 
 type xmlConfig struct {
-	AddPara         bool
-	Path, Link, XML string
+	AddPara               bool
+	ContentXML, SyntaxXML string
+	Path, Link            string
 }
 
 type xmlOption func(*xmlConfig)
 
-// withPara controls whether the test XML content is wrapped by a <para>. Defaults to true.
+// withPara controls whether the test content is wrapped by a <para>. Defaults
+// to true.
 func withPara(wrap bool) xmlOption {
 	return func(xc *xmlConfig) {
 		xc.AddPara = wrap
 	}
 }
 
-// withPath sets the file path for the module XML and the <module link> attribute.
+// withSyntax adds a <syntax> element to the directive
+func withSyntax(xml string) xmlOption {
+	return func(xc *xmlConfig) {
+		xc.SyntaxXML = xml
+	}
+}
+
+// withContent adds a description to the directive
+func withContent(xml string) xmlOption {
+	return func(xc *xmlConfig) {
+		xc.ContentXML = xml
+	}
+}
+
+// withPath sets the file path for the module XML and the <module link>
+// attribute.
 func withPath(path string) xmlOption {
 	return func(xc *xmlConfig) {
 		xc.Path = path
@@ -41,20 +58,22 @@ var moduleTemplate = template.Must(template.New("mod").Parse(`
 <!DOCTYPE module SYSTEM "../dtd/module.dtd">
 <module link="{{.Link}}">
 <section>
+<directive name="test">
+{{ if .SyntaxXML -}}<syntax>{{ .SyntaxXML }}</syntax>{{- end }}
 {{ if .AddPara -}} <para> {{- end }}
-{{.XML}}
+{{ .ContentXML }}
 {{ if .AddPara -}} </para> {{- end }}
+</directive>
 </section>
 </module>
 `))
 
-func testModuleFile(t *testing.T, XML string, opts ...xmlOption) tarball.File {
+func testModuleFile(t *testing.T, opts ...xmlOption) tarball.File {
 	t.Helper()
 	cfg := xmlConfig{
 		AddPara: true,
 		Path:    "/xml/en/test.xml",
 		Link:    "/en/test.html",
-		XML:     XML,
 	}
 	for _, opt := range opts {
 		opt(&cfg)

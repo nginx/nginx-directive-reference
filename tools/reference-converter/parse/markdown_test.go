@@ -6,51 +6,53 @@ import (
 
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/parse"
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/tarball"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 func TestMarkdown(t *testing.T) {
 	t.Parallel()
 	testcases := map[string]struct {
-		XML, want string
-		opts      []xmlOption
+		content, wantContent string
+		syntax, wantSyntax   string
+		opts                 []xmlOption
 	}{
 		"multiple <para>s are combined": {
-			XML: `<para>A</para><para>B</para>`,
-			want: lines(
+			content: `<para>A</para><para>B</para>`,
+			wantContent: lines(
 				"A",
 				"",
 				"B"),
 			opts: []xmlOption{withPara(false)},
 		},
 		"<literal> are code": {
-			XML:  `A <literal>B</literal>`,
-			want: "A `B`",
+			content:     `A <literal>B</literal>`,
+			wantContent: "A `B`",
 		},
 		"comments are ignored": {
-			XML:  `A <!-- B -->`,
-			want: "A",
+			content:     `A <!-- B -->`,
+			wantContent: "A",
 		},
 		"<example> are fences": {
-			XML: `<example> A</example>`,
-			want: lines(
+			content: `<example> A</example>`,
+			wantContent: lines(
 				"```",
 				" A",
 				"```",
 			),
 		},
 		"unknown tags show a TODO": {
-			XML:  `<what>??</what>`,
-			want: "`TODO: handle <what>`",
+			content:     `<what>??</what>`,
+			wantContent: "`TODO: handle <what>`",
 		},
 		`<list type="tag">`: {
-			XML: `<list type="tag">
+			content: `<list type="tag">
 			<tag-name>tag <literal>one</literal></tag-name>
 			<tag-desc>contents</tag-desc>
 			<tag-name>tag two</tag-name>
 			<tag-desc>more <var>contents</var></tag-desc>
 			</list>`,
-			want: lines(
+			wantContent: lines(
 				"- tag `one`",
 				"",
 				"  contents",
@@ -60,27 +62,27 @@ func TestMarkdown(t *testing.T) {
 			),
 		},
 		`<list type="bullet">`: {
-			XML: `<list type="bullet">
+			content: `<list type="bullet">
 			<listitem><para>content</para></listitem>
 			<listitem>more <literal>content</literal></listitem>
 			</list>`,
-			want: lines(
+			wantContent: lines(
 				"- content",
 				"- more `content`",
 			),
 		},
 		`<list type="enum">`: {
-			XML: `<list type="enum">
+			content: `<list type="enum">
 			<listitem>content</listitem>
 			<listitem>more <literal>content</literal></listitem>
 			</list>`,
-			want: lines(
+			wantContent: lines(
 				"1. content",
 				"2. more `content`",
 			),
 		},
 		"nested <list>": {
-			XML: `<list type="tag">
+			content: `<list type="tag">
 			<tag-name>tag</tag-name>
 			<tag-desc>
 				stuff
@@ -95,7 +97,7 @@ func TestMarkdown(t *testing.T) {
 				</list>
 			</tag-desc>
 			</list>`,
-			want: lines(
+			wantContent: lines(
 				"- tag",
 				"",
 				"  stuff",
@@ -105,24 +107,71 @@ func TestMarkdown(t *testing.T) {
 			),
 		},
 		"<header> are quoted": {
-			XML:  `<header>User-Agent</header>`,
-			want: `"User-Agent"`,
+			content:     `<header>User-Agent</header>`,
+			wantContent: `"User-Agent"`,
 		},
 		"<emphasis>": {
-			XML: `<example>upstream <emphasis>name</emphasis></example>`,
-			want: lines(
+			content: `<example>upstream <emphasis>name</emphasis></example>`,
+			wantContent: lines(
 				"```",
 				"upstream name",
 				"```",
 			),
 		},
 		"<http-status>": {
-			XML:  `<http-status code="418" text="I'm a teapot"/>`,
-			want: "418 (I'm a teapot)",
+			content:     `<http-status code="418" text="I'm a teapot"/>`,
+			wantContent: "418 (I'm a teapot)",
 		},
 		"<commercial_version>": {
-			XML:  `<commercial_version>title</commercial_version>`,
-			want: fmt.Sprintf("[title](%s)", upsellURL),
+			content:     `<commercial_version>title</commercial_version>`,
+			wantContent: fmt.Sprintf("[title](%s)", upsellURL),
+		},
+		"<syntax> enum": {
+			syntax:     "<literal>enumA</literal> | <literal>enumB</literal>",
+			wantSyntax: "`enumA` | `enumB`",
+		},
+		"<syntax> arg": {
+			syntax:     "<value>arg</value>",
+			wantSyntax: "*`arg`*",
+		},
+		"<syntax> args": {
+			syntax:     "<value>argA</value> <value>argB</value>",
+			wantSyntax: "*`argA`* *`argB`*",
+		},
+		"<syntax> optional flags": {
+			syntax: lines(
+				"[<literal>flagA</literal>]",
+				"[<literal>flagB</literal>]",
+				"[<literal>flagC</literal>]"),
+			wantSyntax: "[`flagA`] [`flagB`] [`flagC`]",
+		},
+		"<syntax> arg with optional flag": {
+			syntax:     "<value>arg</value> [<literal>flag</literal>]",
+			wantSyntax: "*`arg`* [`flag`]",
+		},
+		"<syntax> arg or flag": {
+			syntax:     "<value>argA</value> | <value>argB</value> | <literal>flag</literal>",
+			wantSyntax: "*`argA`* | *`argB`* | `flag`",
+		},
+		"<syntax> arg with optional flag or flag": {
+			syntax:     "<value>arg</value> [<literal>flagA</literal>] | <literal>flagB</literal>",
+			wantSyntax: "*`arg`* [`flagA`] | `flagB`",
+		},
+		"<syntax> enum with optional flag": {
+			syntax:     "<literal>enumA</literal> | <literal>enumB</literal> [<literal>flag</literal>]",
+			wantSyntax: "`enumA` | `enumB` [`flag`]",
+		},
+		"<syntax> arg with named options": {
+			syntax:     "<value>arg</value> [<literal>opt</literal>=<value>val</value>]",
+			wantSyntax: "*`arg`* [`opt`=*`val`*]",
+		},
+		"<syntax> multi line indented": {
+			syntax: lines(
+				"",
+				"    [<literal>SSLv2</literal>]",
+				"    [<literal>SSLv4</literal>]",
+			),
+			wantSyntax: "[`SSLv2`] [`SSLv4`]",
 		},
 	}
 	for name, tc := range testcases {
@@ -130,15 +179,17 @@ func TestMarkdown(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 
-			ref, err := parse.Parse([]tarball.File{
-				testModuleFile(t, tc.XML, tc.opts...),
-			}, baseURL, upsellURL)
+			opts := append(tc.opts, withContent(tc.content), withSyntax(tc.syntax))
+			f := testModuleFile(t, opts...)
+			ref, err := parse.Parse([]tarball.File{f}, baseURL, upsellURL)
 			require.NoError(t, err)
 
 			require.Equal(t, 1, len(ref.Modules))
-			got := ref.Modules[0].Sections[0].Prose.ToMarkdown()
+			gotContent := ref.Modules[0].Sections[0].Directives[0].Prose.ToMarkdown()
+			gotSyntax := ref.Modules[0].Sections[0].Directives[0].Syntax.ToMarkdown()
 
-			require.Equal(t, tc.want, got, "failed on `%s`", tc.XML)
+			assert.Equal(t, tc.wantContent, gotContent, "failed on `%s`", tc.content)
+			assert.Equal(t, tc.wantSyntax, gotSyntax, "failed on `%s`", tc.syntax)
 		})
 	}
 }

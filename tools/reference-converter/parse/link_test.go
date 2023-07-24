@@ -18,7 +18,7 @@ func TestLink_ToMarkdown(t *testing.T) {
 	pages := []tarball.File{
 		testArticleFile("/xml/en/debugging.xml", "I'm another file"),
 		testArticleFile("/xml/above.xml", "I'm in the parent dir"),
-		testModuleFile(t, "I'm in the child dir", withPath("/xml/en/child/below.xml")),
+		testModuleFile(t, withPath("/xml/en/child/below.xml")),
 	}
 	testcases := map[string]struct {
 		XML  string
@@ -57,14 +57,14 @@ func TestLink_ToMarkdown(t *testing.T) {
 		tc := tc
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
-			files := append(pages, testModuleFile(t, tc.XML))
+			files := append(pages, testModuleFile(t, withContent(tc.XML)))
 
 			ref, err := parse.Parse(files, baseURL, upsellURL)
 			require.NoError(t, err)
 			require.NotNil(t, ref)
 
 			require.Equal(t, 2, len(ref.Modules))
-			got := ref.Modules[1].Sections[0].Prose.ToMarkdown()
+			got := ref.Modules[1].Sections[0].Directives[0].Prose.ToMarkdown()
 
 			require.Equal(t, tc.want, got, "failed on `%s`", tc.XML)
 		})

@@ -2,6 +2,7 @@ package parse
 
 import (
 	"encoding/xml"
+	"regexp"
 	"strings"
 )
 
@@ -13,12 +14,17 @@ type Syntax struct {
 
 func (s *Syntax) ToMarkdown() string { return s.Content }
 
-// UnmarshalXML processes the elements in-order to generate correct content
+var whitespace = regexp.MustCompile(`\s+`)
+
+// UnmarshalXML processes the elements in-order to generate correct content,
+// dropping incidental whitespace present in the source XML.
 func (s *Syntax) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	content, err := unmarshalMarkdownXML(d, start)
 	if err != nil {
 		return err
 	}
+	content = whitespace.ReplaceAllString(content, " ")
+	content = strings.Trim(content, " \n")
 	*s = Syntax{Content: content}
 	return nil
 }
