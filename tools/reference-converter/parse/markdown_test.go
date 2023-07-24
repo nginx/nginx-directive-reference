@@ -1,7 +1,7 @@
 package parse_test
 
 import (
-	"strings"
+	"fmt"
 	"testing"
 
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/parse"
@@ -9,12 +9,41 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestList(t *testing.T) {
+func TestMarkdown(t *testing.T) {
 	t.Parallel()
 	testcases := map[string]struct {
 		XML, want string
+		opts      []xmlOption
 	}{
-		"tag list": {
+		"multiple <para>s are combined": {
+			XML: `<para>A</para><para>B</para>`,
+			want: lines(
+				"A",
+				"",
+				"B"),
+			opts: []xmlOption{withPara(false)},
+		},
+		"<literal> are code": {
+			XML:  `A <literal>B</literal>`,
+			want: "A `B`",
+		},
+		"comments are ignored": {
+			XML:  `A <!-- B -->`,
+			want: "A",
+		},
+		"<example> are fences": {
+			XML: `<example> A</example>`,
+			want: lines(
+				"```",
+				" A",
+				"```",
+			),
+		},
+		"unknown tags show a TODO": {
+			XML:  `<what>??</what>`,
+			want: "`TODO: handle <what>`",
+		},
+		`<list type="tag">`: {
 			XML: `<list type="tag">
 			<tag-name>tag <literal>one</literal></tag-name>
 			<tag-desc>contents</tag-desc>
@@ -30,7 +59,7 @@ func TestList(t *testing.T) {
 				"  more `contents`",
 			),
 		},
-		"bullet list": {
+		`<list type="bullet">`: {
 			XML: `<list type="bullet">
 			<listitem><para>content</para></listitem>
 			<listitem>more <literal>content</literal></listitem>
@@ -40,7 +69,7 @@ func TestList(t *testing.T) {
 				"- more `content`",
 			),
 		},
-		"enum list": {
+		`<list type="enum">`: {
 			XML: `<list type="enum">
 			<listitem>content</listitem>
 			<listitem>more <literal>content</literal></listitem>
@@ -50,13 +79,15 @@ func TestList(t *testing.T) {
 				"2. more `content`",
 			),
 		},
-		"nested list": {
+		"nested <list>": {
 			XML: `<list type="tag">
 			<tag-name>tag</tag-name>
-			<tag-desc> stuff
+			<tag-desc>
+				stuff
 				<list type="bullet">
 					<listitem>another list!</listitem>
-					<listitem> but wait
+					<listitem>
+						but wait
 						<list type="enum">
 							<listitem>there's more!</listitem>
 						</list>
@@ -73,6 +104,26 @@ func TestList(t *testing.T) {
 				"    1. there's more!",
 			),
 		},
+		"<header> are quoted": {
+			XML:  `<header>User-Agent</header>`,
+			want: `"User-Agent"`,
+		},
+		"<emphasis>": {
+			XML: `<example>upstream <emphasis>name</emphasis></example>`,
+			want: lines(
+				"```",
+				"upstream name",
+				"```",
+			),
+		},
+		"<http-status>": {
+			XML:  `<http-status code="418" text="I'm a teapot"/>`,
+			want: "418 (I'm a teapot)",
+		},
+		"<commercial_version>": {
+			XML:  `<commercial_version>title</commercial_version>`,
+			want: fmt.Sprintf("[title](%s)", upsellURL),
+		},
 	}
 	for name, tc := range testcases {
 		tc := tc
@@ -80,8 +131,8 @@ func TestList(t *testing.T) {
 			t.Parallel()
 
 			ref, err := parse.Parse([]tarball.File{
-				testModuleFile("test.xml", tc.XML),
-			}, baseURL)
+				testModuleFile(t, tc.XML, tc.opts...),
+			}, baseURL, upsellURL)
 			require.NoError(t, err)
 
 			require.Equal(t, 1, len(ref.Modules))
@@ -91,5 +142,3 @@ func TestList(t *testing.T) {
 		})
 	}
 }
-
-func lines(l ...string) string { return strings.Join(l, "\n") }

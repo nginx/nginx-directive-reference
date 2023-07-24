@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// TODO: move this to TestMarkdown with realistic whitespace
 func TestSyntax(t *testing.T) {
 	t.Parallel()
 	testcases := map[string]struct {

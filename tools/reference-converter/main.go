@@ -15,10 +15,11 @@ import (
 )
 
 var (
-	destFlag    = flag.String("dst", "reference.json", "where to write JSON output")
-	sourceFlag  = flag.String("src", "http://hg.nginx.org/nginx.org/archive/tip.tar.gz", "where to get the XML sources")
-	feedURLFlag = flag.String("feed-url", "http://hg.nginx.org/nginx.org/atom-log", "where to get the atom feed for XML changes")
-	baseURLFlag = flag.String("base-url", "https://nginx.org/en/docs/", "base URL for rendering links inside the docs")
+	destFlag      = flag.String("dst", "reference.json", "where to write JSON output")
+	sourceFlag    = flag.String("src", "http://hg.nginx.org/nginx.org/archive/tip.tar.gz", "where to get the XML sources")
+	feedURLFlag   = flag.String("feed-url", "http://hg.nginx.org/nginx.org/atom-log", "where to get the atom feed for XML changes")
+	baseURLFlag   = flag.String("base-url", "https://nginx.org/en/docs/", "base URL for rendering links inside the docs")
+	upsellURLFlag = flag.String("upsell-url", "https://nginx.com/products/", "URL for linking people to NGINX+")
 )
 
 func main() {
@@ -56,7 +57,7 @@ func main() {
 	}
 
 	// reading files, converts XML to markdown
-	r, err := parse.Parse(files, *baseURLFlag)
+	r, err := parse.Parse(files, *baseURLFlag, *upsellURLFlag)
 	if err != nil {
 		slog.ErrorCtx(ctx, "failed to parse", slog.Any("error", err))
 		return

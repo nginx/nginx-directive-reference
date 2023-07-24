@@ -17,8 +17,8 @@ var currentMu sync.Mutex // protects current
 
 // Parse reads and parses all the XML files, converting prose to markdown on the
 // way to respect the ordering of XML elements.
-func Parse(xmlFiles []tarball.File, baseURL string) (*Reference, error) {
-	ref := &Reference{baseURL: baseURL}
+func Parse(xmlFiles []tarball.File, baseURL, upsellURL string) (*Reference, error) {
+	ref := &Reference{baseURL: baseURL, upsellURL: upsellURL}
 
 	// read all the files so we can build links
 	if err := ref.parsePages(xmlFiles); err != nil {

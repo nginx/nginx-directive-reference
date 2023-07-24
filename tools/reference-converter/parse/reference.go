@@ -10,6 +10,7 @@ import (
 type Reference struct {
 	Modules     []*Module       // parsed and processed NGINX modules
 	baseURL     string          // where the official docs live
+	upsellURL   string          // where we link people when pushing the NGINX+
 	pages       map[string]page // used to build links from directives
 	currentPage page            // file currently being parsed, used to build links
 	listDepth   int             // tracks nested <list> usage

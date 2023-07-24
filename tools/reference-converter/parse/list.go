@@ -15,7 +15,7 @@ type unorderedList struct {
 func (t *unorderedList) ToMarkdown() string {
 	var sb strings.Builder
 	for _, item := range t.Items {
-		sb.WriteString(fmt.Sprintf("%s- %s\n", t.indent, item.ToMarkdown()))
+		sb.WriteString(fmt.Sprintf("%s- %s\n", t.indent, item.ToTrimmedMarkdown()))
 	}
 	return sb.String()
 }
@@ -29,7 +29,7 @@ type orderedList struct {
 func (t *orderedList) ToMarkdown() string {
 	var sb strings.Builder
 	for i, item := range t.Items {
-		sb.WriteString(fmt.Sprintf("%s%d. %s\n", t.indent, i+1, item.ToMarkdown()))
+		sb.WriteString(fmt.Sprintf("%s%d. %s\n", t.indent, i+1, item.ToTrimmedMarkdown()))
 	}
 	return sb.String()
 }
@@ -53,7 +53,7 @@ func (t *taglist) ToMarkdown() string {
 		name := t.TagNames[i]
 		desc := t.TagDesc[i]
 		sb.WriteString(fmt.Sprintf(
-			"%s- %s\n\n  %s\n", t.indent, name.ToMarkdown(), desc.ToMarkdown()))
+			"%s- %s\n\n  %s\n", t.indent, name.ToTrimmedMarkdown(), desc.ToTrimmedMarkdown()))
 
 	}
 	return sb.String()

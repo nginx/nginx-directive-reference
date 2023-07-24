@@ -2,7 +2,6 @@ package parse_test
 
 import (
 	"encoding/xml"
-	"os"
 	"testing"
 
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/parse"
@@ -36,8 +35,8 @@ func TestParse(t *testing.T) {
 									Content: "`on` | `off`",
 								},
 								Prose: parse.Prose{
-									{Content: "Free form test."},
-									{Content: "Can have more than one, with some html—ish entities and `verbatim` text."},
+									{Content: "\nFree form test.\n"},
+									{Content: "\nCan have more than one, with some html—ish entities and `verbatim` text.\n"},
 								},
 							},
 						},
@@ -71,7 +70,7 @@ func TestParse(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			f := readTestFile(t, tc.filename)
-			got, err := parse.Parse([]tarball.File{f}, "")
+			got, err := parse.Parse([]tarball.File{f}, baseURL, upsellURL)
 
 			if tc.wantError {
 				require.Error(t, err)
@@ -86,15 +85,5 @@ func TestParse(t *testing.T) {
 				require.Equal(t, *tc.want, *got.Modules[0])
 			}
 		})
-	}
-}
-
-func readTestFile(t *testing.T, filename string) tarball.File {
-	t.Helper()
-	content, err := os.ReadFile("./testdata/" + filename)
-	require.NoError(t, err)
-	return tarball.File{
-		Name:     filename,
-		Contents: content,
 	}
 }

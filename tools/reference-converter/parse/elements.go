@@ -30,6 +30,10 @@ type Paragraph struct {
 
 func (p *Paragraph) ToMarkdown() string { return p.Content }
 
+// ToTrimmedMarkdown trims leading/trailing whitespace, useful for ignoring
+// newlines and from the XML.
+func (p *Paragraph) ToTrimmedMarkdown() string { return strings.Trim(p.ToMarkdown(), "\n\t ") }
+
 // UnmarshalXML processes the elements in-order to generate correct content
 func (p *Paragraph) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	content, err := unmarshalMarkdownXML(d, start)
@@ -46,7 +50,7 @@ type Prose []Paragraph
 func (t Prose) ToMarkdown() string {
 	paras := make([]string, 0, len(t))
 	for _, p := range t {
-		paras = append(paras, p.ToMarkdown())
+		paras = append(paras, p.ToTrimmedMarkdown())
 	}
 	return strings.Join(paras, "\n\n")
 }

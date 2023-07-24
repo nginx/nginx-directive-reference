@@ -48,7 +48,7 @@ LOOP:
 		}
 	}
 
-	return strings.Trim(content.String(), "\n "), nil
+	return strings.TrimSuffix(content.String(), "\n "), nil
 }
 
 type markdowner interface {
@@ -64,15 +64,23 @@ func chooseMarkdowner(name xml.Name) markdowner {
 	case "value":
 		return &code{isEmphasized: true}
 	case "example":
-		return &fence{}
+		return &example{}
 	case "link":
 		return &link{}
 	case "list":
 		return &list{}
 	case "para":
 		return &Paragraph{}
+	case "header":
+		return &header{}
+	case "emphasis":
+		return &emphasis{}
+	case "http-status":
+		return &httpStatus{}
+	case "commercial_version":
+		return &commercialVersion{}
 	// TODO(AMPEX-72): handle other prose-y tags
-	case "note", "http-status", "header", "commercial_version", "emphasis":
+	case "note":
 		return &unsupportedTag{}
 	default:
 		slog.Warn("unsupported tag", slog.String("name", name.Local))
@@ -108,10 +116,54 @@ func (t *code) ToMarkdown() string {
 	return s
 }
 
-type fence struct {
+// <example> elements shows snippets of config, C code, etc.
+type example struct {
+	content string
+}
+
+func (e *example) ToMarkdown() string { return e.content }
+
+// UnmarshalXML processes the elements in-order to generate correct content.
+// Some <example>s contain <emphasis>, so needs to be parsed in-order.
+func (e *example) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	content, err := unmarshalMarkdownXML(d, start)
+	if err != nil {
+		return err
+	}
+	*e = example{content: fmt.Sprintf("```\n%s\n```", content)}
+	return nil
+}
+
+// <header> elements are for HTTP headers
+type header struct {
 	Content string `xml:",chardata"`
 }
 
-func (t *fence) ToMarkdown() string {
-	return fmt.Sprintf("```\n%s\n```", t.Content)
+func (h *header) ToMarkdown() string { return fmt.Sprintf(`"%s"`, h.Content) }
+
+// <emphasis> elements are used to bold some of the code inside an <example>.
+// There is no easy translation to markdown, so this bolding is dropped.
+type emphasis struct {
+	Content string `xml:",chardata"`
+}
+
+func (e *emphasis) ToMarkdown() string { return e.Content }
+
+// <http-status> elements describe a HTTP status code.
+type httpStatus struct {
+	Code int    `xml:"code,attr"`
+	Text string `xml:"text,attr"`
+}
+
+func (h *httpStatus) ToMarkdown() string {
+	return fmt.Sprintf("%d (%s)", h.Code, h.Text)
+}
+
+// <commercial_version> elements are upsell links.
+type commercialVersion struct {
+	Content string `xml:",chardata"`
+}
+
+func (e *commercialVersion) ToMarkdown() string {
+	return fmt.Sprintf("[%s](%s)", e.Content, current.upsellURL)
 }
