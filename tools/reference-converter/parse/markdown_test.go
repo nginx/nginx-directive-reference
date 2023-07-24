@@ -173,6 +173,21 @@ func TestMarkdown(t *testing.T) {
 			),
 			wantSyntax: "[`SSLv2`] [`SSLv4`]",
 		},
+		"<note>": {
+			content:     "<note>Hey, I'm <value>important</value></note>",
+			wantContent: "> Hey, I'm *`important`*",
+		},
+		"<note> multi-line": {
+			content: lines(
+				"<note>",
+				"The <literal>TLSv1.1</literal> and <literal>TLSv1.2</literal> parameters",
+				"(1.1.13, 1.0.12) work only when OpenSSL 1.0.1 or higher is used.",
+				"</note>"),
+			wantContent: lines(
+				"> The `TLSv1.1` and `TLSv1.2` parameters",
+				"> (1.1.13, 1.0.12) work only when OpenSSL 1.0.1 or higher is used.",
+			),
+		},
 	}
 	for name, tc := range testcases {
 		tc := tc

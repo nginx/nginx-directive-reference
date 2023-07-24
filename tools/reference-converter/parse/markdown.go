@@ -79,9 +79,8 @@ func chooseMarkdowner(name xml.Name) markdowner {
 		return &httpStatus{}
 	case "commercial_version":
 		return &commercialVersion{}
-	// TODO(AMPEX-72): handle other prose-y tags
 	case "note":
-		return &unsupportedTag{}
+		return &note{}
 	default:
 		slog.Warn("unsupported tag", slog.String("name", name.Local))
 		return &unsupportedTag{}
@@ -166,4 +165,31 @@ type commercialVersion struct {
 
 func (e *commercialVersion) ToMarkdown() string {
 	return fmt.Sprintf("[%s](%s)", e.Content, current.upsellURL)
+}
+
+// <note> elements highlight some quirks or changes over time, rendered as
+// blockquotes.
+type note struct {
+	content string
+}
+
+func (n *note) ToMarkdown() string { return n.content }
+
+// UnmarshalXML processes the elements in-order to generate correct content.
+// Some <note>s contain <literal>s, so needs to be parsed in-order.
+func (n *note) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	content, err := unmarshalMarkdownXML(d, start)
+	if err != nil {
+		return err
+	}
+	// add a '>' prefix to each line
+	var sb strings.Builder
+	for _, line := range strings.Split(content, "\n") {
+		if len(line) == 0 {
+			continue
+		}
+		sb.WriteString(fmt.Sprintf("> %s\n", line))
+	}
+	*n = note{content: sb.String()}
+	return nil
 }
