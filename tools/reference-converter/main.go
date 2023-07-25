@@ -67,8 +67,7 @@ func main() {
 	// convert XML types to JSON types
 	ref := output.New(v1, r.Modules)
 
-	// marshall to json
-	dst, err := os.Open(*destFlag)
+	dst, err := os.Create(*destFlag)
 	if err != nil {
 		slog.ErrorCtx(ctx, "failed to open dst", slog.Any("error", err))
 		return

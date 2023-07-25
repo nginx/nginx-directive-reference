@@ -14,8 +14,8 @@ import (
 
 func TestNew(t *testing.T) {
 	modules := []*parse.Module{
-		{Name: "Module 1"},
-		{Name: "Module 2", Sections: []parse.Section{
+		{Name: "Module 1", Lang: "en"},
+		{Name: "Module 2", Lang: "en", Sections: []parse.Section{
 			{Directives: []parse.Directive{
 				{
 					Name:     "directive 2",

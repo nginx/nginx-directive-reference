@@ -52,14 +52,16 @@ func New(version string, modules []*parse.Module) *Reference {
 	}
 
 	for _, m := range modules {
-		res.Modules = append(res.Modules, toModule(m))
+		if m.Lang == "en" {
+			res.Modules = append(res.Modules, toModule(m))
+		}
 	}
 
 	return &res
 }
 
 func (r *Reference) Write(ctx context.Context, dst io.Writer) error {
-	jsonData, err := json.Marshal(r)
+	jsonData, err := json.MarshalIndent(r, "", "  ")
 	if err != nil {
 		return fmt.Errorf("unable to marshal reference struct: %w", err)
 	}
