@@ -52,6 +52,10 @@ func TestLink_ToMarkdown(t *testing.T) {
 			XML:  `<link url="http://nginx.org">hello</link>`,
 			want: "[hello](http://nginx.org)",
 		},
+		"title with new line": {
+			XML:  `<link url="http://nginx.org">hello&#xA;world</link>`,
+			want: "[hello world](http://nginx.org)",
+		},
 	}
 	for name, tc := range testcases {
 		tc := tc

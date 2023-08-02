@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"strings"
 
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/parse"
 )
@@ -18,13 +19,15 @@ type Directive struct {
 }
 
 type Module struct {
+	Id         string      `json:"id"`
 	Name       string      `json:"name"`
 	Directives []Directive `json:"directives"`
 }
 
 func toModule(m *parse.Module) Module {
 	module := Module{
-		Name: m.Name,
+		Name: strings.TrimLeft(m.Name, "Module "),
+		Id:   m.Link,
 	}
 	for _, section := range m.Sections {
 		for _, directive := range section.Directives {

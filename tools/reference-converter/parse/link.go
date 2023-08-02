@@ -3,6 +3,7 @@ package parse
 import (
 	"encoding/xml"
 	"fmt"
+	"strings"
 )
 
 // link converts <link> elements into markdown links
@@ -33,6 +34,8 @@ func (l *link) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	if title == "" && hasPage {
 		title = p.Name
 	}
+
+	title = strings.Replace(title, "\n", " ", -1)
 
 	href := attrs["url"]
 	if href == "" {

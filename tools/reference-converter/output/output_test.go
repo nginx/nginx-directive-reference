@@ -35,10 +35,10 @@ func TestNew(t *testing.T) {
 	want := &output.Reference{
 		Modules: []output.Module{
 			{
-				Name: "Module 1",
+				Name: "1",
 			},
 			{
-				Name: "Module 2",
+				Name: "2",
 				Directives: []output.Directive{
 					{
 						Name:        "directive 2",
