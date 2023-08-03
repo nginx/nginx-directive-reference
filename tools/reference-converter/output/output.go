@@ -14,7 +14,7 @@ type Directive struct {
 	Name        string   `json:"name"`
 	Default     string   `json:"default"`
 	Contexts    []string `json:"contexts"`
-	Syntax      string   `json:"syntax"`
+	Syntax      []string `json:"syntax"`
 	Description string   `json:"description"`
 }
 

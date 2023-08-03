@@ -14,7 +14,7 @@ func TestMarkdown(t *testing.T) {
 	t.Parallel()
 	testcases := map[string]struct {
 		content, wantContent string
-		syntax, wantSyntax   string
+		syntax, wantSyntax   []string
 		opts                 []xmlOption
 	}{
 		"multiple <para>s are combined": {
@@ -127,51 +127,55 @@ func TestMarkdown(t *testing.T) {
 			wantContent: fmt.Sprintf("[title](%s)", upsellURL),
 		},
 		"<syntax> enum": {
-			syntax:     "<literal>enumA</literal> | <literal>enumB</literal>",
-			wantSyntax: "`enumA` | `enumB`",
+			syntax:     []string{"<literal>enumA</literal> | <literal>enumB</literal>"},
+			wantSyntax: []string{"`enumA` | `enumB`"},
 		},
 		"<syntax> arg": {
-			syntax:     "<value>arg</value>",
-			wantSyntax: "*`arg`*",
+			syntax:     []string{"<value>arg</value>"},
+			wantSyntax: []string{"*`arg`*"},
 		},
 		"<syntax> args": {
-			syntax:     "<value>argA</value> <value>argB</value>",
-			wantSyntax: "*`argA`* *`argB`*",
+			syntax:     []string{"<value>argA</value> <value>argB</value>"},
+			wantSyntax: []string{"*`argA`* *`argB`*"},
 		},
 		"<syntax> optional flags": {
-			syntax: lines(
+			syntax: []string{lines(
 				"[<literal>flagA</literal>]",
 				"[<literal>flagB</literal>]",
-				"[<literal>flagC</literal>]"),
-			wantSyntax: "[`flagA`] [`flagB`] [`flagC`]",
+				"[<literal>flagC</literal>]")},
+			wantSyntax: []string{"[`flagA`] [`flagB`] [`flagC`]"},
 		},
 		"<syntax> arg with optional flag": {
-			syntax:     "<value>arg</value> [<literal>flag</literal>]",
-			wantSyntax: "*`arg`* [`flag`]",
+			syntax:     []string{"<value>arg</value> [<literal>flag</literal>]"},
+			wantSyntax: []string{"*`arg`* [`flag`]"},
 		},
 		"<syntax> arg or flag": {
-			syntax:     "<value>argA</value> | <value>argB</value> | <literal>flag</literal>",
-			wantSyntax: "*`argA`* | *`argB`* | `flag`",
+			syntax:     []string{"<value>argA</value> | <value>argB</value> | <literal>flag</literal>"},
+			wantSyntax: []string{"*`argA`* | *`argB`* | `flag`"},
 		},
 		"<syntax> arg with optional flag or flag": {
-			syntax:     "<value>arg</value> [<literal>flagA</literal>] | <literal>flagB</literal>",
-			wantSyntax: "*`arg`* [`flagA`] | `flagB`",
+			syntax:     []string{"<value>arg</value> [<literal>flagA</literal>] | <literal>flagB</literal>"},
+			wantSyntax: []string{"*`arg`* [`flagA`] | `flagB`"},
 		},
 		"<syntax> enum with optional flag": {
-			syntax:     "<literal>enumA</literal> | <literal>enumB</literal> [<literal>flag</literal>]",
-			wantSyntax: "`enumA` | `enumB` [`flag`]",
+			syntax:     []string{"<literal>enumA</literal> | <literal>enumB</literal> [<literal>flag</literal>]"},
+			wantSyntax: []string{"`enumA` | `enumB` [`flag`]"},
 		},
 		"<syntax> arg with named options": {
-			syntax:     "<value>arg</value> [<literal>opt</literal>=<value>val</value>]",
-			wantSyntax: "*`arg`* [`opt`=*`val`*]",
+			syntax:     []string{"<value>arg</value> [<literal>opt</literal>=<value>val</value>]"},
+			wantSyntax: []string{"*`arg`* [`opt`=*`val`*]"},
 		},
 		"<syntax> multi line indented": {
-			syntax: lines(
+			syntax: []string{lines(
 				"",
 				"    [<literal>SSLv2</literal>]",
 				"    [<literal>SSLv4</literal>]",
-			),
-			wantSyntax: "[`SSLv2`] [`SSLv4`]",
+			)},
+			wantSyntax: []string{"[`SSLv2`] [`SSLv4`]"},
+		},
+		"multiple <syntax>": {
+			syntax:     []string{"<value>arg1</value>", "<value>arg2</value>"},
+			wantSyntax: []string{"*`arg1`*", "*`arg2`*"},
 		},
 		"<note>": {
 			content:     "<note>Hey, I'm <value>important</value></note>",
@@ -194,7 +198,10 @@ func TestMarkdown(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 
-			opts := append(tc.opts, withContent(tc.content), withSyntax(tc.syntax))
+			opts := append(tc.opts, withContent(tc.content))
+			for _, s := range tc.syntax {
+				opts = append(opts, withSyntax(s))
+			}
 			f := testModuleFile(t, opts...)
 			ref, err := parse.Parse([]tarball.File{f}, baseURL, upsellURL)
 			require.NoError(t, err)

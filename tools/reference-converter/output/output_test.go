@@ -21,9 +21,11 @@ func TestNew(t *testing.T) {
 					Name:     "directive 2",
 					Default:  "default 2",
 					Contexts: []string{"context 1", "context 2"},
-					Syntax: parse.Syntax{
-						Content: "content 2",
-					},
+					Syntax: []parse.Syntax{{
+						Content: "syntax 1",
+					}, {
+						Content: "syntax 2",
+					}},
 					Prose: parse.Prose{
 						{Content: "Test"},
 					},
@@ -44,7 +46,7 @@ func TestNew(t *testing.T) {
 						Name:        "directive 2",
 						Default:     "default 2",
 						Contexts:    []string{"context 1", "context 2"},
-						Syntax:      "content 2",
+						Syntax:      []string{"syntax 1", "syntax 2"},
 						Description: "Test",
 					},
 				},
@@ -66,7 +68,7 @@ func TestWrite(t *testing.T) {
 						Name:        "Directive 1",
 						Default:     "Default",
 						Contexts:    []string{"Context 1", "Context 2"},
-						Syntax:      "I am Syntax",
+						Syntax:      []string{"I am Syntax"},
 						Description: "It is a directive",
 					},
 				},

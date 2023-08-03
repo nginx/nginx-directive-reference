@@ -14,6 +14,20 @@ type Syntax struct {
 
 func (s *Syntax) ToMarkdown() string { return s.Content }
 
+type Syntaxes []Syntax
+
+func (ss Syntaxes) ToMarkdown() []string {
+	if len(ss) == 0 {
+		return nil
+	}
+
+	ret := make([]string, 0, len(ss))
+	for _, s := range ss {
+		ret = append(ret, s.ToMarkdown())
+	}
+	return ret
+}
+
 var whitespace = regexp.MustCompile(`\s+`)
 
 // UnmarshalXML processes the elements in-order to generate correct content,
@@ -65,7 +79,7 @@ type Directive struct {
 	Name     string   `xml:"name,attr"`
 	Default  string   `xml:"default"`
 	Contexts []string `xml:"context"`
-	Syntax   Syntax   `xml:"syntax"`
+	Syntax   Syntaxes `xml:"syntax"`
 	Prose    Prose    `xml:"para"`
 }
 

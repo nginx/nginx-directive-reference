@@ -31,9 +31,9 @@ func TestParse(t *testing.T) {
 								Name:     "testing",
 								Default:  "on",
 								Contexts: []string{"http", "server", "location"},
-								Syntax: parse.Syntax{
+								Syntax: parse.Syntaxes{{
 									Content: "`on` | `off`",
-								},
+								}},
 								Prose: parse.Prose{
 									{Content: "\nFree form test.\n"},
 									{Content: "\nCan have more than one, with some html—ish entities and `verbatim` text.\n"},
