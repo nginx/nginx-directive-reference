@@ -37,9 +37,6 @@ func TestNew(t *testing.T) {
 	want := &output.Reference{
 		Modules: []output.Module{
 			{
-				Name: "1",
-			},
-			{
 				Name: "2",
 				Directives: []output.Directive{
 					{

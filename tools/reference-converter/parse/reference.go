@@ -2,6 +2,7 @@ package parse
 
 import (
 	"path"
+	"strings"
 
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/tarball"
 )
@@ -39,7 +40,7 @@ func (r *Reference) parseModules(files []tarball.File) error {
 	defer func() { current = nil }()
 
 	for _, f := range files {
-		if !f.Contains("dtd/module.dtd") {
+		if !f.Contains("dtd/module.dtd") || strings.HasSuffix(f.Name, "_head.xml") {
 			continue
 		}
 		res, err := r.parseModule(f)

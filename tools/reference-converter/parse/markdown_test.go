@@ -15,6 +15,7 @@ func TestMarkdown(t *testing.T) {
 	testcases := map[string]struct {
 		content, wantContent string
 		syntax, wantSyntax   []string
+		syntaxBlockAttr      bool
 		opts                 []xmlOption
 	}{
 		"multiple <para>s are combined": {
@@ -177,6 +178,11 @@ func TestMarkdown(t *testing.T) {
 			syntax:     []string{"<value>arg1</value>", "<value>arg2</value>"},
 			wantSyntax: []string{"*`arg1`*", "*`arg2`*"},
 		},
+		"<syntax> with block": {
+			syntax:          []string{"<value>arg1</value>"},
+			wantSyntax:      []string{"*`arg1`* `{...}`"},
+			syntaxBlockAttr: true,
+		},
 		"<note>": {
 			content:     "<note>Hey, I'm <value>important</value></note>",
 			wantContent: "> Hey, I'm *`important`*",
@@ -200,7 +206,7 @@ func TestMarkdown(t *testing.T) {
 
 			opts := append(tc.opts, withContent(tc.content))
 			for _, s := range tc.syntax {
-				opts = append(opts, withSyntax(s))
+				opts = append(opts, withSyntax(s, tc.syntaxBlockAttr))
 			}
 			f := testModuleFile(t, opts...)
 			ref, err := parse.Parse([]tarball.File{f}, baseURL, upsellURL)

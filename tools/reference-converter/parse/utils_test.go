@@ -14,10 +14,14 @@ import (
 
 func lines(l ...string) string { return strings.Join(l, "\n") }
 
+type syntaxXML struct {
+	Content   string
+	BlockAttr bool
+}
 type xmlConfig struct {
 	AddPara    bool
 	ContentXML string
-	SyntaxXML  []string
+	SyntaxXML  []syntaxXML
 	Path, Link string
 }
 
@@ -32,9 +36,9 @@ func withPara(wrap bool) xmlOption {
 }
 
 // withSyntax adds a <syntax> element to the directive
-func withSyntax(xml string) xmlOption {
+func withSyntax(xml string, blockAttr bool) xmlOption {
 	return func(xc *xmlConfig) {
-		xc.SyntaxXML = append(xc.SyntaxXML, xml)
+		xc.SyntaxXML = append(xc.SyntaxXML, syntaxXML{Content: xml, BlockAttr: blockAttr})
 	}
 }
 
@@ -61,7 +65,10 @@ var moduleTemplate = template.Must(template.New("mod").Parse(`
 <section>
 <directive name="test">
 {{range $val := .SyntaxXML}}
-<syntax>{{$val}}</syntax>{{- end }}
+{{ if $val.BlockAttr -}} <syntax block="yes">{{$val.Content}}</syntax>
+{{else}}
+<syntax>{{$val.Content}}</syntax>{{- end }}
+{{- end }}
 {{ if .AddPara -}} <para> {{- end }}
 {{ .ContentXML }}
 {{ if .AddPara -}} </para> {{- end }}

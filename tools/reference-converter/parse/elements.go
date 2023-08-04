@@ -2,6 +2,7 @@ package parse
 
 import (
 	"encoding/xml"
+	"fmt"
 	"regexp"
 	"strings"
 )
@@ -39,6 +40,10 @@ func (s *Syntax) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	}
 	content = whitespace.ReplaceAllString(content, " ")
 	content = strings.Trim(content, " \n")
+	attrs := newAttrs(start.Attr)
+	if attrs["block"] == "yes" {
+		content = fmt.Sprintf("%s `%s`", content, "{...}")
+	}
 	*s = Syntax{Content: content}
 	return nil
 }

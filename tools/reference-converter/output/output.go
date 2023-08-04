@@ -56,7 +56,11 @@ func New(version string, modules []*parse.Module) *Reference {
 
 	for _, m := range modules {
 		if m.Lang == "en" {
-			res.Modules = append(res.Modules, toModule(m))
+			mod := toModule(m)
+			// filter modules with zero directives
+			if len(mod.Directives) > 0 {
+				res.Modules = append(res.Modules, mod)
+			}
 		}
 	}
 
