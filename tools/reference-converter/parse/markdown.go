@@ -129,6 +129,7 @@ func (e *example) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	if err != nil {
 		return err
 	}
+	content = strings.Trim(content, "\n")
 	*e = example{content: fmt.Sprintf("```\n%s\n```", content)}
 	return nil
 }

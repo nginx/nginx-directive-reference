@@ -42,6 +42,18 @@ func TestMarkdown(t *testing.T) {
 				"```",
 			),
 		},
+		"<example> multi-line": {
+			content: lines(
+				"<example>",
+				"A",
+				"B",
+				"</example>"),
+			wantContent: lines(
+				"```",
+				"A",
+				"B",
+				"```"),
+		},
 		"unknown tags show a TODO": {
 			content:     `<what>??</what>`,
 			wantContent: "`TODO: handle <what>`",
