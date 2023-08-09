@@ -31,6 +31,7 @@ jobs:
       run: |
         if ! diff -q ../../docs/lib/reference.json ./output/reference.json; then
           echo "reference_change=true" >> "$GITHUB_OUTPUT"
+          mv ./output/reference.json ../../docs/lib/reference.json
         fi
 
     - name: create pull request if reference.json changed
@@ -42,4 +43,4 @@ jobs:
         title: "Reference Json Update"
         body: "Changes detected in reference.json"
         delete-branch: true
-        add-paths: ../../docs/lib/reference.json
+        add-paths: docs/lib/reference.json
