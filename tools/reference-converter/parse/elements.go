@@ -59,6 +59,22 @@ func (p *Paragraph) ToMarkdown() string { return p.Content }
 // newlines and from the XML.
 func (p *Paragraph) ToTrimmedMarkdown() string { return strings.Trim(p.ToMarkdown(), "\n\t ") }
 
+func (p *Paragraph) ToIndentedMarkdown(isTagList bool) string {
+	lines := strings.Split(strings.Trim(p.Content, "\n\t "), "\n")
+	indentedLines := make([]string, 0, len(lines))
+	for i, line := range lines {
+		prefix := "    "
+		if i == 0 && !isTagList {
+			// The first line in an ordered and unordered list starts with one space,
+			// remaining lines will have 4 spaces
+			prefix = " "
+		}
+		indentedLines = append(indentedLines, prefix+line)
+	}
+
+	return strings.Join(indentedLines, "\n")
+}
+
 // UnmarshalXML processes the elements in-order to generate correct content
 func (p *Paragraph) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	content, err := unmarshalMarkdownXML(d, start)

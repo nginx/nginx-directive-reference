@@ -68,10 +68,10 @@ func TestMarkdown(t *testing.T) {
 			wantContent: lines(
 				"- tag `one`",
 				"",
-				"  contents",
+				"    contents",
 				"- tag two",
 				"",
-				"  more `contents`",
+				"    more `contents`",
 			),
 		},
 		`<list type="bullet">`: {
@@ -113,10 +113,53 @@ func TestMarkdown(t *testing.T) {
 			wantContent: lines(
 				"- tag",
 				"",
-				"  stuff",
-				"  - another list!",
-				"  - but wait",
-				"    1. there's more!",
+				"    stuff",
+				"    - another list!",
+				"    - but wait",
+				"        1. there's more!",
+			),
+		},
+		`multi line <list type="tag">`: {
+			content: `<list type="tag">
+			<tag-name>tag <literal>one</literal></tag-name>
+			<tag-desc>
+			<para>para1</para>
+			<example>example1</example>
+			<para>para2</para>
+			</tag-desc>
+			</list>`,
+			wantContent: lines(
+				"- tag `one`",
+				"",
+				"    para1",
+				"    ```",
+				"    example1",
+				"    ```",
+				"    para2",
+			),
+		},
+		`multi line <list type="enum">`: {
+			content: `<list type="enum">
+			<listitem>content
+			<para>new line content</para></listitem>
+			<listitem>more <literal>content</literal></listitem>
+			</list>`,
+			wantContent: lines(
+				"1. content",
+				"    new line content",
+				"2. more `content`",
+			),
+		},
+		`multi line <list type="bullet">`: {
+			content: `<list type="bullet">
+			<listitem><para>content</para>
+			<para>new line content</para></listitem>
+			<listitem>more <literal>content</literal></listitem>
+			</list>`,
+			wantContent: lines(
+				"- content",
+				"    new line content",
+				"- more `content`",
 			),
 		},
 		"<header> are quoted": {

@@ -8,28 +8,26 @@ import (
 
 // unorderedList handles <list type="bullet">.
 type unorderedList struct {
-	Items  []Paragraph `xml:"listitem"`
-	indent string
+	Items []Paragraph `xml:"listitem"`
 }
 
 func (t *unorderedList) ToMarkdown() string {
 	var sb strings.Builder
 	for _, item := range t.Items {
-		sb.WriteString(fmt.Sprintf("%s- %s\n", t.indent, item.ToTrimmedMarkdown()))
+		sb.WriteString(fmt.Sprintf("-%s\n", item.ToIndentedMarkdown(false)))
 	}
 	return sb.String()
 }
 
 // orderedList handles <list type="enum">.
 type orderedList struct {
-	Items  []Paragraph `xml:"listitem"`
-	indent string
+	Items []Paragraph `xml:"listitem"`
 }
 
 func (t *orderedList) ToMarkdown() string {
 	var sb strings.Builder
 	for i, item := range t.Items {
-		sb.WriteString(fmt.Sprintf("%s%d. %s\n", t.indent, i+1, item.ToTrimmedMarkdown()))
+		sb.WriteString(fmt.Sprintf("%d.%s\n", i+1, item.ToIndentedMarkdown(false)))
 	}
 	return sb.String()
 }
@@ -40,7 +38,6 @@ func (t *orderedList) ToMarkdown() string {
 type taglist struct {
 	TagNames []Paragraph `xml:"tag-name"`
 	TagDesc  []Paragraph `xml:"tag-desc"`
-	indent   string
 }
 
 func (t *taglist) ToMarkdown() string {
@@ -53,7 +50,7 @@ func (t *taglist) ToMarkdown() string {
 		name := t.TagNames[i]
 		desc := t.TagDesc[i]
 		sb.WriteString(fmt.Sprintf(
-			"%s- %s\n\n  %s\n", t.indent, name.ToTrimmedMarkdown(), desc.ToTrimmedMarkdown()))
+			"- %s\n\n%s\n", name.ToTrimmedMarkdown(), desc.ToIndentedMarkdown(true)))
 
 	}
 	return sb.String()
@@ -68,24 +65,16 @@ func (t *list) ToMarkdown() string { return t.content }
 
 // UnmarshalXML processes the elements in-order to generate correct content
 func (l *list) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
-	current.listDepth++
-	defer func() { current.listDepth-- }()
-
-	indent := ""
-	if current.listDepth > 1 {
-		indent = strings.Repeat("  ", current.listDepth-1)
-	}
-
 	attrs := newAttrs(start.Attr)
 	listType := attrs["type"]
 	var sub markdowner
 	switch listType {
 	case "bullet":
-		sub = &unorderedList{indent: indent}
+		sub = &unorderedList{}
 	case "tag":
-		sub = &taglist{indent: indent}
+		sub = &taglist{}
 	case "enum":
-		sub = &orderedList{indent: indent}
+		sub = &orderedList{}
 	default:
 		return fmt.Errorf("unknown list type '%s'", listType)
 	}
