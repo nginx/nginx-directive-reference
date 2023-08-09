@@ -5,6 +5,11 @@ on:
     - cron: '0 10 * * *'  # Run daily at 10am
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: ./tools/reference-converter
+    shell: bash
+
 jobs:
   compare_outputs:
     runs-on: ubuntu-latest
@@ -19,12 +24,12 @@ jobs:
       run: chmod 777 .
     - run: make build
     - name: run converter
-      run: ${{ env.converter-directory }}/dist/reference-converter -dst ${{ env.converter-directory }}/output/reference.json
+      run: ./dist/reference-converter -dst ./output/reference.json
 
     - name: diff reference.json
       id: diff
       run: |
-        if ! diff -q ./docs/lib/reference.json ${{ env.converter-directory }}/output/reference.json; then
+        if ! diff -q ../../docs/lib/reference.json ./output/reference.json; then
           echo "reference_change=true" >> "$GITHUB_OUTPUT"
         fi
 
@@ -37,4 +42,4 @@ jobs:
         title: "Reference Json Update"
         body: "Changes detected in reference.json"
         delete-branch: true
-        add-paths: docs/lib/reference.json
+        add-paths: ../../docs/lib/reference.json
