@@ -32,6 +32,7 @@ jobs:
         if ! diff -q ../../docs/lib/reference.json ./output/reference.json; then
           echo "reference_change=true" >> "$GITHUB_OUTPUT"
           mv ./output/reference.json ../../docs/lib/reference.json
+          echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
         fi
 
     - name: create pull request if reference.json changed
@@ -39,7 +40,7 @@ jobs:
       if: steps.diff.outputs.reference_change
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        branch: reference-update-$(date -u +\%Y\%m\%d)
+        branch: reference-update-${{ env.date }}
         title: "Reference Json Update"
         body: "Changes detected in reference.json"
         delete-branch: true
