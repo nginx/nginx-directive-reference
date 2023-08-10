@@ -2,7 +2,7 @@ name: Daily Reference Converter Run
 
 on:
   schedule:
-    - cron: '0 10 * * *'  # Run daily at 10am
+    - cron: '0 14 * * *'  # Run daily at 2pm UTC
   workflow_dispatch:
 
 defaults:
@@ -39,6 +39,7 @@ jobs:
       uses: peter-evans/create-pull-request@v3
       if: steps.diff.outputs.reference_change
       with:
+        commit-message: update reference.json
         token: ${{ secrets.GITHUB_TOKEN }}
         branch: reference-update-${{ env.date }}
         title: "Reference Json Update"
