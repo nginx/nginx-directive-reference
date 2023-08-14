@@ -15,6 +15,7 @@ type Directive struct {
 	Default     string   `json:"default"`
 	Contexts    []string `json:"contexts"`
 	Syntax      []string `json:"syntax"`
+	IsBlock     bool     `json:"isBlock"`
 	Description string   `json:"description"`
 }
 
@@ -36,6 +37,7 @@ func toModule(m *parse.Module) Module {
 				Default:     directive.Default,
 				Contexts:    directive.Contexts,
 				Syntax:      directive.Syntax.ToMarkdown(),
+				IsBlock:     directive.Syntax.IsBlock(),
 				Description: directive.Prose.ToMarkdown(),
 			})
 		}

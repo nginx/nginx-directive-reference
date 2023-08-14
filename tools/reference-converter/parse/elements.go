@@ -11,6 +11,7 @@ import (
 // https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form
 type Syntax struct {
 	Content string
+	IsBlock bool
 }
 
 func (s *Syntax) ToMarkdown() string { return s.Content }
@@ -29,6 +30,17 @@ func (ss Syntaxes) ToMarkdown() []string {
 	return ret
 }
 
+func (ss Syntaxes) IsBlock() bool {
+	isBlock := false
+	for _, s := range ss {
+		if s.IsBlock {
+			isBlock = true
+			break
+		}
+	}
+	return isBlock
+}
+
 var whitespace = regexp.MustCompile(`\s+`)
 
 // UnmarshalXML processes the elements in-order to generate correct content,
@@ -41,10 +53,14 @@ func (s *Syntax) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	content = whitespace.ReplaceAllString(content, " ")
 	content = strings.Trim(content, " \n")
 	attrs := newAttrs(start.Attr)
+	isBlock := attrs["block"] == "yes"
 	if attrs["block"] == "yes" {
 		content = fmt.Sprintf("%s `%s`", content, "{...}")
 	}
-	*s = Syntax{Content: content}
+	*s = Syntax{
+		Content: content,
+		IsBlock: isBlock,
+	}
 	return nil
 }
 
