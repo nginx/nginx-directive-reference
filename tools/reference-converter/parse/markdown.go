@@ -5,9 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"strings"
-
-	"golang.org/x/exp/slog"
 )
 
 // unmarshalMarkdownXML reads the XML in-order and converts it to markdown.

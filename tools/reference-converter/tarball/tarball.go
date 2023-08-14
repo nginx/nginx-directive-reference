@@ -7,11 +7,10 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"os"
 	"strings"
-
-	"golang.org/x/exp/slog"
 )
 
 type File struct {
@@ -77,7 +76,7 @@ func openFile(ctx context.Context, path string) ([]File, error) {
 }
 
 func open(ctx context.Context, raw io.Reader, log *slog.Logger) ([]File, error) {
-	log.DebugCtx(ctx, "opening tarball")
+	log.DebugContext(ctx, "opening tarball")
 	gz, err := gzip.NewReader(raw)
 	if err != nil {
 		return nil, err
@@ -86,8 +85,8 @@ func open(ctx context.Context, raw io.Reader, log *slog.Logger) ([]File, error) 
 
 	tr := tar.NewReader(gz)
 
-	log.DebugCtx(ctx, "reading tarball")
-	defer log.DebugCtx(ctx, "done reading")
+	log.DebugContext(ctx, "reading tarball")
+	defer log.DebugContext(ctx, "done reading")
 	var res []File
 	for {
 		// stop if the context is canceled
@@ -121,6 +120,6 @@ func open(ctx context.Context, raw io.Reader, log *slog.Logger) ([]File, error) 
 		res = append(res, File{Name: header.Name, Contents: buf})
 
 	}
-	log.DebugCtx(ctx, "read tarball", slog.Int("numFiles", len(res)))
+	log.DebugContext(ctx, "read tarball", slog.Int("numFiles", len(res)))
 	return res, nil
 }

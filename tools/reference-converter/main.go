@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
@@ -11,7 +12,6 @@ import (
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/output"
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/parse"
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/tarball"
-	"golang.org/x/exp/slog"
 )
 
 var (
@@ -31,19 +31,19 @@ func main() {
 
 	flag.Parse()
 
-	slog.InfoCtx(ctx, "started", slog.Group("opts",
+	slog.InfoContext(ctx, "started", slog.Group("opts",
 		slog.String("dst", *destFlag),
 		slog.String("src", *sourceFlag),
 		slog.String("feed-url", *feedURLFlag),
 		slog.String("base-url", *baseURLFlag)))
-	defer slog.InfoCtx(ctx, "finished")
+	defer slog.InfoContext(ctx, "finished")
 
 	// TODO: get the latest version from the atom feed (atom.go)
 	v1, err := atom.GetVersion(ctx, *feedURLFlag)
 	if err != nil {
-		slog.ErrorCtx(ctx, "failed to get the version", slog.Any("error", err), slog.String("src", *feedURLFlag))
+		slog.ErrorContext(ctx, "failed to get the version", slog.Any("error", err), slog.String("src", *feedURLFlag))
 	}
-	slog.InfoCtx(ctx, "Comparing Versions", slog.String("atom", v1))
+	slog.InfoContext(ctx, "Comparing Versions", slog.String("atom", v1))
 	// TODO: get the latest version from the destination
 
 	//v2 :=
@@ -52,29 +52,29 @@ func main() {
 	// unpack the tarball
 	files, err := tarball.Open(ctx, *sourceFlag)
 	if err != nil {
-		slog.ErrorCtx(ctx, "failed to read", slog.Any("error", err), slog.String("src", *sourceFlag))
+		slog.ErrorContext(ctx, "failed to read", slog.Any("error", err), slog.String("src", *sourceFlag))
 		return
 	}
 
 	// reading files, converts XML to markdown
 	r, err := parse.Parse(files, *baseURLFlag, *upsellURLFlag)
 	if err != nil {
-		slog.ErrorCtx(ctx, "failed to parse", slog.Any("error", err))
+		slog.ErrorContext(ctx, "failed to parse", slog.Any("error", err))
 		return
 	}
-	slog.InfoCtx(ctx, "parsed into modules", slog.Int("n", len(r.Modules)))
+	slog.InfoContext(ctx, "parsed into modules", slog.Int("n", len(r.Modules)))
 
 	// convert XML types to JSON types
 	ref := output.New(v1, r.Modules)
 
 	dst, err := os.Create(*destFlag)
 	if err != nil {
-		slog.ErrorCtx(ctx, "failed to open dst", slog.Any("error", err))
+		slog.ErrorContext(ctx, "failed to open dst", slog.Any("error", err))
 		return
 	}
 	defer dst.Close()
 	if err := ref.Write(ctx, dst); err != nil {
-		slog.ErrorCtx(ctx, "failed to save", slog.Any("error", err))
+		slog.ErrorContext(ctx, "failed to save", slog.Any("error", err))
 		return
 	}
 }

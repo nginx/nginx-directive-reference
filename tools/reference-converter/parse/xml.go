@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"encoding/xml"
 	"fmt"
+	"log/slog"
 
 	"github.com/nginxinc/ampex-apps/tools/reference-converter/tarball"
-	"golang.org/x/exp/slog"
 )
 
 // attrMap is a key/value version of []xml.Attr, ignoring XML namespaces. Create
