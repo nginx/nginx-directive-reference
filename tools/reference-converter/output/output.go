@@ -11,12 +11,13 @@ import (
 )
 
 type Directive struct {
-	Name        string   `json:"name"`
-	Default     string   `json:"default"`
-	Contexts    []string `json:"contexts"`
-	Syntax      []string `json:"syntax"`
-	IsBlock     bool     `json:"isBlock"`
-	Description string   `json:"description"`
+	Name            string   `json:"name"`
+	Default         string   `json:"default"`
+	Contexts        []string `json:"contexts"`
+	Syntax          []string `json:"syntax"`
+	IsBlock         bool     `json:"isBlock"`
+	DescriptionMd   string   `json:"description_md"`
+	DescriptionHtml string   `json:"description_html"`
 }
 
 type Module struct {
@@ -33,12 +34,13 @@ func toModule(m *parse.Module) Module {
 	for _, section := range m.Sections {
 		for _, directive := range section.Directives {
 			module.Directives = append(module.Directives, Directive{
-				Name:        directive.Name,
-				Default:     directive.Default,
-				Contexts:    directive.Contexts,
-				Syntax:      directive.Syntax.ToMarkdown(),
-				IsBlock:     directive.Syntax.IsBlock(),
-				Description: directive.Prose.ToMarkdown(),
+				Name:            directive.Name,
+				Default:         directive.Default,
+				Contexts:        directive.Contexts,
+				Syntax:          directive.Syntax.ToMarkdown(),
+				IsBlock:         directive.Syntax.IsBlock(),
+				DescriptionMd:   directive.Prose.ToMarkdown(),
+				DescriptionHtml: directive.Prose.ToHTML(),
 			})
 		}
 	}
