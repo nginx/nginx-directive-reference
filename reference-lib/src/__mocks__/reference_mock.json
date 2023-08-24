@@ -1,0 +1,23 @@
+{"modules": [
+    {
+      "id": "/en/docs/http/ngx_http_access_module.html",
+      "name": "ngx_http_access_module",
+      "directives": [
+        {
+          "name": "allow",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location",
+            "limit_except"
+          ],
+          "syntax": [
+            "*`address`* | *`CIDR`* | `unix:` | `all`"
+          ],
+          "isBlock": false,
+          "description_md": "Allows access for the specified network or address.",
+          "description_html": "\u003cp\u003eAllows access for the specified network or address\u003c/p\u003e"
+        }]
+    }]
+  }
