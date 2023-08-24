@@ -11,15 +11,6 @@ else
 .run: .run-inside-container
 endif
 
-# - for more info about ssh agent forwarding in docker-for-mac, see:
-#   https://docs.docker.com/desktop/mac/networking/#ssh-agent-forwarding
-OS := $(shell uname -s)
-ifeq ("$(OS)", "Darwin")
-	LOCAL_AUTH_SOCK := /run/host-services/ssh-auth.sock
-else
-	LOCAL_AUTH_SOCK := $(SSH_AUTH_SOCK)
-endif
-
 devtools-image: ## build a image containing all our tooling
 	docker build -t $(DEVTOOLS_IMG) $(ROOT_DIR)/tools/devtools
 
@@ -38,8 +29,6 @@ devtools-shell: ## explore / debug the devtools image
 		$(shell tty > /dev/null && echo "-it") \
 		--net=host \
 		-v $(ROOT_DIR):/mnt/src \
-		-v $(LOCAL_AUTH_SOCK):/ssh-auth.sock \
-		-e SSH_AUTH_SOCK=/ssh-auth.sock \
 		-w $(subst $(ROOT_DIR), /mnt/src, $(PWD)) \
 		$(shell for item in $$(env | grep -E '^(TEST|CI|GITHUB)_' | cut -d '=' -f 1); do echo "-e $$item"; done) \
 		-e TZ=$(shell echo "$$(readlink /etc/localtime)" | sed 's#.*zoneinfo/##') \
