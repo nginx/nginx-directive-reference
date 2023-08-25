@@ -1,0 +1,22 @@
+name: 'Reference npm publish'
+description: 'common steps for publishing npm package to github'
+inputs:
+  github-token:
+    required: true
+  working-directory:
+    required: true
+runs:
+  using: 'composite'
+  steps:
+      # Setup .npmrc file to publish to GitHub Packages
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@nginxinc'
+      - run: npm ci
+        working-directory: ${{ inputs.working-directory }}
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ inputs.github-token }}
+        working-directory: ${{ inputs.working-directory }}
