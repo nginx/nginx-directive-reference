@@ -3,6 +3,15 @@ on:
   push:
     branches: ['main']
     paths: ['reference-lib/**']
+  pull_request:
+    branches: ['main']
+    paths: ['reference-lib/**']
+
+defaults:
+  run:
+    working-directory: ./reference-lib
+    shell: bash
+
 
 jobs:
   build:
@@ -12,7 +21,15 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+      - name: Install dependencies
+        run: npm install
+      - name: Bundle using rollup
+        run: npm run build
       - uses: ./.github/actions/npm-publish
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           working-directory: ./reference-lib
+        if: github.event_name == 'push'

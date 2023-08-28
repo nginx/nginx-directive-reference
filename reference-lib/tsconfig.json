@@ -16,9 +16,11 @@
       "incremental": true,
       "paths": {
         "@/*": ["./*"]
-      }
+      },
+      "declaration": true,
+      "declarationDir": "./dist"
     },
     "include": ["**/*.ts", "**/*.tsx"],
-    "exclude": ["node_modules"],
+    "exclude": ["node_modules", "tests"],
     "typeRoots": ["./node_modules/@types/"]
   }
