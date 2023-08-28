@@ -83,6 +83,8 @@ func TestWrite(t *testing.T) {
 
 	jsonData := buf.Bytes()
 
+	require.Contains(t, string(jsonData), "<p>", "doesn't do any wacky encoding")
+
 	var got output.Reference
 	err = json.Unmarshal(jsonData, &got)
 	require.NoError(t, err)

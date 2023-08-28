@@ -72,15 +72,10 @@ func New(version string, modules []*parse.Module) *Reference {
 }
 
 func (r *Reference) Write(ctx context.Context, dst io.Writer) error {
-	jsonData, err := json.MarshalIndent(r, "", "  ")
-	if err != nil {
-		return fmt.Errorf("unable to marshal reference struct: %w", err)
-	}
-	_, err = dst.Write(jsonData)
-	if err != nil {
-		return fmt.Errorf("unable to write data to io.Writer: %w", err)
-	}
-	return nil
+	enc := json.NewEncoder(dst)
+	enc.SetEscapeHTML(false)
+	enc.SetIndent("", "  ")
+	return enc.Encode(r)
 }
 
 func GetVersion(ctx context.Context, r io.Reader) (string, error) {
