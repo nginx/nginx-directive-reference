@@ -7,14 +7,14 @@ on:
 
 defaults:
   run:
-    working-directory: ./tools/reference-converter
+    working-directory: ./reference-converter
     shell: bash
 
 jobs:
   compare_outputs:
     runs-on: ubuntu-latest
     env:
-      converter-directory: ./tools/reference-converter
+      converter-directory: ./reference-converter
 
     steps:
     - uses: actions/checkout@v3
@@ -29,9 +29,9 @@ jobs:
     - name: diff reference.json
       id: diff
       run: |
-        if ! diff -q <(grep -v '"version":' ../../reference-lib/src/reference.json) <(grep -v '"version":' ./output/reference.json); then
+        if ! diff -q <(grep -v '"version":' ../reference-lib/src/reference.json) <(grep -v '"version":' ./output/reference.json); then
           echo "reference_change=true" >> "$GITHUB_OUTPUT"
-          mv ./output/reference.json ../../reference-lib/src/reference.json
+          mv ./output/reference.json ../reference-lib/src/reference.json
         fi
 
     - uses: actions/setup-node@v3

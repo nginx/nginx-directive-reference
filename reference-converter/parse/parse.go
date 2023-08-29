@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/nginxinc/ampex-apps/tools/reference-converter/tarball"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/tarball"
 )
 
 // current refers to the Reference currently being parsed.

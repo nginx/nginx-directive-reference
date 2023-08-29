@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/nginxinc/ampex-apps/tools/reference-converter/tarball"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/tarball"
 )
 
 // attrMap is a key/value version of []xml.Attr, ignoring XML namespaces. Create

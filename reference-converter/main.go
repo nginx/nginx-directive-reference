@@ -8,10 +8,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/nginxinc/ampex-apps/tools/reference-converter/atom"
-	"github.com/nginxinc/ampex-apps/tools/reference-converter/output"
-	"github.com/nginxinc/ampex-apps/tools/reference-converter/parse"
-	"github.com/nginxinc/ampex-apps/tools/reference-converter/tarball"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/atom"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/output"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/parse"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/tarball"
 )
 
 var (

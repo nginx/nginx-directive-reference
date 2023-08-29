@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/nginxinc/ampex-apps/tools/reference-converter/parse"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/parse"
 	"github.com/stretchr/testify/require"
 )
 

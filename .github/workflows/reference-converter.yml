@@ -2,25 +2,25 @@ name: CI
 
 on:
   pull_request:
-    branches: ['main']
+    branches: ["main"]
     paths:
       [
-        'tools/reference-converter/**',
-        '.github/workflows/reference-converter.yml',
-        '.golangci.yml',
+        "reference-converter/**",
+        ".github/workflows/reference-converter.yml",
+        ".golangci.yml",
       ]
 
 defaults:
   run:
-    working-directory: ./tools/reference-converter
+    working-directory: ./reference-converter
     shell: bash
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      working-directory: ./tools/reference-converter
-      testResults: ./tools/reference-converter/results/test.xml
+      working-directory: ./reference-converter
+      testResults: ./reference-converter/results/test.xml
     steps:
       # TODO: re-use common/action.yml, need to refactor out some docs-specific steps
       - uses: actions/checkout@v3
@@ -45,7 +45,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     env:
-      working-directory: ./tools/reference-converter
+      working-directory: ./reference-converter
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4

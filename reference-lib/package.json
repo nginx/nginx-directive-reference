@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nginxinc/ampex-apps.git"
+    "url": "https://github.com/nginxinc/nginx-directive-reference.git"
   },
   "devDependencies": {
     "@rollup/plugin-json": "^6.0.0",
