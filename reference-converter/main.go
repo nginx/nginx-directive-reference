@@ -38,17 +38,12 @@ func main() {
 		slog.String("base-url", *baseURLFlag)))
 	defer slog.InfoContext(ctx, "finished")
 
-	// TODO: get the latest version from the atom feed (atom.go)
 	v1, err := atom.GetVersion(ctx, *feedURLFlag)
 	if err != nil {
 		slog.ErrorContext(ctx, "failed to get the version", slog.Any("error", err), slog.String("src", *feedURLFlag))
 	}
 	slog.InfoContext(ctx, "Comparing Versions", slog.String("atom", v1))
-	// TODO: get the latest version from the destination
 
-	//v2 :=
-	// TODO: get the latest version from the destination
-	// TODO: exit if the versions match
 	// unpack the tarball
 	files, err := tarball.Open(ctx, *sourceFlag)
 	if err != nil {

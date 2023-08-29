@@ -4,7 +4,7 @@ NGINX directive reference in Markdown and HTML format
 # Installation
 
 1. Generate a github personal access token with read:packages permission
-2. Create a ~/.npmrc with the following content
+2. Create a ~/.npmrc file with the following content
 ```
 @nginxinc:registry=http://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=$TOKEN

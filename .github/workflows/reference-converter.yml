@@ -19,12 +19,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      working-directory: ./reference-converter
       testResults: ./reference-converter/results/test.xml
     steps:
-      # TODO: re-use common/action.yml, need to refactor out some docs-specific steps
       - uses: actions/checkout@v3
-      # TODO: publish the devtools image to a registry and use it as `jobs.build.container`
       - run: make devtools-image
       - name: let the build create files
         run: chmod 777 .

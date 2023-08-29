@@ -13,12 +13,9 @@ defaults:
 jobs:
   compare_outputs:
     runs-on: ubuntu-latest
-    env:
-      converter-directory: ./reference-converter
-
+    
     steps:
     - uses: actions/checkout@v3
-    # TODO: reuse the build steps
     - run: make devtools-image
     - name: let the build create files
       run: chmod 777 .

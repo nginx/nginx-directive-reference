@@ -11,7 +11,6 @@ import (
 const baseURL = "http://example.org"
 const upsellURL = "http://example.com"
 
-// TODO: move into TestMarkdown
 func TestLink_ToMarkdown(t *testing.T) {
 	t.Parallel()
 	// simulate other pages in the tarball
