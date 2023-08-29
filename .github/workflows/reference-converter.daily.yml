@@ -29,10 +29,16 @@ jobs:
     - name: diff reference.json
       id: diff
       run: |
-        if ! diff -q ../../docs/lib/reference.json ./output/reference.json; then
+        if ! diff -q <(grep -v '"version":' ../../reference-lib/src/reference.json) <(grep -v '"version":' ./output/reference.json); then
           echo "reference_change=true" >> "$GITHUB_OUTPUT"
-          mv ./output/reference.json ../../docs/lib/reference.json
+          mv ./output/reference.json ../../reference-lib/src/reference.json
         fi
+
+    - uses: actions/setup-node@v3
+    - name: update npm package version
+      if: steps.diff.outputs.reference_change
+      run: npm version patch --no-git-tag-version
+      working-directory: ./reference-lib
 
     - name: create pull request if reference.json changed
       uses: peter-evans/create-pull-request@v3
@@ -44,4 +50,4 @@ jobs:
         title: "Reference Json Update"
         body: "Changes detected in reference.json"
         delete-branch: true
-        add-paths: docs/lib/reference.json
+        add-paths: reference-lib
