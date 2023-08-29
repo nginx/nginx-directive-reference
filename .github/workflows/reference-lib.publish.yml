@@ -1,0 +1,37 @@
+name: Publish reference lib package to GitHub Packages
+on:
+  push:
+    branches: ['main']
+    paths: ['reference-lib/**']
+  pull_request:
+    branches: ['main']
+    paths: ['reference-lib/**']
+
+defaults:
+  run:
+    working-directory: ./reference-lib
+    shell: bash
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@nginxinc'
+      - name: Install dependencies
+        run: npm ci
+      - name: Bundle using rollup
+        run: npm run build
+      - name: publish package
+        if: github.event_name == 'push'
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
