@@ -1,6 +1,6 @@
-# reference-converter
+# Reference Converter
 
-This program converts the NGINX reference documentation from it's XML schema to JSON. The JSON will be checked into git, and available for static content generation, markdoc tags, monaco plugins, etc.
+This program converts the NGINX reference documentation from it's XML schema to JSON. The generated JSON is available as an npm package in the reference-lib folder and can be used for static content generation, markdoc tags, monaco plugins, etc.
 
 ## Design
 
@@ -26,7 +26,7 @@ The NGINX docs are publicly available at <http://hg.nginx.org/nginx.org>, in XML
 
 The atom feed at <http://hg.nginx.org/nginx.org/atom-log> will tell us if there is updated content.
 
-A scheduled github pipeline will ensure we have up-to-date reference information.
+A scheduled github pipeline ensures that we have up-to-date reference information.
 
 ```mermaid
 flowchart
@@ -39,4 +39,12 @@ flowchart
     run --> diff -->|N| done
     diff -->|Y| open --> slack --> done
     run -->|errored out| slack
+```
+
+## Usage
+
+```bash
+make devtools-image
+make build
+./dist/reference-converter --dst <output-path>
 ```

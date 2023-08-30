@@ -1,4 +1,4 @@
-# Summary
+# Reference Library
 NGINX directive reference in Markdown and HTML format
 
 # Installation
