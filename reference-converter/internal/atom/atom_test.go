@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/nginxinc/nginx-directive-reference/reference-converter/atom"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/internal/atom"
 	"github.com/stretchr/testify/require"
 )
 

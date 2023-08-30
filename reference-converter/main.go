@@ -8,10 +8,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/nginxinc/nginx-directive-reference/reference-converter/atom"
-	"github.com/nginxinc/nginx-directive-reference/reference-converter/output"
-	"github.com/nginxinc/nginx-directive-reference/reference-converter/parse"
-	"github.com/nginxinc/nginx-directive-reference/reference-converter/tarball"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/internal/atom"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/internal/output"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/internal/parse"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/internal/tarball"
 )
 
 var (

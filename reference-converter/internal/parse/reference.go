@@ -4,7 +4,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/nginxinc/nginx-directive-reference/reference-converter/tarball"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/internal/tarball"
 )
 
 // Reference is the collection of parsed docs for NGINX
