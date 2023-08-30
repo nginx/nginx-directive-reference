@@ -1,0 +1,50 @@
+name: Daily Reference Converter Run
+
+on:
+  schedule:
+    - cron: '0 14 * * *'  # Run daily at 2pm UTC
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: ./reference-converter
+    shell: bash
+
+jobs:
+  compare_outputs:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    - run: make devtools-image
+    - name: let the build create files
+      run: chmod 777 .
+    - run: make build
+    - name: run converter
+      run: ./dist/reference-converter -dst ./output/reference.json
+
+    - name: diff reference.json
+      id: diff
+      run: |
+        if ! diff -q <(grep -v '"version":' ../reference-lib/src/reference.json) <(grep -v '"version":' ./output/reference.json); then
+          echo "reference_change=true" >> "$GITHUB_OUTPUT"
+          mv ./output/reference.json ../reference-lib/src/reference.json
+        fi
+
+    - uses: actions/setup-node@v3
+    - name: update npm package version
+      if: steps.diff.outputs.reference_change
+      run: npm version patch --no-git-tag-version
+      working-directory: ./reference-lib
+
+    - name: create pull request if reference.json changed
+      uses: peter-evans/create-pull-request@v3
+      if: steps.diff.outputs.reference_change
+      with:
+        commit-message: update reference.json
+        token: ${{ secrets.GITHUB_TOKEN }}
+        branch: reference-update
+        title: "Reference Json Update"
+        body: "Changes detected in reference.json"
+        delete-branch: true
+        add-paths: reference-lib
