@@ -3,8 +3,8 @@ package parse_test
 import (
 	"testing"
 
-	"github.com/nginxinc/nginx-directive-reference/reference-converter/parse"
-	"github.com/nginxinc/nginx-directive-reference/reference-converter/tarball"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/internal/parse"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/internal/tarball"
 	"github.com/stretchr/testify/require"
 )
 

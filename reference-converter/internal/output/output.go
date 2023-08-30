@@ -7,7 +7,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/nginxinc/nginx-directive-reference/reference-converter/parse"
+	"github.com/nginxinc/nginx-directive-reference/reference-converter/internal/parse"
 )
 
 type Directive struct {
