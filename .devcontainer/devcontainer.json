@@ -7,7 +7,7 @@
       "BASE_IMG": "mcr.microsoft.com/devcontainers/typescript-node:0-18-bullseye"
     }
   },
-  "postCreateCommand": "sudo chown node:node reference-lib/node_modules",
+  "postCreateCommand": "sudo find . -name node_modules -exec chown node:node {} \\;",
   "remoteUser": "node",
   "customizations": {
     "vscode": {
@@ -39,6 +39,7 @@
   },
   "mounts": [
     // keep node_modules in the container for speed on macos/windows
-    "source=${localWorkspaceFolderBasename}-reference-lib-node_modules,target=${containerWorkspaceFolder}/reference-lib/node_modules,type=volume"
+    "source=${localWorkspaceFolderBasename}-reference-lib-node_modules,target=${containerWorkspaceFolder}/reference-lib/node_modules,type=volume",
+    "source=${localWorkspaceFolderBasename}-examples-ref-browser-node_modules,target=${containerWorkspaceFolder}/examples/ref-browser/node_modules,type=volume"
   ]
 }
