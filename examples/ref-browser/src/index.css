@@ -1,0 +1,113 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  --icon-color: rgb(113, 113, 129);
+  --page-bgcolor: rgb(247, 248, 250);
+  --text-color: rgb(64, 64, 64);
+  --nginx-color: rgb(0, 150, 57);
+  --dark-color: rgb(34, 34, 34);
+  --code-bgcolor: rgb(249, 242, 244);
+  --code-color: rgb(199, 37, 78);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--page-bgcolor);
+  color: var(--text-color);
+}
+
+code {
+  background: var(--code-bgcolor);
+  padding: 0.125rem 0.25rem;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  border-radius: 0.25rem;
+  color: var(--code-color);
+  font-size: 90%;
+}
+
+pre {
+  color: var(--code-color);
+  background-color: var(--code-bgcolor);
+  padding: 1rem;
+  border-radius: 0.25rem;
+}
+
+/* Style the caret/arrow */
+.caret {
+  cursor: pointer;
+}
+
+/* Create the caret/arrow with a unicode, and style it */
+.caret::before {
+  content: '\25B6';
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.caret.open::before {
+  transform: rotate(90deg);
+}
+
+ul.modules {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+input[role='searchbox'] {
+  margin-left: 1rem;
+  line-height: 1.5rem;
+  flex: 1 1 auto;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.syntax p {
+  display: inline;
+  padding: 0;
+}
+
+.syntax {
+  margin-bottom: 1rem;
+}
+
+.context {
+  margin-right: 1rem;
+}
+
+div[role='tablist'] {
+  display: inline-flex;
+  border-bottom: 1px solid var(--icon-color);
+  width: 100%;
+}
+
+button[role='tab'] {
+  border: none;
+  outline: none;
+  background-color: inherit;
+  cursor: pointer;
+  font: inherit;
+  color: var(--dark-color);
+  text-transform: uppercase;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid transparent;
+}
+
+button[role='tab'].active {
+  color: var(--nginx-color);
+  border-bottom: 2px solid var(--nginx-color);
+}

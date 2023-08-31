@@ -21,6 +21,7 @@ The repository is organized as follows:
 - `reference-lib/`: This directory contains an npm package that allows for easy lookup of nginx directives
 - `reference-converter/`: This directory contains a program that converts the official NGINX reference documentation from XML format to JSON.
 - `tools/`: This directory contains development tools
+- `examples/`: This directory contains example usage of the `reference-lib`
 
 ## Contributing
 

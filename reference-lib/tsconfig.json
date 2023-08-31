@@ -21,6 +21,6 @@
       "declarationDir": "./dist"
     },
     "include": ["**/*.ts", "**/*.tsx"],
-    "exclude": ["node_modules", "tests"],
+    "exclude": ["node_modules", "tests", "dist"],
     "typeRoots": ["./node_modules/@types/"]
   }
