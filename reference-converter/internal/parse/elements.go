@@ -33,6 +33,19 @@ func (ss Syntaxes) ToMarkdown() []string {
 	return ret
 }
 
+func (ss Syntaxes) ToHTML() []string {
+	if len(ss) == 0 {
+		return nil
+	}
+
+	ret := make([]string, 0, len(ss))
+	for _, s := range ss {
+		md := []byte(s.ToMarkdown())
+		ret = append(ret, string(mdToHTML(md)))
+	}
+	return ret
+}
+
 func (ss Syntaxes) IsBlock() bool {
 	isBlock := false
 	for _, s := range ss {

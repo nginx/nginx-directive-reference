@@ -51,7 +51,7 @@ export function getDirectives(format=Format.HTML): Directive[] {
         name: d.name,
         module: d.module,
         description: format === Format.HTML ? d.description_html : d.description_md,
-        syntax: d.syntax,
+        syntax: format === Format.HTML ? d.syntax_html : d.syntax_md,
         contexts: d.contexts,
         isBlock: d.isBlock,
         default: d.default
