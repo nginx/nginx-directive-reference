@@ -1,3 +1,3 @@
 # examples
 
-These applications demonstrate potenial uses of the `reference-lib`.
+These applications demonstrate potential uses of the `reference-lib`.

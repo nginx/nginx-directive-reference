@@ -24,7 +24,7 @@
         "files.trimTrailingWhitespace": true,
         "files.insertFinalNewline": true,
         "editor.formatOnSave": true,
-        "[typescript][json][jsonc][yaml][markdown][javascript]": {
+        "[typescript][typescriptreact][json][jsonc][yaml][markdown][javascript]": {
           "editor.defaultFormatter": "esbenp.prettier-vscode",
           "editor.codeActionsOnSave": {
             "source.fixAll": true

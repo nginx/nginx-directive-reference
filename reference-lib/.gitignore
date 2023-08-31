@@ -28,3 +28,5 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+dist
+.rollup.cache
