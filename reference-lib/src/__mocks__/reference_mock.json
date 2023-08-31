@@ -12,8 +12,11 @@
             "location",
             "limit_except"
           ],
-          "syntax": [
+          "syntax_md": [
             "*`address`* | *`CIDR`* | `unix:` | `all`"
+          ],
+          "syntax_html": [
+            "<p><em><code>address</code></em> | <em><code>CIDR</code></em> | <code>unix:</code> | <code>all</code></p>\n"
           ],
           "isBlock": false,
           "description_md": "Allows access for the specified network or address.",
