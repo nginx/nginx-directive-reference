@@ -34,7 +34,7 @@ jobs:
     - uses: actions/setup-node@v3
     - name: update npm package version
       if: steps.diff.outputs.reference_change
-      run: npm version patch
+      run: npm version patch --no-git-tag-version
       working-directory: ./reference-lib
 
     - name: create pull request if reference.json changed
