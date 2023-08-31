@@ -23,6 +23,13 @@ var (
 )
 
 func main() {
+	err := runConverter()
+	if err != nil {
+		os.Exit(1)
+	}
+}
+
+func runConverter() error {
 	opts := slog.HandlerOptions{Level: slog.LevelDebug}
 	slog.SetDefault(slog.New(slog.NewTextHandler(os.Stderr, &opts)))
 
@@ -48,14 +55,14 @@ func main() {
 	files, err := tarball.Open(ctx, *sourceFlag)
 	if err != nil {
 		slog.ErrorContext(ctx, "failed to read", slog.Any("error", err), slog.String("src", *sourceFlag))
-		return
+		return err
 	}
 
 	// reading files, converts XML to markdown
 	r, err := parse.Parse(files, *baseURLFlag, *upsellURLFlag)
 	if err != nil {
 		slog.ErrorContext(ctx, "failed to parse", slog.Any("error", err))
-		return
+		return err
 	}
 	slog.InfoContext(ctx, "parsed into modules", slog.Int("n", len(r.Modules)))
 
@@ -65,11 +72,12 @@ func main() {
 	dst, err := os.Create(*destFlag)
 	if err != nil {
 		slog.ErrorContext(ctx, "failed to open dst", slog.Any("error", err))
-		return
+		return err
 	}
 	defer dst.Close()
 	if err := ref.Write(ctx, dst); err != nil {
 		slog.ErrorContext(ctx, "failed to save", slog.Any("error", err))
-		return
+		return err
 	}
+	return nil
 }

@@ -13,7 +13,7 @@ defaults:
 jobs:
   compare_outputs:
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v3
     - run: make devtools-image
@@ -21,20 +21,20 @@ jobs:
       run: chmod 777 .
     - run: make build
     - name: run converter
-      run: ./dist/reference-converter -dst ./output/reference.json
+      run: ./dist/reference-converter -dst ./reference.json
 
     - name: diff reference.json
       id: diff
       run: |
-        if ! diff -q <(grep -v '"version":' ../reference-lib/src/reference.json) <(grep -v '"version":' ./output/reference.json); then
+        if ! diff -q <(grep -v '"version":' ../reference-lib/src/reference.json) <(grep -v '"version":' ./reference.json); then
           echo "reference_change=true" >> "$GITHUB_OUTPUT"
-          mv ./output/reference.json ../reference-lib/src/reference.json
+          mv ./reference.json ../reference-lib/src/reference.json
         fi
 
     - uses: actions/setup-node@v3
     - name: update npm package version
       if: steps.diff.outputs.reference_change
-      run: npm version patch --no-git-tag-version
+      run: npm version patch
       working-directory: ./reference-lib
 
     - name: create pull request if reference.json changed
