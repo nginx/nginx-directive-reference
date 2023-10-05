@@ -4604,9 +4604,7 @@
           "name": "js_periodic",
           "default": "",
           "contexts": [
-            "location",
-            "if in location",
-            "limit_except"
+            "location"
           ],
           "syntax_md": [
             "*`function`* | *`module.function`* [`interval`=*`time`*] [`jitter`=*`number`*] [`worker_affinity`=*`mask`*]"
@@ -14872,5 +14870,5 @@
       ]
     }
   ],
-  "version": "https://hg.nginx.org:80/nginx.org/rev/f55e18559df9"
+  "version": "https://hg.nginx.org:80/nginx.org/rev/58f0d9d7fe1d"
 }
