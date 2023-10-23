@@ -1,0 +1,16 @@
+{
+  "name": "autocomplete",
+  "private": true,
+  "version": "0.0.0",
+  "description": "build autocomplete datasets",
+  "type": "module",
+  "scripts": {
+    "build": "mkdir -p dist && ts-node --esm index.ts > dist/directives.json"
+  },
+  "dependencies": {
+    "@nginxinc/reference-lib": "file:../../reference-lib",
+    "@types/node": "^20.8.7",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}

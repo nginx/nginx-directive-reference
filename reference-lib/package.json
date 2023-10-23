@@ -3,6 +3,7 @@
   "version": "1.0.7",
   "description": "",
   "main": "dist/index.js",
+  "type": "module",
   "scripts": {
     "build": "./node_modules/.bin/rollup -c",
     "test": "jest --coverage"
