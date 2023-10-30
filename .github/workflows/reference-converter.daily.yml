@@ -31,7 +31,7 @@ jobs:
           mv ./reference.json ../reference-lib/src/reference.json
         fi
 
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
     - name: update npm package version
       if: steps.diff.outputs.reference_change
       run: npm version patch --no-git-tag-version
