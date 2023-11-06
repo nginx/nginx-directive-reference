@@ -1,0 +1,27 @@
+name: builds the autocomplete example usage of reference-lib
+on:
+  push:
+    branches: ['main']
+    paths: ['examples/autocomplete/**', 'reference-lib/**']
+  pull_request:
+    branches: ['main']
+    paths: ['examples/autocomplete/**', 'reference-lib/**']
+
+defaults:
+  run:
+    working-directory: ./examples/autocomplete
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - name: build the reference-lib
+        working-directory: ./reference-lib
+        run: |
+          npm ci
+          npm run build
+      - run: npm ci
+      - run: npm run build
