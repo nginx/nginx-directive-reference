@@ -6,25 +6,45 @@ updates:
     schedule:
       interval: weekly
       day: monday
-      time: "00:00"
+      time: '00:00'
 
   - package-ecosystem: gomod
     directory: /reference-converter
     schedule:
       interval: weekly
       day: monday
-      time: "00:00"
-  
+      time: '00:00'
+
   - package-ecosystem: npm
     directory: /reference-lib
     schedule:
       interval: weekly
       day: monday
-      time: "00:00"
+      time: '00:00'
+    groups:
+      dev-dependencies:
+        dependency-type: 'development'
 
   - package-ecosystem: npm
     directory: /examples/ref-browser
     schedule:
       interval: weekly
       day: monday
-      time: "00:00"
+      time: '00:00'
+    groups:
+      minor-or-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
+
+  - package-ecosystem: npm
+    directory: /examples/autocomplete
+    schedule:
+      interval: weekly
+      day: monday
+      time: '00:00'
+    groups:
+      minor-or-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
