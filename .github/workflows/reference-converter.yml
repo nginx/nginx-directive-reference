@@ -45,7 +45,7 @@ jobs:
       working-directory: ./reference-converter
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v4
+      - uses: actions/setup-go@v5
         with:
           go-version-file: ${{ env.working-directory }}/go.mod
           cache: false
