@@ -12255,6 +12255,332 @@
       ]
     },
     {
+      "id": "/en/docs/ngx_mgmt_module.html",
+      "name": "ngx_mgmt_module",
+      "directives": [
+        {
+          "name": "connect_timeout",
+          "default": "15s",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines a timeout for establishing a connection with the Instance Manager.",
+          "description_html": "<p>Defines a timeout for establishing a connection with the Instance Manager.</p>\n"
+        },
+        {
+          "name": "mgmt",
+          "default": "",
+          "contexts": [
+            "main"
+          ],
+          "syntax_md": [
+            " `{...}`"
+          ],
+          "syntax_html": [
+            "<p><code>{...}</code></p>\n"
+          ],
+          "isBlock": true,
+          "description_md": "Provides the configuration file context\nin which the management server directives are specified.",
+          "description_html": "<p>Provides the configuration file context\nin which the management server directives are specified.</p>\n"
+        },
+        {
+          "name": "read_timeout",
+          "default": "60s",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines a timeout for reading a response from the Instance Manager.\nThe timeout is set only between two successive read operations,\nnot for the transmission of the whole response.\nIf the Instance Manager does not transmit anything within this time,\nthe connection is closed.",
+          "description_html": "<p>Defines a timeout for reading a response from the Instance Manager.\nThe timeout is set only between two successive read operations,\nnot for the transmission of the whole response.\nIf the Instance Manager does not transmit anything within this time,\nthe connection is closed.</p>\n"
+        },
+        {
+          "name": "resolver",
+          "default": "",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`address`* ... [`valid`=*`time`*] [`ipv4`=`on`|`off`] [`ipv6`=`on`|`off`] [`status_zone`=*`zone`*]"
+          ],
+          "syntax_html": [
+            "<p><em><code>address</code></em> &hellip; [<code>valid</code>=<em><code>time</code></em>] [<code>ipv4</code>=<code>on</code>|<code>off</code>] [<code>ipv6</code>=<code>on</code>|<code>off</code>] [<code>status_zone</code>=<em><code>zone</code></em>]</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Configures name servers used to resolve names of the Instance Manager\ninto addresses, for example:\n```\nresolver 127.0.0.1 [::1]:5353;\n```\nThe address can be specified as a domain name or IP address,\nwith an optional port.\nIf port is not specified, the port 53 is used.\nName servers are queried in a round-robin fashion.\n\nBy default, nginx will look up both IPv4 and IPv6 addresses while resolving.\nIf looking up of IPv4 or IPv6 addresses is not desired,\nthe `ipv4=off` or\nthe `ipv6=off` parameter can be specified.\n\nBy default, nginx caches answers using the TTL value of a response.\nAn optional `valid` parameter allows overriding it:\n```\nresolver 127.0.0.1 [::1]:5353 valid=30s;\n```\n> To prevent DNS spoofing, it is recommended\n> configuring DNS servers in a properly secured trusted local network.\n\nThe optional `status_zone` parameter\nenables\n[collection](https://nginx.org/en/docs/ngx_mgmt_module.html#resolvers_)\nof DNS server statistics of requests and responses\nin the specified *`zone`*.",
+          "description_html": "<p>Configures name servers used to resolve names of the Instance Manager\ninto addresses, for example:</p>\n\n<pre><code>resolver 127.0.0.1 [::1]:5353;\n</code></pre>\n\n<p>The address can be specified as a domain name or IP address,\nwith an optional port.\nIf port is not specified, the port 53 is used.\nName servers are queried in a round-robin fashion.</p>\n\n<p>By default, nginx will look up both IPv4 and IPv6 addresses while resolving.\nIf looking up of IPv4 or IPv6 addresses is not desired,\nthe <code>ipv4=off</code> or\nthe <code>ipv6=off</code> parameter can be specified.</p>\n\n<p>By default, nginx caches answers using the TTL value of a response.\nAn optional <code>valid</code> parameter allows overriding it:</p>\n\n<pre><code>resolver 127.0.0.1 [::1]:5353 valid=30s;\n</code></pre>\n\n<blockquote>\n<p>To prevent DNS spoofing, it is recommended\nconfiguring DNS servers in a properly secured trusted local network.</p>\n</blockquote>\n\n<p>The optional <code>status_zone</code> parameter\nenables\n<a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#resolvers_\" target=\"_blank\">collection</a>\nof DNS server statistics of requests and responses\nin the specified <em><code>zone</code></em>.</p>\n"
+        },
+        {
+          "name": "resolver_timeout",
+          "default": "30s",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets a timeout for name resolution.",
+          "description_html": "<p>Sets a timeout for name resolution.</p>\n"
+        },
+        {
+          "name": "send_timeout",
+          "default": "60s",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets a timeout for transmitting a request to the Instance Manager.\nThe timeout is set only between two successive write operations,\nnot for the transmission of the whole request.\nIf the Instance Manager does not receive anything within this time,\nthe connection is closed.",
+          "description_html": "<p>Sets a timeout for transmitting a request to the Instance Manager.\nThe timeout is set only between two successive write operations,\nnot for the transmission of the whole request.\nIf the Instance Manager does not receive anything within this time,\nthe connection is closed.</p>\n"
+        },
+        {
+          "name": "ssl",
+          "default": "on",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables the HTTPS protocol for all\nconnections to the Instance Manager.",
+          "description_html": "<p>Enables the HTTPS protocol for all\nconnections to the Instance Manager.</p>\n"
+        },
+        {
+          "name": "ssl_certificate",
+          "default": "",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a *`file`* with the certificate in the PEM format\nused for authentication to the Instance Manager.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with the certificate in the PEM format\nused for authentication to the Instance Manager.</p>\n"
+        },
+        {
+          "name": "ssl_certificate_key",
+          "default": "",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a *`file`* with the secret key in the PEM format\nused for authentication to the Instance Manager.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with the secret key in the PEM format\nused for authentication to the Instance Manager.</p>\n"
+        },
+        {
+          "name": "ssl_ciphers",
+          "default": "DEFAULT",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`ciphers`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>ciphers</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies the enabled ciphers for requests to the Instance Manager.\nThe ciphers are specified in the format understood by the OpenSSL library.\n\nThe full list can be viewed using the\n“`openssl ciphers`” command.",
+          "description_html": "<p>Specifies the enabled ciphers for requests to the Instance Manager.\nThe ciphers are specified in the format understood by the OpenSSL library.</p>\n\n<p>The full list can be viewed using the\n“<code>openssl ciphers</code>” command.</p>\n"
+        },
+        {
+          "name": "ssl_crl",
+          "default": "",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify)\nthe certificate of the Instance Manager.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the Instance Manager.</p>\n"
+        },
+        {
+          "name": "ssl_name",
+          "default": "ssl_name host",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`name`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>name</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Allows overriding the server name used to\n[verify](https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify)\nthe certificate of the Instance Manager and to be\n[passed through SNI](https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_server_name)\nwhen establishing a connection with the Instance Manager.",
+          "description_html": "<p>Allows overriding the server name used to\n<a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the Instance Manager and to be\n<a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_server_name\" target=\"_blank\">passed through SNI</a>\nwhen establishing a connection with the Instance Manager.</p>\n"
+        },
+        {
+          "name": "ssl_password_file",
+          "default": "",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a *`file`* with passphrases for\n[secret keys](https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_certificate_key)\nwhere each passphrase is specified on a separate line.\nPassphrases are tried in turn when loading the key.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with passphrases for\n<a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_certificate_key\" target=\"_blank\">secret keys</a>\nwhere each passphrase is specified on a separate line.\nPassphrases are tried in turn when loading the key.</p>\n"
+        },
+        {
+          "name": "ssl_protocols",
+          "default": "TLSv1 TLSv1.1 TLSv1.2 TLSv1.3",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "[`SSLv2`] [`SSLv3`] [`TLSv1`] [`TLSv1.1`] [`TLSv1.2`] [`TLSv1.3`]"
+          ],
+          "syntax_html": [
+            "<p>[<code>SSLv2</code>] [<code>SSLv3</code>] [<code>TLSv1</code>] [<code>TLSv1.1</code>] [<code>TLSv1.2</code>] [<code>TLSv1.3</code>]</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables the specified protocols for requests to the Instance Manager.",
+          "description_html": "<p>Enables the specified protocols for requests to the Instance Manager.</p>\n"
+        },
+        {
+          "name": "ssl_server_name",
+          "default": "off",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables or disables passing of the server name through\n[TLS Server Name Indication extension](http://en.wikipedia.org/wiki/Server_Name_Indication) (SNI, RFC 6066)\nwhen establishing a connection with the Instance Manager.",
+          "description_html": "<p>Enables or disables passing of the server name through\n<a href=\"http://en.wikipedia.org/wiki/Server_Name_Indication\" target=\"_blank\">TLS Server Name Indication extension</a> (SNI, RFC 6066)\nwhen establishing a connection with the Instance Manager.</p>\n"
+        },
+        {
+          "name": "ssl_trusted_certificate",
+          "default": "",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a *`file`* with trusted CA certificates in the PEM format\nused to [verify](https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify)\nthe certificate of the Instance Manager.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with trusted CA certificates in the PEM format\nused to <a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the Instance Manager.</p>\n"
+        },
+        {
+          "name": "ssl_verify",
+          "default": "off",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables or disables verification of the Instance Manager certificate.",
+          "description_html": "<p>Enables or disables verification of the Instance Manager certificate.</p>\n"
+        },
+        {
+          "name": "ssl_verify_depth",
+          "default": "1",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`number`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>number</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the verification depth in the Instance Manager certificates chain.",
+          "description_html": "<p>Sets the verification depth in the Instance Manager certificates chain.</p>\n"
+        },
+        {
+          "name": "usage_report",
+          "default": "",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "[`endpoint`=*`address`*] [`interval`=*`time`*]"
+          ],
+          "syntax_html": [
+            "<p>[<code>endpoint</code>=<em><code>address</code></em>] [<code>interval</code>=<em><code>time</code></em>]</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the *`address`* and *`port`* for IP,\nor the *`path`* for a UNIX-domain socket on which\nthe Instance Manager is installed,\nby default `nginx-mgmt.local`.\nThe `interval` sets an interval between reports\nto the Instance Manager, by default 30m.",
+          "description_html": "<p>Sets the <em><code>address</code></em> and <em><code>port</code></em> for IP,\nor the <em><code>path</code></em> for a UNIX-domain socket on which\nthe Instance Manager is installed,\nby default <code>nginx-mgmt.local</code>.\nThe <code>interval</code> sets an interval between reports\nto the Instance Manager, by default 30m.</p>\n"
+        },
+        {
+          "name": "uuid_file",
+          "default": "logs/uuid",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a *`file`* that keeps the ID of nginx instance.\n\nExamples:\n```\nstate /var/lib/nginx/nginx.id; # path for Linux\nstate /var/db/nginx/nginx.id;  # path for FreeBSD\n```\n\nChanging the file content directly should be avoided.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> that keeps the ID of nginx instance.</p>\n\n<p>Examples:</p>\n\n<pre><code>state /var/lib/nginx/nginx.id; # path for Linux\nstate /var/db/nginx/nginx.id;  # path for FreeBSD\n</code></pre>\n\n<p>Changing the file content directly should be avoided.</p>\n"
+        }
+      ]
+    },
+    {
       "id": "/en/docs/ngx_otel_module.html",
       "name": "ngx_otel_module",
       "directives": [
@@ -14870,5 +15196,5 @@
       ]
     }
   ],
-  "version": "https://hg.nginx.org:80/nginx.org/rev/58f0d9d7fe1d"
+  "version": "https://hg.nginx.org:80/nginx.org/rev/cd1d5312e47c"
 }
