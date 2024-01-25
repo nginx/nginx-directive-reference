@@ -12575,8 +12575,8 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* that keeps the ID of nginx instance.\n\nExamples:\n```\nstate /var/lib/nginx/nginx.id; # path for Linux\nstate /var/db/nginx/nginx.id;  # path for FreeBSD\n```\n\nChanging the file content directly should be avoided.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> that keeps the ID of nginx instance.</p>\n\n<p>Examples:</p>\n\n<pre><code>state /var/lib/nginx/nginx.id; # path for Linux\nstate /var/db/nginx/nginx.id;  # path for FreeBSD\n</code></pre>\n\n<p>Changing the file content directly should be avoided.</p>\n"
+          "description_md": "Specifies a *`file`* that keeps the ID of nginx instance.\n\nExamples:\n```\nuuid_file /var/lib/nginx/nginx.id; # path for Linux\nuuid_file /var/db/nginx/nginx.id;  # path for FreeBSD\n```\n\nChanging the file content directly should be avoided.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> that keeps the ID of nginx instance.</p>\n\n<p>Examples:</p>\n\n<pre><code>uuid_file /var/lib/nginx/nginx.id; # path for Linux\nuuid_file /var/db/nginx/nginx.id;  # path for FreeBSD\n</code></pre>\n\n<p>Changing the file content directly should be avoided.</p>\n"
         }
       ]
     },
@@ -15196,5 +15196,5 @@
       ]
     }
   ],
-  "version": "https://hg.nginx.org:80/nginx.org/rev/cd1d5312e47c"
+  "version": "https://hg.nginx.org:80/nginx.org/rev/6ffde2466d2d"
 }
