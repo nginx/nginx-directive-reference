@@ -4631,8 +4631,8 @@
             "<p><em><code>name.json</code></em> | <em><code>name</code></em> from <em><code>file.json</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Preloads an\n[immutable object](https://nginx.org/en/docs/njs/preload_objects.html)\nat configure time.\nThe `name` is used a name of the global variable\nthough which the object is available in njs code.\nIf the `name` is not specified,\nthe file name will be used instead.\n```\njs_preload_object map.json;\n```\nHere, the `map` is used as a name\nwhile accessing the preloaded object.\n\nSeveral `js_preload_object` directives can be specified.",
-          "description_html": "<p>Preloads an\n<a href=\"https://nginx.org/en/docs/njs/preload_objects.html\" target=\"_blank\">immutable object</a>\nat configure time.\nThe <code>name</code> is used a name of the global variable\nthough which the object is available in njs code.\nIf the <code>name</code> is not specified,\nthe file name will be used instead.</p>\n\n<pre><code>js_preload_object map.json;\n</code></pre>\n\n<p>Here, the <code>map</code> is used as a name\nwhile accessing the preloaded object.</p>\n\n<p>Several <code>js_preload_object</code> directives can be specified.</p>\n"
+          "description_md": "Preloads an\n[immutable object](https://nginx.org/en/docs/njs/preload_objects.html)\nat configure time.\nThe `name` is used as a name of the global variable\nthough which the object is available in njs code.\nIf the `name` is not specified,\nthe file name will be used instead.\n```\njs_preload_object map.json;\n```\nHere, the `map` is used as a name\nwhile accessing the preloaded object.\n\nSeveral `js_preload_object` directives can be specified.",
+          "description_html": "<p>Preloads an\n<a href=\"https://nginx.org/en/docs/njs/preload_objects.html\" target=\"_blank\">immutable object</a>\nat configure time.\nThe <code>name</code> is used as a name of the global variable\nthough which the object is available in njs code.\nIf the <code>name</code> is not specified,\nthe file name will be used instead.</p>\n\n<pre><code>js_preload_object map.json;\n</code></pre>\n\n<p>Here, the <code>map</code> is used as a name\nwhile accessing the preloaded object.</p>\n\n<p>Several <code>js_preload_object</code> directives can be specified.</p>\n"
         },
         {
           "name": "js_set",
@@ -13248,8 +13248,8 @@
             "<p><em><code>name.json</code></em> | <em><code>name</code></em> from <em><code>file.json</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Preloads an\n[immutable object](https://nginx.org/en/docs/njs/preload_objects.html)\nat configure time.\nThe `name` is used a name of the global variable\nthough which the object is available in njs code.\nIf the `name` is not specified,\nthe file name will be used instead.\n```\njs_preload_object map.json;\n```\nHere, the `map` is used as a name\nwhile accessing the preloaded object.\n\nSeveral `js_preload_object` directives can be specified.",
-          "description_html": "<p>Preloads an\n<a href=\"https://nginx.org/en/docs/njs/preload_objects.html\" target=\"_blank\">immutable object</a>\nat configure time.\nThe <code>name</code> is used a name of the global variable\nthough which the object is available in njs code.\nIf the <code>name</code> is not specified,\nthe file name will be used instead.</p>\n\n<pre><code>js_preload_object map.json;\n</code></pre>\n\n<p>Here, the <code>map</code> is used as a name\nwhile accessing the preloaded object.</p>\n\n<p>Several <code>js_preload_object</code> directives can be specified.</p>\n"
+          "description_md": "Preloads an\n[immutable object](https://nginx.org/en/docs/njs/preload_objects.html)\nat configure time.\nThe `name` is used as a name of the global variable\nthough which the object is available in njs code.\nIf the `name` is not specified,\nthe file name will be used instead.\n```\njs_preload_object map.json;\n```\nHere, the `map` is used as a name\nwhile accessing the preloaded object.\n\nSeveral `js_preload_object` directives can be specified.",
+          "description_html": "<p>Preloads an\n<a href=\"https://nginx.org/en/docs/njs/preload_objects.html\" target=\"_blank\">immutable object</a>\nat configure time.\nThe <code>name</code> is used as a name of the global variable\nthough which the object is available in njs code.\nIf the <code>name</code> is not specified,\nthe file name will be used instead.</p>\n\n<pre><code>js_preload_object map.json;\n</code></pre>\n\n<p>Here, the <code>map</code> is used as a name\nwhile accessing the preloaded object.</p>\n\n<p>Several <code>js_preload_object</code> directives can be specified.</p>\n"
         },
         {
           "name": "js_preread",
@@ -15196,5 +15196,5 @@
       ]
     }
   ],
-  "version": "https://hg.nginx.org:80/nginx.org/rev/6ffde2466d2d"
+  "version": "https://hg.nginx.org:80/nginx.org/rev/e6b785b7e308"
 }
