@@ -20,10 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       testResults: ./reference-converter/results/test.xml
-    permissions:
-      contents: read
-      actions: read
-      checks: write
     steps:
       - uses: actions/checkout@v4
       - run: make devtools-image
