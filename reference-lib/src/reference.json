@@ -327,10 +327,10 @@
             "limit_except"
           ],
           "syntax_md": [
-            "*`signed`* | *`encrypted`* | *`nested`*"
+            "`signed` | `encrypted` | `nested`"
           ],
           "syntax_html": [
-            "<p><em><code>signed</code></em> | <em><code>encrypted</code></em> | <em><code>nested</code></em></p>\n"
+            "<p><code>signed</code> | <code>encrypted</code> | <code>nested</code></p>\n"
           ],
           "isBlock": false,
           "description_md": "Specifies which type of JSON Web Token to expect:\nJWS (`signed`),\nJWE (`encrypted`),\nor signed and then encrypted\nNested JWT (`nested`) (1.21.0).",
@@ -15283,5 +15283,5 @@
       ]
     }
   ],
-  "version": "https://hg.nginx.org:80/nginx.org/rev/147a55b6a8eb"
+  "version": "https://hg.nginx.org:80/nginx.org/rev/dd237dbf1927"
 }
