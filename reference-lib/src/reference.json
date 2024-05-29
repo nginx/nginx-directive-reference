@@ -2746,8 +2746,8 @@
             "<p><em><code>rate</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Limits the speed of reading the response from the FastCGI server.\nThe *`rate`* is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the FastCFI server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n[buffering](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_buffering) of responses from the FastCGI\nserver is enabled.",
-          "description_html": "<p>Limits the speed of reading the response from the FastCGI server.\nThe <em><code>rate</code></em> is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the FastCFI server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n<a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_buffering\" target=\"_blank\">buffering</a> of responses from the FastCGI\nserver is enabled.</p>\n"
+          "description_md": "Limits the speed of reading the response from the FastCGI server.\nThe *`rate`* is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the FastCFI server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n[buffering](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_buffering) of responses from the FastCGI\nserver is enabled.\nParameter value can contain variables (1.27.0).",
+          "description_html": "<p>Limits the speed of reading the response from the FastCGI server.\nThe <em><code>rate</code></em> is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the FastCFI server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n<a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_buffering\" target=\"_blank\">buffering</a> of responses from the FastCGI\nserver is enabled.\nParameter value can contain variables (1.27.0).</p>\n"
         },
         {
           "name": "fastcgi_max_temp_file_size",
@@ -6091,8 +6091,8 @@
             "<p><em><code>rate</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Limits the speed of reading the response from the proxied server.\nThe *`rate`* is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the proxied server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n[buffering](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffering) of responses from the proxied\nserver is enabled.",
-          "description_html": "<p>Limits the speed of reading the response from the proxied server.\nThe <em><code>rate</code></em> is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the proxied server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffering\" target=\"_blank\">buffering</a> of responses from the proxied\nserver is enabled.</p>\n"
+          "description_md": "Limits the speed of reading the response from the proxied server.\nThe *`rate`* is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the proxied server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n[buffering](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffering) of responses from the proxied\nserver is enabled.\nParameter value can contain variables (1.27.0).",
+          "description_html": "<p>Limits the speed of reading the response from the proxied server.\nThe <em><code>rate</code></em> is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the proxied server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffering\" target=\"_blank\">buffering</a> of responses from the proxied\nserver is enabled.\nParameter value can contain variables (1.27.0).</p>\n"
         },
         {
           "name": "proxy_max_temp_file_size",
@@ -7491,8 +7491,8 @@
             "<p><em><code>rate</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Limits the speed of reading the response from the SCGI server.\nThe *`rate`* is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the SCGI server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n[buffering](https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_buffering) of responses from the SCGI\nserver is enabled.",
-          "description_html": "<p>Limits the speed of reading the response from the SCGI server.\nThe <em><code>rate</code></em> is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the SCGI server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n<a href=\"https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_buffering\" target=\"_blank\">buffering</a> of responses from the SCGI\nserver is enabled.</p>\n"
+          "description_md": "Limits the speed of reading the response from the SCGI server.\nThe *`rate`* is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the SCGI server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n[buffering](https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_buffering) of responses from the SCGI\nserver is enabled.\nParameter value can contain variables (1.27.0).",
+          "description_html": "<p>Limits the speed of reading the response from the SCGI server.\nThe <em><code>rate</code></em> is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the SCGI server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n<a href=\"https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_buffering\" target=\"_blank\">buffering</a> of responses from the SCGI\nserver is enabled.\nParameter value can contain variables (1.27.0).</p>\n"
         },
         {
           "name": "scgi_max_temp_file_size",
@@ -9779,8 +9779,8 @@
             "<p><em><code>rate</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Limits the speed of reading the response from the uwsgi server.\nThe *`rate`* is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the uwsgi server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n[buffering](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_buffering) of responses from the uwsgi\nserver is enabled.",
-          "description_html": "<p>Limits the speed of reading the response from the uwsgi server.\nThe <em><code>rate</code></em> is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the uwsgi server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n<a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_buffering\" target=\"_blank\">buffering</a> of responses from the uwsgi\nserver is enabled.</p>\n"
+          "description_md": "Limits the speed of reading the response from the uwsgi server.\nThe *`rate`* is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the uwsgi server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n[buffering](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_buffering) of responses from the uwsgi\nserver is enabled.\nParameter value can contain variables (1.27.0).",
+          "description_html": "<p>Limits the speed of reading the response from the uwsgi server.\nThe <em><code>rate</code></em> is specified in bytes per second.\nThe zero value disables rate limiting.\nThe limit is set per a request, and so if nginx simultaneously opens\ntwo connections to the uwsgi server,\nthe overall rate will be twice as much as the specified limit.\nThe limitation works only if\n<a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_buffering\" target=\"_blank\">buffering</a> of responses from the uwsgi\nserver is enabled.\nParameter value can contain variables (1.27.0).</p>\n"
         },
         {
           "name": "uwsgi_max_temp_file_size",
@@ -15283,5 +15283,5 @@
       ]
     }
   ],
-  "version": "https://hg.nginx.org:80/nginx.org/rev/dd237dbf1927"
+  "version": "https://hg.nginx.org:80/nginx.org/rev/d3b2c35a7ea4"
 }
