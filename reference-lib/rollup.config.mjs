@@ -6,5 +6,5 @@ export default {
   output: {
     file: 'dist/index.js',
   },
-  plugins: [json(), typescript()],
+  plugins: [json(), typescript({ outputToFilesystem: true })],
 }
