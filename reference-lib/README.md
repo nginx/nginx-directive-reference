@@ -11,18 +11,18 @@ NGINX directive reference in Markdown and HTML format
 ```
 3. Run
 ```bash
-npm install --save @nginxinc/reference-lib@1.0.0
+npm install --save @nginx/reference-lib@1.0.0
 ```
 
 # Usage
 1. find
 ```javascript
-import { find, Format } from '@nginxinc/reference-lib'
+import { find, Format } from '@nginx/reference-lib'
 const content = find('listen', undefined, Format.HTML)
 ```
 
 2. getDirectives
 ```javascript
-import { getDirectives, Format } from '@nginxinc/reference-lib'
+import { getDirectives, Format } from '@nginx/reference-lib'
 const directive = getDirectives(Format.HTML)
 ```

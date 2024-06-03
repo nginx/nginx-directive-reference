@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Format, find } from '@nginxinc/reference-lib'
+import { Format, find } from '@nginx/reference-lib'
 
 type DescriptionProps = {
   module: string

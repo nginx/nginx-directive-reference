@@ -1,4 +1,4 @@
-import { getDirectives, Directive } from '@nginxinc/reference-lib'
+import { getDirectives, Directive } from '@nginx/reference-lib'
 
 /** kinds of tokens used for highlighting */
 type token =
