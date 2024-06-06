@@ -16,9 +16,9 @@ flowchart
     fetch_atom --> download_tarball --> parse_xml --> render_md --> write --> done
 ```
 
-The NGINX docs are publicly available at <http://hg.nginx.org/nginx.org>, in XML that's a mix of data and prose (`<para>` tags contain markup). The `<para>` contents will be translated in-order to generate equivalent markdown.
+The NGINX docs are publicly available at <https://github.com/nginx/nginx.org/>, in XML that's a mix of data and prose (`<para>` tags contain markup). The `<para>` contents will be translated in-order to generate equivalent markdown.
 
-The atom feed at <http://hg.nginx.org/nginx.org/atom-log> will tell us if there is updated content.
+The atom feed at <https://github.com/nginx/nginx.org/commits/main.atom> will tell us if there is updated content.
 
 A scheduled github pipeline ensures that we have up-to-date reference information.
 
