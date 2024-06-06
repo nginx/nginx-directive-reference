@@ -1,4 +1,4 @@
-import { Format, getDirectives } from '@nginxinc/reference-lib'
+import { Format, getDirectives } from '@nginx/reference-lib'
 import Description from './Description'
 
 type Dir = {

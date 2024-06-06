@@ -1,5 +1,5 @@
 'use client'
-import { getDirectives } from '@nginxinc/reference-lib'
+import { getDirectives } from '@nginx/reference-lib'
 import { useCallback, useState } from 'react'
 import { SearchBox } from './SearchBox'
 import { Link } from 'react-router-dom'

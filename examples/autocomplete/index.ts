@@ -1,4 +1,4 @@
-import { getDirectives, Format, Directive } from '@nginxinc/reference-lib'
+import { getDirectives, Format, Directive } from '@nginx/reference-lib'
 type autocomplete = {
   /** name of the NGINX module */
   m: string
