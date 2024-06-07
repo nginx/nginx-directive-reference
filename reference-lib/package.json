@@ -5,12 +5,12 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "./node_modules/.bin/rollup -c",
+    "build": "rollup -c",
     "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nginxinc/nginx-directive-reference.git"
+    "url": "git+https://github.com/nginx/nginx-directive-reference.git"
   },
   "devDependencies": {
     "@rollup/plugin-json": "^6.1.0",
@@ -22,5 +22,8 @@
   },
   "files": [
     "dist/**/*"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

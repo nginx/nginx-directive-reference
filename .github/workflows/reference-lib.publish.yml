@@ -1,4 +1,4 @@
-name: Publish reference lib package to GitHub Packages
+name: Publish reference lib package to NPM
 on:
   push:
     branches: ['main']
@@ -12,36 +12,31 @@ defaults:
     working-directory: ./reference-lib
     shell: bash
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '16.x'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@nginxinc'
+          registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: npm ci
       - name: Test it out
         run: npm run test
       - name: Bundle using rollup
         run: npm run build
-      - name: get package-version
-        run: node -p -e '`PACKAGE_VERSION=${require("./package.json").version}`' >> $GITHUB_ENV
       - name: publish package
         if: github.event_name == 'push'
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create and push tag
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Create and push tag matching the npm package
         if: github.event_name == 'push'
-        uses: mathieudutour/github-tag-action@v6.2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ env.PACKAGE_VERSION }}
+        run: |
+          export PACKAGE_VERSION=v$(node -p -e 'require("./package.json").version')
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git tag -a "$PACKAGE_VERSION" -m "Release $PACKAGE_VERSION"
+          git push origin "$PACKAGE_VERSION"
