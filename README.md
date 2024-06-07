@@ -1,4 +1,4 @@
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Community Support](https://badgen.net/badge/support/community/cyan?icon=awesome)](SUPPORT.md)
 
@@ -31,4 +31,4 @@ Please see the [contributing guide](CONTRIBUTING.md) for guidelines on how to be
 
 [Apache License, Version 2.0](LICENSE)
 
-&copy; [F5, Inc.](https://www.f5.com/) 2023
+&copy; [F5, Inc.](https://www.f5.com/) 2024
