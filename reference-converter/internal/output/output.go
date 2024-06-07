@@ -21,10 +21,17 @@ type Directive struct {
 	DescriptionHtml string   `json:"description_html"`
 }
 
+type Variable struct {
+	Name            string `json:"name"`
+	DescriptionMd   string `json:"description_md"`
+	DescriptionHtml string `json:"description_html"`
+}
+
 type Module struct {
 	Id         string      `json:"id"`
 	Name       string      `json:"name"`
 	Directives []Directive `json:"directives"`
+	Variables  []Variable  `json:"variables,omitempty"`
 }
 
 func toModule(m *parse.Module) Module {
@@ -43,6 +50,13 @@ func toModule(m *parse.Module) Module {
 				IsBlock:         directive.Syntax.IsBlock(),
 				DescriptionMd:   directive.Prose.ToMarkdown(),
 				DescriptionHtml: directive.Prose.ToHTML(),
+			})
+		}
+		for _, variable := range section.Variables {
+			module.Variables = append(module.Variables, Variable{
+				Name:            variable.Name,
+				DescriptionMd:   variable.Prose.ToMarkdown(),
+				DescriptionHtml: variable.Prose.ToHTML(),
 			})
 		}
 	}

@@ -41,6 +41,23 @@ func TestParse(t *testing.T) {
 							},
 						},
 					},
+					{
+						ID: "variables",
+						Variables: []parse.Variable{
+							{
+								Name: "$wildcard_var_NAME",
+								Prose: parse.Prose{
+									{Content: "\nI support a dynamic suffix *`name`*\n"},
+								},
+							},
+							{
+								Name: "$variable",
+								Prose: parse.Prose{
+									{Content: "\nI am a variable with `formatting` in my desc\n"},
+								},
+							},
+						},
+					},
 				},
 			},
 		},
