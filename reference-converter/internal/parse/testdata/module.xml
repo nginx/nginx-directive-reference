@@ -27,4 +27,21 @@ Can have more than one, with some&nbsp;html&mdash;ish entities and <literal>verb
 
 </directive>
 </section>
+<section id="variables">
+<para>We add these variables:</para>
+
+<para>
+<list type="tag">
+<tag-name><var>$wildcard_var_</var><value>name</value></tag-name>
+<tag-desc>
+I support a dynamic suffix <value>name</value>
+</tag-desc>
+
+<tag-name><var>$variable</var></tag-name>
+<tag-desc>
+I am a variable with <literal>formatting</literal> in my desc
+</tag-desc>
+</list>
+</para>
+</section>
 </module>

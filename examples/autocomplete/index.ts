@@ -1,4 +1,9 @@
-import { getDirectives, Format, Directive } from '@nginx/reference-lib'
+import {
+  getDirectives,
+  Format,
+  Directive,
+  getVariables,
+} from '@nginx/reference-lib'
 type autocomplete = {
   /** name of the NGINX module */
   m: string
@@ -10,10 +15,10 @@ type autocomplete = {
    * nginx config */
   v?: string
   /** markdown CSV for valid contexts */
-  c: string
+  c?: string
   /** markdown-formatted syntax specifications, including directive name.
    * Multiple syntaxes are seperated by newlines */
-  s: string
+  s?: string
 }
 
 function toAutocomplete(d: Directive): autocomplete {
@@ -32,5 +37,10 @@ function toAutocomplete(d: Directive): autocomplete {
   return ret
 }
 
-const formatted = getDirectives(Format.Markdown).map(toAutocomplete)
-console.log(JSON.stringify(formatted, undefined, 4))
+const directives = getDirectives(Format.Markdown).map(toAutocomplete)
+const variables = getVariables(Format.Markdown).map((v) => ({
+  m: v.module,
+  n: v.name,
+  d: v.description,
+}))
+console.log(JSON.stringify(directives.concat(variables), undefined, 4))

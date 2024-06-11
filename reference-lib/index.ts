@@ -1,13 +1,19 @@
 import reference from './src/reference.json'
 
 export interface Directive {
-    name: string
-    module: string
-    description: string
-    syntax: string[]
-    contexts: string[]
-    isBlock: boolean
-    default: string
+  name: string
+  module: string
+  description: string
+  syntax: string[]
+  contexts: string[]
+  isBlock: boolean
+  default: string
+}
+
+export interface Variable {
+  name: string
+  module: string
+  description: string
 }
 
 export enum Format {
@@ -41,26 +47,47 @@ for (const modules of reference.modules) {
  * Returns all the nginx directives
  *
  *  @param: format: format of the return type HTML or markdown
- *
  *  @return: an array of Directives
  */
-export function getDirectives(format=Format.HTML): Directive[] {
-    const directives = reference.modules.flatMap((m) =>
-      m.directives.map((d) => ({...d, module: m.name})))
-    .map ((d) => ({
-        name: d.name,
-        module: d.module,
-        description: format === Format.HTML ? d.description_html : d.description_md,
-        syntax: format === Format.HTML ? d.syntax_html : d.syntax_md,
-        contexts: d.contexts,
-        isBlock: d.isBlock,
-        default: d.default
-    } as Directive))
-    return directives
+export function getDirectives(format = Format.HTML): Directive[] {
+  const directives = reference.modules
+    .flatMap((m) => m.directives.map((d) => ({ ...d, module: m.name })))
+    .map(
+      (d) =>
+        ({
+          name: d.name,
+          module: d.module,
+          description:
+            format === Format.HTML ? d.description_html : d.description_md,
+          syntax: format === Format.HTML ? d.syntax_html : d.syntax_md,
+          contexts: d.contexts,
+          isBlock: d.isBlock,
+          default: d.default,
+        } as Directive)
+    )
+  return directives
 }
 
 /**
- * Returns the description corresponding to the directive name
+ * Returns all variables defined by any moduled
+ *
+ *  @param: format: format of the return type HTML or markdown
+ *  @return: an array of Variables
+ */
+export function getVariables(format = Format.HTML): Variable[] {
+  return reference.modules.flatMap(
+    (m) =>
+      m.variables?.map((v) => ({
+        name: v.name,
+        description:
+          format === Format.HTML ? v.description_html : v.description_md,
+        module: m.name,
+      })) ?? []
+  )
+}
+
+/**
+ * Returns the description corresponding to the directive or variable name
  *
  *  @param: directive: directive name to find
  *  @param: module: optional name of module
@@ -68,10 +95,15 @@ export function getDirectives(format=Format.HTML): Directive[] {
  *
  *  @return: a string containing the description of the directive in xml or markdown format
  */
-export function find(directive: string, module: string | undefined, format=Format.HTML): string | undefined {
-  const data =
-    module
-      ? refDirectives.get(directive)?.find((d) => d.module.toUpperCase() === module.toUpperCase())
-      : refDirectives.get(directive)?.at(0)
-  return (format === Format.HTML ? data?.description_html : data?.description_md)
+export function find(
+  directive: string,
+  module: string | undefined,
+  format = Format.HTML
+): string | undefined {
+  const data = module
+    ? refDirectives
+        .get(directive)
+        ?.find((d) => d.module.toUpperCase() === module.toUpperCase())
+    : refDirectives.get(directive)?.at(0)
+  return format === Format.HTML ? data?.description_html : data?.description_md
 }

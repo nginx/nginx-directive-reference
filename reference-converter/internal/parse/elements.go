@@ -3,11 +3,12 @@ package parse
 import (
 	"encoding/xml"
 	"fmt"
+	"regexp"
+	"strings"
+
 	"github.com/gomarkdown/markdown"
 	"github.com/gomarkdown/markdown/html"
 	"github.com/gomarkdown/markdown/parser"
-	"regexp"
-	"strings"
 )
 
 // Syntax contain the markdown formatted syntax for the directive, very close to
@@ -153,10 +154,100 @@ type Directive struct {
 	Prose    Prose    `xml:"para"`
 }
 
+// Variable represents an NGINX variable defined by a module, e.g $binary_remote_addr.
+type Variable struct {
+	Name  string
+	Prose Prose
+}
+
+// unmarshalVariablesCML extracts NGINX variables from the common pattern:
+//
+//	<section id="variables">
+//	<list type="tag">
+//	<tag-name><var>$VARIABLE_NAME</var></tag-name>
+//	<tag-desc>$DOCUMENTATION</tag-desc>
+//	<tag-name><var>$VARIABLE_NAME</var><value>$DYNAMIC_SUFFIX</value></tag-name>
+//	<tag-desc>$DOCUMENTATION</tag-desc>
+//	</list>
+//	</section>
+func unmarshalVariablesCML(d *xml.Decoder, start xml.StartElement) ([]Variable, error) {
+	var v struct {
+		ID         string `xml:"id,attr"`
+		Paragraphs []struct {
+			List struct {
+				TagNames []struct {
+					Name   string `xml:"var"`
+					Suffix string `xml:"value"`
+				} `xml:"tag-name"`
+				TagDesc []Prose `xml:"tag-desc"`
+			} `xml:"list"`
+		} `xml:"para"`
+	}
+	if err := d.DecodeElement(&v, &start); err != nil {
+		return nil, fmt.Errorf("failed to parse variables: %w", err)
+	}
+	var vs []Variable
+	for _, para := range v.Paragraphs {
+		if len(para.List.TagDesc) != len(para.List.TagNames) {
+			return nil, fmt.Errorf(
+				"invalid variables section, need to have the same number of names (%d) and descriptions (%d)",
+				len(para.List.TagNames), len(para.List.TagDesc),
+			)
+		}
+		for idx, tn := range para.List.TagNames {
+			name := tn.Name
+			if tn.Suffix != "" {
+				name += strings.ToUpper(tn.Suffix)
+			}
+			vs = append(vs, Variable{
+				Name:  name,
+				Prose: para.List.TagDesc[idx],
+			})
+		}
+	}
+
+	return vs, nil
+}
+
 type Section struct {
-	ID         string      `xml:"id,attr"`
-	Directives []Directive `xml:"directive"`
-	Prose      Prose       `xml:"para"`
+	ID         string
+	Directives []Directive
+	Prose      Prose
+	Variables  []Variable
+}
+
+// UnmarshalXML handles parsing sections with directives vs sections with variables.
+func (s *Section) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	attrs := newAttrs(start.Attr)
+	if attrs["id"] == "variables" {
+		// parse as a list of variables
+		vs, err := unmarshalVariablesCML(d, start)
+		if err != nil {
+			return fmt.Errorf("failed to unmarshall variables: %w", err)
+		}
+		*s = Section{
+			ID:        "variables",
+			Variables: vs,
+		}
+		return nil
+	}
+
+	// parse as a normal section
+	var sec struct {
+		ID         string      `xml:"id,attr"`
+		Directives []Directive `xml:"directive"`
+		Prose      Prose       `xml:"para"`
+	}
+	if err := d.DecodeElement(&sec, &start); err != nil {
+		return err
+	}
+
+	*s = Section{
+		ID:         sec.ID,
+		Directives: sec.Directives,
+		Prose:      sec.Prose,
+	}
+	return nil
 }
 
 type Module struct {

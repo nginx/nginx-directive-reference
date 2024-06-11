@@ -355,6 +355,23 @@
           "description_md": "Specifies additional checks for JWT validation.\nThe value can contain text, variables, and their combination,\nand must start with a variable (1.21.7).\nThe authentication will succeed only\nif all the values are not empty and are not equal to “0”.\n```\nmap $jwt_claim_iss $valid_jwt_iss {\n    \"good\" 1;\n}\n...\n\nauth_jwt_require $valid_jwt_iss;\n```\n\nIf any of the checks fails,\nthe `401` error code is returned.\nThe optional `error` parameter (1.21.7)\nallows redefining the error code to `403`.",
           "description_html": "<p>Specifies additional checks for JWT validation.\nThe value can contain text, variables, and their combination,\nand must start with a variable (1.21.7).\nThe authentication will succeed only\nif all the values are not empty and are not equal to “0”.</p>\n\n<pre><code>map $jwt_claim_iss $valid_jwt_iss {\n    &quot;good&quot; 1;\n}\n...\n\nauth_jwt_require $valid_jwt_iss;\n</code></pre>\n\n<p>If any of the checks fails,\nthe <code>401</code> error code is returned.\nThe optional <code>error</code> parameter (1.21.7)\nallows redefining the error code to <code>403</code>.</p>\n"
         }
+      ],
+      "variables": [
+        {
+          "name": "$jwt_header_NAME",
+          "description_md": "returns the value of a specified\n[JOSE header](https://datatracker.ietf.org/doc/html/rfc7515#section-4)",
+          "description_html": "<p>returns the value of a specified\n<a href=\"https://datatracker.ietf.org/doc/html/rfc7515#section-4\" target=\"_blank\">JOSE header</a></p>\n"
+        },
+        {
+          "name": "$jwt_claim_NAME",
+          "description_md": "returns the value of a specified\n[JWT claim](https://datatracker.ietf.org/doc/html/rfc7519#section-4)\n\n\nFor nested claims and claims including a dot (“.”),\nthe value of the variable cannot be evaluated;\nthe [`auth_jwt_claim_set`](https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html#auth_jwt_claim_set) directive should be used instead.\n\n\n\nVariable values for tokens encrypted with JWE\nare available only after decryption which occurs during the\n[Access](https://nginx.org/en/docs/dev/development_guide.html#http_phases) phase.",
+          "description_html": "<p>returns the value of a specified\n<a href=\"https://datatracker.ietf.org/doc/html/rfc7519#section-4\" target=\"_blank\">JWT claim</a></p>\n\n<p>For nested claims and claims including a dot (“.”),\nthe value of the variable cannot be evaluated;\nthe <a href=\"https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html#auth_jwt_claim_set\" target=\"_blank\"><code>auth_jwt_claim_set</code></a> directive should be used instead.</p>\n\n<p>Variable values for tokens encrypted with JWE\nare available only after decryption which occurs during the\n<a href=\"https://nginx.org/en/docs/dev/development_guide.html#http_phases\" target=\"_blank\">Access</a> phase.</p>\n"
+        },
+        {
+          "name": "$jwt_payload",
+          "description_md": "returns the decrypted top-level payload\nof `nested`\nor `encrypted` tokens (1.21.2).\nFor nested tokens returns the enclosed JWS token.\nFor encrypted tokens returns JSON with claims.",
+          "description_html": "<p>returns the decrypted top-level payload\nof <code>nested</code>\nor <code>encrypted</code> tokens (1.21.2).\nFor nested tokens returns the enclosed JWS token.\nFor encrypted tokens returns JSON with claims.</p>\n"
+        }
       ]
     },
     {
@@ -2065,6 +2082,283 @@
           "description_md": "Sets the maximum *`size`* of the variables hash table.\nThe details of setting up hash tables are provided in a separate\n[document](https://nginx.org/en/docs/hash.html).\n> Prior to version 1.5.13, the default value was 512.",
           "description_html": "<p>Sets the maximum <em><code>size</code></em> of the variables hash table.\nThe details of setting up hash tables are provided in a separate\n<a href=\"https://nginx.org/en/docs/hash.html\" target=\"_blank\">document</a>.</p>\n\n<blockquote>\n<p>Prior to version 1.5.13, the default value was 512.</p>\n</blockquote>\n"
         }
+      ],
+      "variables": [
+        {
+          "name": "$arg_NAME",
+          "description_md": "argument *`name`* in the request line",
+          "description_html": "<p>argument <em><code>name</code></em> in the request line</p>\n"
+        },
+        {
+          "name": "$args",
+          "description_md": "arguments in the request line",
+          "description_html": "<p>arguments in the request line</p>\n"
+        },
+        {
+          "name": "$binary_remote_addr",
+          "description_md": "client address in a binary form, value’s length is always 4 bytes\nfor IPv4 addresses or 16 bytes for IPv6 addresses",
+          "description_html": "<p>client address in a binary form, value’s length is always 4 bytes\nfor IPv4 addresses or 16 bytes for IPv6 addresses</p>\n"
+        },
+        {
+          "name": "$body_bytes_sent",
+          "description_md": "number of bytes sent to a client, not counting the response header;\nthis variable is compatible with the “`%B`” parameter of the\n`mod_log_config`\nApache module",
+          "description_html": "<p>number of bytes sent to a client, not counting the response header;\nthis variable is compatible with the “<code>%B</code>” parameter of the\n<code>mod_log_config</code>\nApache module</p>\n"
+        },
+        {
+          "name": "$bytes_sent",
+          "description_md": "number of bytes sent to a client (1.3.8, 1.2.5)",
+          "description_html": "<p>number of bytes sent to a client (1.3.8, 1.2.5)</p>\n"
+        },
+        {
+          "name": "$connection",
+          "description_md": "connection serial number (1.3.8, 1.2.5)",
+          "description_html": "<p>connection serial number (1.3.8, 1.2.5)</p>\n"
+        },
+        {
+          "name": "$connection_requests",
+          "description_md": "current number of requests made through a connection (1.3.8, 1.2.5)",
+          "description_html": "<p>current number of requests made through a connection (1.3.8, 1.2.5)</p>\n"
+        },
+        {
+          "name": "$connection_time",
+          "description_md": "connection time in seconds with a milliseconds resolution (1.19.10)",
+          "description_html": "<p>connection time in seconds with a milliseconds resolution (1.19.10)</p>\n"
+        },
+        {
+          "name": "$content_length",
+          "description_md": "\"Content-Length\" request header field",
+          "description_html": "<p>&ldquo;Content-Length&rdquo; request header field</p>\n"
+        },
+        {
+          "name": "$content_type",
+          "description_md": "\"Content-Type\" request header field",
+          "description_html": "<p>&ldquo;Content-Type&rdquo; request header field</p>\n"
+        },
+        {
+          "name": "$cookie_NAME",
+          "description_md": "the *`name`* cookie",
+          "description_html": "<p>the <em><code>name</code></em> cookie</p>\n"
+        },
+        {
+          "name": "$document_root",
+          "description_md": "[`root`](https://nginx.org/en/docs/http/ngx_http_core_module.html#root) or [`alias`](https://nginx.org/en/docs/http/ngx_http_core_module.html#alias) directive’s value\nfor the current request",
+          "description_html": "<p><a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#root\" target=\"_blank\"><code>root</code></a> or <a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#alias\" target=\"_blank\"><code>alias</code></a> directive’s value\nfor the current request</p>\n"
+        },
+        {
+          "name": "$document_uri",
+          "description_md": "same as `$uri`",
+          "description_html": "<p>same as <code>$uri</code></p>\n"
+        },
+        {
+          "name": "$host",
+          "description_md": "in this order of precedence:\nhost name from the request line, or\nhost name from the \"Host\" request header field, or\nthe server name matching a request",
+          "description_html": "<p>in this order of precedence:\nhost name from the request line, or\nhost name from the &ldquo;Host&rdquo; request header field, or\nthe server name matching a request</p>\n"
+        },
+        {
+          "name": "$hostname",
+          "description_md": "host name",
+          "description_html": "<p>host name</p>\n"
+        },
+        {
+          "name": "$http_NAME",
+          "description_md": "arbitrary request header field;\nthe last part of a variable name is the field name converted\nto lower case with dashes replaced by underscores",
+          "description_html": "<p>arbitrary request header field;\nthe last part of a variable name is the field name converted\nto lower case with dashes replaced by underscores</p>\n"
+        },
+        {
+          "name": "$https",
+          "description_md": "“`on`”\nif connection operates in SSL mode,\nor an empty string otherwise",
+          "description_html": "<p>“<code>on</code>”\nif connection operates in SSL mode,\nor an empty string otherwise</p>\n"
+        },
+        {
+          "name": "$is_args",
+          "description_md": "“`?`” if a request line has arguments,\nor an empty string otherwise",
+          "description_html": "<p>“<code>?</code>” if a request line has arguments,\nor an empty string otherwise</p>\n"
+        },
+        {
+          "name": "$limit_rate",
+          "description_md": "setting this variable enables response rate limiting;\nsee [`limit_rate`](https://nginx.org/en/docs/http/ngx_http_core_module.html#limit_rate)",
+          "description_html": "<p>setting this variable enables response rate limiting;\nsee <a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#limit_rate\" target=\"_blank\"><code>limit_rate</code></a></p>\n"
+        },
+        {
+          "name": "$msec",
+          "description_md": "current time in seconds with the milliseconds resolution (1.3.9, 1.2.6)",
+          "description_html": "<p>current time in seconds with the milliseconds resolution (1.3.9, 1.2.6)</p>\n"
+        },
+        {
+          "name": "$nginx_version",
+          "description_md": "nginx version",
+          "description_html": "<p>nginx version</p>\n"
+        },
+        {
+          "name": "$pid",
+          "description_md": "PID of the worker process",
+          "description_html": "<p>PID of the worker process</p>\n"
+        },
+        {
+          "name": "$pipe",
+          "description_md": "“`p`” if request was pipelined, “`.`”\notherwise (1.3.12, 1.2.7)",
+          "description_html": "<p>“<code>p</code>” if request was pipelined, “<code>.</code>”\notherwise (1.3.12, 1.2.7)</p>\n"
+        },
+        {
+          "name": "$proxy_protocol_addr",
+          "description_md": "client address from the PROXY protocol header (1.5.12)\n\nThe PROXY protocol must be previously enabled by setting the\n`proxy_protocol` parameter\nin the [`listen`](https://nginx.org/en/docs/http/ngx_http_core_module.html#listen) directive.",
+          "description_html": "<p>client address from the PROXY protocol header (1.5.12)</p>\n\n<p>The PROXY protocol must be previously enabled by setting the\n<code>proxy_protocol</code> parameter\nin the <a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#listen\" target=\"_blank\"><code>listen</code></a> directive.</p>\n"
+        },
+        {
+          "name": "$proxy_protocol_port",
+          "description_md": "client port from the PROXY protocol header (1.11.0)\n\nThe PROXY protocol must be previously enabled by setting the\n`proxy_protocol` parameter\nin the [`listen`](https://nginx.org/en/docs/http/ngx_http_core_module.html#listen) directive.",
+          "description_html": "<p>client port from the PROXY protocol header (1.11.0)</p>\n\n<p>The PROXY protocol must be previously enabled by setting the\n<code>proxy_protocol</code> parameter\nin the <a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#listen\" target=\"_blank\"><code>listen</code></a> directive.</p>\n"
+        },
+        {
+          "name": "$proxy_protocol_server_addr",
+          "description_md": "server address from the PROXY protocol header (1.17.6)\n\nThe PROXY protocol must be previously enabled by setting the\n`proxy_protocol` parameter\nin the [`listen`](https://nginx.org/en/docs/http/ngx_http_core_module.html#listen) directive.",
+          "description_html": "<p>server address from the PROXY protocol header (1.17.6)</p>\n\n<p>The PROXY protocol must be previously enabled by setting the\n<code>proxy_protocol</code> parameter\nin the <a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#listen\" target=\"_blank\"><code>listen</code></a> directive.</p>\n"
+        },
+        {
+          "name": "$proxy_protocol_server_port",
+          "description_md": "server port from the PROXY protocol header (1.17.6)\n\nThe PROXY protocol must be previously enabled by setting the\n`proxy_protocol` parameter\nin the [`listen`](https://nginx.org/en/docs/http/ngx_http_core_module.html#listen) directive.",
+          "description_html": "<p>server port from the PROXY protocol header (1.17.6)</p>\n\n<p>The PROXY protocol must be previously enabled by setting the\n<code>proxy_protocol</code> parameter\nin the <a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#listen\" target=\"_blank\"><code>listen</code></a> directive.</p>\n"
+        },
+        {
+          "name": "$proxy_protocol_tlv_NAME",
+          "description_md": "TLV from the PROXY Protocol header (1.23.2).\nThe `name` can be a TLV type name or its numeric value.\nIn the latter case, the value is hexadecimal\nand should be prefixed with `0x`:\n\n```\n$proxy_protocol_tlv_alpn\n$proxy_protocol_tlv_0x01\n```\nSSL TLVs can also be accessed by TLV type name\nor its numeric value,\nboth prefixed by `ssl_`:\n```\n$proxy_protocol_tlv_ssl_version\n$proxy_protocol_tlv_ssl_0x21\n```\n\n\nThe following TLV type names are supported:\n- `alpn` (`0x01`)—\n    upper layer protocol used over the connection\n- `authority` (`0x02`)—\n    host name value passed by the client\n- `unique_id` (`0x05`)—\n    unique connection id\n- `netns` (`0x30`)—\n    name of the namespace\n- `ssl` (`0x20`)—\n    binary SSL TLV structure\n\n\n\n\nThe following SSL TLV type names are supported:\n- `ssl_version` (`0x21`)—\n    SSL version used in client connection\n- `ssl_cn` (`0x22`)—\n    SSL certificate Common Name\n- `ssl_cipher` (`0x23`)—\n    name of the used cipher\n- `ssl_sig_alg` (`0x24`)—\n    algorithm used to sign the certificate\n- `ssl_key_alg` (`0x25`)—\n    public-key algorithm\n\n\n\n\nAlso, the following special SSL TLV type name is supported:\n- `ssl_verify`—\n    client SSL certificate verification result,\n    `0` if the client presented a certificate\n    and it was successfully verified,\n    non-zero otherwise.\n\n\n\n\nThe PROXY protocol must be previously enabled by setting the\n`proxy_protocol` parameter\nin the [`listen`](https://nginx.org/en/docs/http/ngx_http_core_module.html#listen) directive.",
+          "description_html": "<p>TLV from the PROXY Protocol header (1.23.2).\nThe <code>name</code> can be a TLV type name or its numeric value.\nIn the latter case, the value is hexadecimal\nand should be prefixed with <code>0x</code>:</p>\n\n<pre><code>$proxy_protocol_tlv_alpn\n$proxy_protocol_tlv_0x01\n</code></pre>\n\n<p>SSL TLVs can also be accessed by TLV type name\nor its numeric value,\nboth prefixed by <code>ssl_</code>:</p>\n\n<pre><code>$proxy_protocol_tlv_ssl_version\n$proxy_protocol_tlv_ssl_0x21\n</code></pre>\n\n<p>The following TLV type names are supported:</p>\n\n<ul>\n<li><code>alpn</code> (<code>0x01</code>)—\nupper layer protocol used over the connection</li>\n<li><code>authority</code> (<code>0x02</code>)—\nhost name value passed by the client</li>\n<li><code>unique_id</code> (<code>0x05</code>)—\nunique connection id</li>\n<li><code>netns</code> (<code>0x30</code>)—\nname of the namespace</li>\n<li><code>ssl</code> (<code>0x20</code>)—\nbinary SSL TLV structure</li>\n</ul>\n\n<p>The following SSL TLV type names are supported:</p>\n\n<ul>\n<li><code>ssl_version</code> (<code>0x21</code>)—\nSSL version used in client connection</li>\n<li><code>ssl_cn</code> (<code>0x22</code>)—\nSSL certificate Common Name</li>\n<li><code>ssl_cipher</code> (<code>0x23</code>)—\nname of the used cipher</li>\n<li><code>ssl_sig_alg</code> (<code>0x24</code>)—\nalgorithm used to sign the certificate</li>\n<li><code>ssl_key_alg</code> (<code>0x25</code>)—\npublic-key algorithm</li>\n</ul>\n\n<p>Also, the following special SSL TLV type name is supported:</p>\n\n<ul>\n<li><code>ssl_verify</code>—\nclient SSL certificate verification result,\n<code>0</code> if the client presented a certificate\nand it was successfully verified,\nnon-zero otherwise.</li>\n</ul>\n\n<p>The PROXY protocol must be previously enabled by setting the\n<code>proxy_protocol</code> parameter\nin the <a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#listen\" target=\"_blank\"><code>listen</code></a> directive.</p>\n"
+        },
+        {
+          "name": "$query_string",
+          "description_md": "same as `$args`",
+          "description_html": "<p>same as <code>$args</code></p>\n"
+        },
+        {
+          "name": "$realpath_root",
+          "description_md": "an absolute pathname corresponding to the\n[`root`](https://nginx.org/en/docs/http/ngx_http_core_module.html#root) or [`alias`](https://nginx.org/en/docs/http/ngx_http_core_module.html#alias) directive’s value\nfor the current request,\nwith all symbolic links resolved to real paths",
+          "description_html": "<p>an absolute pathname corresponding to the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#root\" target=\"_blank\"><code>root</code></a> or <a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#alias\" target=\"_blank\"><code>alias</code></a> directive’s value\nfor the current request,\nwith all symbolic links resolved to real paths</p>\n"
+        },
+        {
+          "name": "$remote_addr",
+          "description_md": "client address",
+          "description_html": "<p>client address</p>\n"
+        },
+        {
+          "name": "$remote_port",
+          "description_md": "client port",
+          "description_html": "<p>client port</p>\n"
+        },
+        {
+          "name": "$remote_user",
+          "description_md": "user name supplied with the Basic authentication",
+          "description_html": "<p>user name supplied with the Basic authentication</p>\n"
+        },
+        {
+          "name": "$request",
+          "description_md": "full original request line",
+          "description_html": "<p>full original request line</p>\n"
+        },
+        {
+          "name": "$request_body",
+          "description_md": "request body\n\nThe variable’s value is made available in locations\nprocessed by the\n[`proxy_pass`](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass),\n[`fastcgi_pass`](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass),\n[`uwsgi_pass`](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_pass),\nand\n[`scgi_pass`](https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_pass)\ndirectives when the request body was read to\na [memory buffer](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size).",
+          "description_html": "<p>request body</p>\n\n<p>The variable’s value is made available in locations\nprocessed by the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass\" target=\"_blank\"><code>proxy_pass</code></a>,\n<a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass\" target=\"_blank\"><code>fastcgi_pass</code></a>,\n<a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_pass\" target=\"_blank\"><code>uwsgi_pass</code></a>,\nand\n<a href=\"https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_pass\" target=\"_blank\"><code>scgi_pass</code></a>\ndirectives when the request body was read to\na <a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size\" target=\"_blank\">memory buffer</a>.</p>\n"
+        },
+        {
+          "name": "$request_body_file",
+          "description_md": "name of a temporary file with the request body\n\nAt the end of processing, the file needs to be removed.\nTo always write the request body to a file,\n[`client_body_in_file_only`](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_in_file_only) needs to be enabled.\nWhen the name of a temporary file is passed in a proxied request\nor in a request to a FastCGI/uwsgi/SCGI server,\npassing the request body should be disabled by the\n[ proxy_pass_request_body off](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass_request_body),\n[ fastcgi_pass_request_body off](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass_request_body),\n[ uwsgi_pass_request_body off](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_pass_request_body), or\n[ scgi_pass_request_body off](https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_pass_request_body)\ndirectives, respectively.",
+          "description_html": "<p>name of a temporary file with the request body</p>\n\n<p>At the end of processing, the file needs to be removed.\nTo always write the request body to a file,\n<a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_in_file_only\" target=\"_blank\"><code>client_body_in_file_only</code></a> needs to be enabled.\nWhen the name of a temporary file is passed in a proxied request\nor in a request to a FastCGI/uwsgi/SCGI server,\npassing the request body should be disabled by the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass_request_body\" target=\"_blank\"> proxy_pass_request_body off</a>,\n<a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass_request_body\" target=\"_blank\"> fastcgi_pass_request_body off</a>,\n<a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_pass_request_body\" target=\"_blank\"> uwsgi_pass_request_body off</a>, or\n<a href=\"https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_pass_request_body\" target=\"_blank\"> scgi_pass_request_body off</a>\ndirectives, respectively.</p>\n"
+        },
+        {
+          "name": "$request_completion",
+          "description_md": "“`OK`” if a request has completed,\nor an empty string otherwise",
+          "description_html": "<p>“<code>OK</code>” if a request has completed,\nor an empty string otherwise</p>\n"
+        },
+        {
+          "name": "$request_filename",
+          "description_md": "file path for the current request, based on the\n[`root`](https://nginx.org/en/docs/http/ngx_http_core_module.html#root) or [`alias`](https://nginx.org/en/docs/http/ngx_http_core_module.html#alias)\ndirectives, and the request URI",
+          "description_html": "<p>file path for the current request, based on the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#root\" target=\"_blank\"><code>root</code></a> or <a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#alias\" target=\"_blank\"><code>alias</code></a>\ndirectives, and the request URI</p>\n"
+        },
+        {
+          "name": "$request_id",
+          "description_md": "unique request identifier\ngenerated from 16 random bytes, in hexadecimal (1.11.0)",
+          "description_html": "<p>unique request identifier\ngenerated from 16 random bytes, in hexadecimal (1.11.0)</p>\n"
+        },
+        {
+          "name": "$request_length",
+          "description_md": "request length (including request line, header, and request body)\n(1.3.12, 1.2.7)",
+          "description_html": "<p>request length (including request line, header, and request body)\n(1.3.12, 1.2.7)</p>\n"
+        },
+        {
+          "name": "$request_method",
+          "description_md": "request method, usually\n“`GET`” or “`POST`”",
+          "description_html": "<p>request method, usually\n“<code>GET</code>” or “<code>POST</code>”</p>\n"
+        },
+        {
+          "name": "$request_time",
+          "description_md": "request processing time in seconds with a milliseconds resolution\n(1.3.9, 1.2.6);\ntime elapsed since the first bytes were read from the client",
+          "description_html": "<p>request processing time in seconds with a milliseconds resolution\n(1.3.9, 1.2.6);\ntime elapsed since the first bytes were read from the client</p>\n"
+        },
+        {
+          "name": "$request_uri",
+          "description_md": "full original request URI (with arguments)",
+          "description_html": "<p>full original request URI (with arguments)</p>\n"
+        },
+        {
+          "name": "$scheme",
+          "description_md": "request scheme, “`http`” or “`https`”",
+          "description_html": "<p>request scheme, “<code>http</code>” or “<code>https</code>”</p>\n"
+        },
+        {
+          "name": "$sent_http_NAME",
+          "description_md": "arbitrary response header field;\nthe last part of a variable name is the field name converted\nto lower case with dashes replaced by underscores",
+          "description_html": "<p>arbitrary response header field;\nthe last part of a variable name is the field name converted\nto lower case with dashes replaced by underscores</p>\n"
+        },
+        {
+          "name": "$sent_trailer_NAME",
+          "description_md": "arbitrary field sent at the end of the response (1.13.2);\nthe last part of a variable name is the field name converted\nto lower case with dashes replaced by underscores",
+          "description_html": "<p>arbitrary field sent at the end of the response (1.13.2);\nthe last part of a variable name is the field name converted\nto lower case with dashes replaced by underscores</p>\n"
+        },
+        {
+          "name": "$server_addr",
+          "description_md": "an address of the server which accepted a request\n\nComputing a value of this variable usually requires one system call.\nTo avoid a system call, the [`listen`](https://nginx.org/en/docs/http/ngx_http_core_module.html#listen) directives\nmust specify addresses and use the `bind` parameter.",
+          "description_html": "<p>an address of the server which accepted a request</p>\n\n<p>Computing a value of this variable usually requires one system call.\nTo avoid a system call, the <a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#listen\" target=\"_blank\"><code>listen</code></a> directives\nmust specify addresses and use the <code>bind</code> parameter.</p>\n"
+        },
+        {
+          "name": "$server_name",
+          "description_md": "name of the server which accepted a request",
+          "description_html": "<p>name of the server which accepted a request</p>\n"
+        },
+        {
+          "name": "$server_port",
+          "description_md": "port of the server which accepted a request",
+          "description_html": "<p>port of the server which accepted a request</p>\n"
+        },
+        {
+          "name": "$server_protocol",
+          "description_md": "request protocol, usually\n“`HTTP/1.0`”,\n“`HTTP/1.1`”,\n“[HTTP/2.0](https://nginx.org/en/docs/http/ngx_http_v2_module.html)”,\nor\n“[HTTP/3.0](https://nginx.org/en/docs/http/ngx_http_v3_module.html)”",
+          "description_html": "<p>request protocol, usually\n“<code>HTTP/1.0</code>”,\n“<code>HTTP/1.1</code>”,\n“<a href=\"https://nginx.org/en/docs/http/ngx_http_v2_module.html\" target=\"_blank\">HTTP/2.0</a>”,\nor\n“<a href=\"https://nginx.org/en/docs/http/ngx_http_v3_module.html\" target=\"_blank\">HTTP/3.0</a>”</p>\n"
+        },
+        {
+          "name": "$status",
+          "description_md": "response status (1.3.2, 1.2.2)",
+          "description_html": "<p>response status (1.3.2, 1.2.2)</p>\n"
+        },
+        {
+          "name": "$tcpinfo_rcv_space",
+          "description_md": "information about the client TCP connection; available on systems\nthat support the `TCP_INFO` socket option",
+          "description_html": "<p>information about the client TCP connection; available on systems\nthat support the <code>TCP_INFO</code> socket option</p>\n"
+        },
+        {
+          "name": "$time_iso8601",
+          "description_md": "local time in the ISO 8601 standard format (1.3.12, 1.2.7)",
+          "description_html": "<p>local time in the ISO 8601 standard format (1.3.12, 1.2.7)</p>\n"
+        },
+        {
+          "name": "$time_local",
+          "description_md": "local time in the Common Log Format (1.3.12, 1.2.7)",
+          "description_html": "<p>local time in the Common Log Format (1.3.12, 1.2.7)</p>\n"
+        },
+        {
+          "name": "$uri",
+          "description_md": "current URI in request, [normalized](https://nginx.org/en/docs/http/ngx_http_core_module.html#location)\n\nThe value of `$uri` may change during request processing,\ne.g. when doing internal redirects, or when using index files.",
+          "description_html": "<p>current URI in request, <a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#location\" target=\"_blank\">normalized</a></p>\n\n<p>The value of <code>$uri</code> may change during request processing,\ne.g. when doing internal redirects, or when using index files.</p>\n"
+        }
       ]
     },
     {
@@ -3106,6 +3400,18 @@
           "description_md": "Defines a directory for storing temporary files\nwith data received from FastCGI servers.\nUp to three-level subdirectory hierarchy can be used underneath the specified\ndirectory.\nFor example, in the following configuration\n```\nfastcgi_temp_path /spool/nginx/fastcgi_temp 1 2;\n```\na temporary file might look like this:\n```\n/spool/nginx/fastcgi_temp/7/45/00000123457\n```\n\nSee also the `use_temp_path` parameter of the\n[`fastcgi_cache_path`](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_cache_path) directive.",
           "description_html": "<p>Defines a directory for storing temporary files\nwith data received from FastCGI servers.\nUp to three-level subdirectory hierarchy can be used underneath the specified\ndirectory.\nFor example, in the following configuration</p>\n\n<pre><code>fastcgi_temp_path /spool/nginx/fastcgi_temp 1 2;\n</code></pre>\n\n<p>a temporary file might look like this:</p>\n\n<pre><code>/spool/nginx/fastcgi_temp/7/45/00000123457\n</code></pre>\n\n<p>See also the <code>use_temp_path</code> parameter of the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_cache_path\" target=\"_blank\"><code>fastcgi_cache_path</code></a> directive.</p>\n"
         }
+      ],
+      "variables": [
+        {
+          "name": "$fastcgi_script_name",
+          "description_md": "request URI or, if a URI ends with a slash, request URI with an index file\nname configured by the [`fastcgi_index`](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_index) directive appended to it.\nThis variable can be used to set the\n`SCRIPT_FILENAME` and `PATH_TRANSLATED`\nparameters that determine the script name in PHP.\nFor example, for the “`/info/`” request with the\nfollowing directives\n```\nfastcgi_index index.php;\nfastcgi_param SCRIPT_FILENAME /home/www/scripts/php$fastcgi_script_name;\n```\nthe `SCRIPT_FILENAME` parameter will be equal to\n“`/home/www/scripts/php/info/index.php`”.\n\n\nWhen using the [`fastcgi_split_path_info`](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_split_path_info) directive,\nthe `$fastcgi_script_name` variable equals the value of\nthe first capture set by the directive.",
+          "description_html": "<p>request URI or, if a URI ends with a slash, request URI with an index file\nname configured by the <a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_index\" target=\"_blank\"><code>fastcgi_index</code></a> directive appended to it.\nThis variable can be used to set the\n<code>SCRIPT_FILENAME</code> and <code>PATH_TRANSLATED</code>\nparameters that determine the script name in PHP.\nFor example, for the “<code>/info/</code>” request with the\nfollowing directives</p>\n\n<pre><code>fastcgi_index index.php;\nfastcgi_param SCRIPT_FILENAME /home/www/scripts/php$fastcgi_script_name;\n</code></pre>\n\n<p>the <code>SCRIPT_FILENAME</code> parameter will be equal to\n“<code>/home/www/scripts/php/info/index.php</code>”.</p>\n\n<p>When using the <a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_split_path_info\" target=\"_blank\"><code>fastcgi_split_path_info</code></a> directive,\nthe <code>$fastcgi_script_name</code> variable equals the value of\nthe first capture set by the directive.</p>\n"
+        },
+        {
+          "name": "$fastcgi_path_info",
+          "description_md": "the value of the second capture set by the\n[`fastcgi_split_path_info`](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_split_path_info) directive.\nThis variable can be used to set the\n`PATH_INFO` parameter.",
+          "description_html": "<p>the value of the second capture set by the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_split_path_info\" target=\"_blank\"><code>fastcgi_split_path_info</code></a> directive.\nThis variable can be used to set the\n<code>PATH_INFO</code> parameter.</p>\n"
+        }
       ]
     },
     {
@@ -3955,6 +4261,13 @@
           "isBlock": false,
           "description_md": "Enables or disables inserting the \"Vary: Accept-Encoding\"\nresponse header field if the directives\n[`gzip`](https://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip),\n[`gzip_static`](https://nginx.org/en/docs/http/ngx_http_gzip_static_module.html#gzip_static), or\n[`gunzip`](https://nginx.org/en/docs/http/ngx_http_gunzip_module.html#gunzip)\nare active.",
           "description_html": "<p>Enables or disables inserting the &ldquo;Vary: Accept-Encoding&rdquo;\nresponse header field if the directives\n<a href=\"https://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip\" target=\"_blank\"><code>gzip</code></a>,\n<a href=\"https://nginx.org/en/docs/http/ngx_http_gzip_static_module.html#gzip_static\" target=\"_blank\"><code>gzip_static</code></a>, or\n<a href=\"https://nginx.org/en/docs/http/ngx_http_gunzip_module.html#gunzip\" target=\"_blank\"><code>gunzip</code></a>\nare active.</p>\n"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$gzip_ratio",
+          "description_md": "achieved compression ratio, computed as the ratio between the\noriginal and compressed response sizes.",
+          "description_html": "<p>achieved compression ratio, computed as the ratio between the\noriginal and compressed response sizes.</p>\n"
         }
       ]
     },
@@ -4834,6 +5147,13 @@
           "description_md": "This directive was made obsolete in version 1.1.8\nand was removed in version 1.7.6.\nAn equivalent [`limit_conn_zone`](https://nginx.org/en/docs/http/ngx_http_limit_conn_module.html#limit_conn_zone) directive\nwith a changed syntax should be used instead:\n> `limit_conn_zone`\n> *`$variable`*\n> `zone`=*`name`*:*`size`*;",
           "description_html": "<p>This directive was made obsolete in version 1.1.8\nand was removed in version 1.7.6.\nAn equivalent <a href=\"https://nginx.org/en/docs/http/ngx_http_limit_conn_module.html#limit_conn_zone\" target=\"_blank\"><code>limit_conn_zone</code></a> directive\nwith a changed syntax should be used instead:</p>\n\n<blockquote>\n<p><code>limit_conn_zone</code>\n<em><code>$variable</code></em>\n<code>zone</code>=<em><code>name</code></em>:<em><code>size</code></em>;</p>\n</blockquote>\n"
         }
+      ],
+      "variables": [
+        {
+          "name": "$limit_conn_status",
+          "description_md": "keeps the result of limiting the number of connections (1.17.6):\n`PASSED`,\n`REJECTED`, or\n`REJECTED_DRY_RUN`",
+          "description_html": "<p>keeps the result of limiting the number of connections (1.17.6):\n<code>PASSED</code>,\n<code>REJECTED</code>, or\n<code>REJECTED_DRY_RUN</code></p>\n"
+        }
       ]
     },
     {
@@ -4927,6 +5247,13 @@
           "isBlock": false,
           "description_md": "Sets parameters for a shared memory zone\nthat will keep states for various keys.\nIn particular, the state stores the current number of excessive requests.\nThe *`key`* can contain text, variables, and their combination.\nRequests with an empty key value are not accounted.\n> Prior to version 1.7.6, a *`key`* could contain exactly one variable.\n\nUsage example:\n```\nlimit_req_zone $binary_remote_addr zone=one:10m rate=1r/s;\n```\n\nHere, the states are kept in a 10 megabyte zone “one”, and an\naverage request processing rate for this zone cannot exceed\n1 request per second.\n\nA client IP address serves as a key.\nNote that instead of `$remote_addr`, the\n`$binary_remote_addr` variable is used here.\nThe `$binary_remote_addr` variable’s size\nis always 4 bytes for IPv4 addresses or 16 bytes for IPv6 addresses.\nThe stored state always occupies\n64 bytes on 32-bit platforms and 128 bytes on 64-bit platforms.\nOne megabyte zone can keep about 16 thousand 64-byte states\nor about 8 thousand 128-byte states.\n\nIf the zone storage is exhausted, the least recently used state is removed.\nIf even after that a new state cannot be created, the request is terminated with\nan [error](https://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_status).\n\nThe rate is specified in requests per second (r/s).\nIf a rate of less than one request per second is desired,\nit is specified in request per minute (r/m).\nFor example, half-request per second is 30r/m.\n\nThe `sync` parameter (1.15.3) enables\n[synchronization](https://nginx.org/en/docs/stream/ngx_stream_zone_sync_module.html#zone_sync)\nof the shared memory zone.\n> The `sync` parameter is available as part of our\n> [commercial subscription](https://nginx.com/products/).\n\n> Additionally, as part of our\n> [commercial subscription](https://nginx.com/products/),\n> the\n> [status information](https://nginx.org/en/docs/http/ngx_http_api_module.html#http_limit_reqs_)\n> for each such shared memory zone can be\n> [obtained](https://nginx.org/en/docs/http/ngx_http_api_module.html#getHttpLimitReqZone) or\n> [reset](https://nginx.org/en/docs/http/ngx_http_api_module.html#deleteHttpLimitReqZoneStat)\n> with the [API](https://nginx.org/en/docs/http/ngx_http_api_module.html) since 1.17.7.",
           "description_html": "<p>Sets parameters for a shared memory zone\nthat will keep states for various keys.\nIn particular, the state stores the current number of excessive requests.\nThe <em><code>key</code></em> can contain text, variables, and their combination.\nRequests with an empty key value are not accounted.</p>\n\n<blockquote>\n<p>Prior to version 1.7.6, a <em><code>key</code></em> could contain exactly one variable.</p>\n</blockquote>\n\n<p>Usage example:</p>\n\n<pre><code>limit_req_zone $binary_remote_addr zone=one:10m rate=1r/s;\n</code></pre>\n\n<p>Here, the states are kept in a 10 megabyte zone “one”, and an\naverage request processing rate for this zone cannot exceed\n1 request per second.</p>\n\n<p>A client IP address serves as a key.\nNote that instead of <code>$remote_addr</code>, the\n<code>$binary_remote_addr</code> variable is used here.\nThe <code>$binary_remote_addr</code> variable’s size\nis always 4 bytes for IPv4 addresses or 16 bytes for IPv6 addresses.\nThe stored state always occupies\n64 bytes on 32-bit platforms and 128 bytes on 64-bit platforms.\nOne megabyte zone can keep about 16 thousand 64-byte states\nor about 8 thousand 128-byte states.</p>\n\n<p>If the zone storage is exhausted, the least recently used state is removed.\nIf even after that a new state cannot be created, the request is terminated with\nan <a href=\"https://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_status\" target=\"_blank\">error</a>.</p>\n\n<p>The rate is specified in requests per second (r/s).\nIf a rate of less than one request per second is desired,\nit is specified in request per minute (r/m).\nFor example, half-request per second is 30r/m.</p>\n\n<p>The <code>sync</code> parameter (1.15.3) enables\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_zone_sync_module.html#zone_sync\" target=\"_blank\">synchronization</a>\nof the shared memory zone.</p>\n\n<blockquote>\n<p>The <code>sync</code> parameter is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n\n<p>Additionally, as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>,\nthe\n<a href=\"https://nginx.org/en/docs/http/ngx_http_api_module.html#http_limit_reqs_\" target=\"_blank\">status information</a>\nfor each such shared memory zone can be\n<a href=\"https://nginx.org/en/docs/http/ngx_http_api_module.html#getHttpLimitReqZone\" target=\"_blank\">obtained</a> or\n<a href=\"https://nginx.org/en/docs/http/ngx_http_api_module.html#deleteHttpLimitReqZoneStat\" target=\"_blank\">reset</a>\nwith the <a href=\"https://nginx.org/en/docs/http/ngx_http_api_module.html\" target=\"_blank\">API</a> since 1.17.7.</p>\n</blockquote>\n"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$limit_req_status",
+          "description_md": "keeps the result of limiting the request processing rate (1.17.6):\n`PASSED`,\n`DELAYED`,\n`REJECTED`,\n`DELAYED_DRY_RUN`, or\n`REJECTED_DRY_RUN`",
+          "description_html": "<p>keeps the result of limiting the request processing rate (1.17.6):\n<code>PASSED</code>,\n<code>DELAYED</code>,\n<code>REJECTED</code>,\n<code>DELAYED_DRY_RUN</code>, or\n<code>REJECTED_DRY_RUN</code></p>\n"
         }
       ]
     },
@@ -5248,6 +5575,13 @@
           "isBlock": false,
           "description_md": "Configures the “TCP keepalive” behavior\nfor outgoing connections to a memcached server.\nBy default, the operating system’s settings are in effect for the socket.\nIf the directive is set to the value “`on`”, the\n`SO_KEEPALIVE` socket option is turned on for the socket.",
           "description_html": "<p>Configures the “TCP keepalive” behavior\nfor outgoing connections to a memcached server.\nBy default, the operating system’s settings are in effect for the socket.\nIf the directive is set to the value “<code>on</code>”, the\n<code>SO_KEEPALIVE</code> socket option is turned on for the socket.</p>\n"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$memcached_key",
+          "description_md": "Defines a key for obtaining response from a memcached server.",
+          "description_html": "<p>Defines a key for obtaining response from a memcached server.</p>\n"
         }
       ]
     },
@@ -6728,6 +7062,23 @@
           "description_md": "Defines a directory for storing temporary files\nwith data received from proxied servers.\nUp to three-level subdirectory hierarchy can be used underneath the specified\ndirectory.\nFor example, in the following configuration\n```\nproxy_temp_path /spool/nginx/proxy_temp 1 2;\n```\na temporary file might look like this:\n```\n/spool/nginx/proxy_temp/7/45/00000123457\n```\n\nSee also the `use_temp_path` parameter of the\n[`proxy_cache_path`](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path) directive.",
           "description_html": "<p>Defines a directory for storing temporary files\nwith data received from proxied servers.\nUp to three-level subdirectory hierarchy can be used underneath the specified\ndirectory.\nFor example, in the following configuration</p>\n\n<pre><code>proxy_temp_path /spool/nginx/proxy_temp 1 2;\n</code></pre>\n\n<p>a temporary file might look like this:</p>\n\n<pre><code>/spool/nginx/proxy_temp/7/45/00000123457\n</code></pre>\n\n<p>See also the <code>use_temp_path</code> parameter of the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path\" target=\"_blank\"><code>proxy_cache_path</code></a> directive.</p>\n"
         }
+      ],
+      "variables": [
+        {
+          "name": "$proxy_host",
+          "description_md": "name and port of a proxied server as specified in the\n[`proxy_pass`](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass) directive;",
+          "description_html": "<p>name and port of a proxied server as specified in the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass\" target=\"_blank\"><code>proxy_pass</code></a> directive;</p>\n"
+        },
+        {
+          "name": "$proxy_port",
+          "description_md": "port of a proxied server as specified in the\n[`proxy_pass`](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass) directive, or the protocol’s default port;",
+          "description_html": "<p>port of a proxied server as specified in the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass\" target=\"_blank\"><code>proxy_pass</code></a> directive, or the protocol’s default port;</p>\n"
+        },
+        {
+          "name": "$proxy_add_x_forwarded_for",
+          "description_md": "the \"X-Forwarded-For\" client request header field\nwith the `$remote_addr` variable appended to it, separated by a comma.\nIf the \"X-Forwarded-For\" field is not present in the client\nrequest header, the `$proxy_add_x_forwarded_for` variable is equal\nto the `$remote_addr` variable.",
+          "description_html": "<p>the &ldquo;X-Forwarded-For&rdquo; client request header field\nwith the <code>$remote_addr</code> variable appended to it, separated by a comma.\nIf the &ldquo;X-Forwarded-For&rdquo; field is not present in the client\nrequest header, the <code>$proxy_add_x_forwarded_for</code> variable is equal\nto the <code>$remote_addr</code> variable.</p>\n"
+        }
       ]
     },
     {
@@ -6810,6 +7161,18 @@
           "description_md": "If recursive search is disabled, the original client address that\nmatches one of the trusted addresses is replaced by the last\naddress sent in the request header field defined by the\n[`real_ip_header`](https://nginx.org/en/docs/http/ngx_http_realip_module.html#real_ip_header) directive.\nIf recursive search is enabled, the original client address that\nmatches one of the trusted addresses is replaced by the last\nnon-trusted address sent in the request header field.",
           "description_html": "<p>If recursive search is disabled, the original client address that\nmatches one of the trusted addresses is replaced by the last\naddress sent in the request header field defined by the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_realip_module.html#real_ip_header\" target=\"_blank\"><code>real_ip_header</code></a> directive.\nIf recursive search is enabled, the original client address that\nmatches one of the trusted addresses is replaced by the last\nnon-trusted address sent in the request header field.</p>\n"
         }
+      ],
+      "variables": [
+        {
+          "name": "$realip_remote_addr",
+          "description_md": "keeps the original client address (1.9.7)",
+          "description_html": "<p>keeps the original client address (1.9.7)</p>\n"
+        },
+        {
+          "name": "$realip_remote_port",
+          "description_md": "keeps the original client port (1.11.0)",
+          "description_html": "<p>keeps the original client port (1.11.0)</p>\n"
+        }
       ]
     },
     {
@@ -6866,6 +7229,13 @@
           "isBlock": false,
           "description_md": "Specifies the \"Referer\" request header field values\nthat will cause the embedded `$invalid_referer` variable to\nbe set to an empty string.\nOtherwise, the variable will be set to “`1`”.\nSearch for a match is case-insensitive.\n\nParameters can be as follows:\n- `none`\n\n    the \"Referer\" field is missing in the request header;\n- `blocked`\n\n    the \"Referer\" field is present in the request header,\n    but its value has been deleted by a firewall or proxy server;\n    such values are strings that do not start with\n    “`http://`” or “`https://`”;\n- `server_names`\n\n    the \"Referer\" request header field contains\n    one of the server names;\n- arbitrary string\n\n    defines a server name and an optional URI prefix.\n    A server name can have an “`*`” at the beginning or end.\n    During the checking, the server’s port in the \"Referer\" field\n    is ignored;\n- regular expression\n\n    the first symbol should be a “`~`”.\n    It should be noted that an expression will be matched against\n    the text starting after the “`http://`”\n    or “`https://`”.\n\nExample:\n```\nvalid_referers none blocked server_names\n               *.example.com example.* www.example.org/galleries/\n               ~\\.google\\.;\n```",
           "description_html": "<p>Specifies the &ldquo;Referer&rdquo; request header field values\nthat will cause the embedded <code>$invalid_referer</code> variable to\nbe set to an empty string.\nOtherwise, the variable will be set to “<code>1</code>”.\nSearch for a match is case-insensitive.</p>\n\n<p>Parameters can be as follows:</p>\n\n<ul>\n<li><p><code>none</code></p>\n\n<p>the &ldquo;Referer&rdquo; field is missing in the request header;</p></li>\n\n<li><p><code>blocked</code></p>\n\n<p>the &ldquo;Referer&rdquo; field is present in the request header,\nbut its value has been deleted by a firewall or proxy server;\nsuch values are strings that do not start with\n“<code>http://</code>” or “<code>https://</code>”;</p></li>\n\n<li><p><code>server_names</code></p>\n\n<p>the &ldquo;Referer&rdquo; request header field contains\none of the server names;</p></li>\n\n<li><p>arbitrary string</p>\n\n<p>defines a server name and an optional URI prefix.\nA server name can have an “<code>*</code>” at the beginning or end.\nDuring the checking, the server’s port in the &ldquo;Referer&rdquo; field\nis ignored;</p></li>\n\n<li><p>regular expression</p>\n\n<p>the first symbol should be a “<code>~</code>”.\nIt should be noted that an expression will be matched against\nthe text starting after the “<code>http://</code>”\nor “<code>https://</code>”.</p></li>\n</ul>\n\n<p>Example:</p>\n\n<pre><code>valid_referers none blocked server_names\n               *.example.com example.* www.example.org/galleries/\n               ~\\.google\\.;\n</code></pre>\n"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$invalid_referer",
+          "description_md": "Empty string, if the \"Referer\" request header field\nvalue is considered\n[valid](https://nginx.org/en/docs/http/ngx_http_referer_module.html#valid_referers), otherwise “`1`”.",
+          "description_html": "<p>Empty string, if the &ldquo;Referer&rdquo; request header field\nvalue is considered\n<a href=\"https://nginx.org/en/docs/http/ngx_http_referer_module.html#valid_referers\" target=\"_blank\">valid</a>, otherwise “<code>1</code>”.</p>\n"
         }
       ]
     },
@@ -7875,6 +8245,18 @@
           "description_md": "Defines a secret *`word`* used to check authenticity\nof requested links.\n\nThe full URI of a requested link looks as follows:\n```\n/*`prefix`*/*`hash`*/*`link`*\n```\nwhere *`hash`* is a hexadecimal representation of the\nMD5 hash computed for the concatenation of the link and secret word,\nand *`prefix`* is an arbitrary string without slashes.\n\nIf the requested link passes the authenticity check,\nthe `$secure_link` variable is set to the link\nextracted from the request URI.\nOtherwise, the `$secure_link` variable\nis set to an empty string.\n\nExample:\n```\nlocation /p/ {\n    secure_link_secret secret;\n\n    if ($secure_link = \"\") {\n        return 403;\n    }\n\n    rewrite ^ /secure/$secure_link;\n}\n\nlocation /secure/ {\n    internal;\n}\n```\nA request of “`/p/5e814704a28d9bc1914ff19fa0c4a00a/link`”\nwill be internally redirected to\n“`/secure/link`”.\n\nOn UNIX, the hash value for this example can be obtained as:\n```\necho -n 'linksecret' | openssl md5 -hex\n```",
           "description_html": "<p>Defines a secret <em><code>word</code></em> used to check authenticity\nof requested links.</p>\n\n<p>The full URI of a requested link looks as follows:</p>\n\n<pre><code>/*`prefix`*/*`hash`*/*`link`*\n</code></pre>\n\n<p>where <em><code>hash</code></em> is a hexadecimal representation of the\nMD5 hash computed for the concatenation of the link and secret word,\nand <em><code>prefix</code></em> is an arbitrary string without slashes.</p>\n\n<p>If the requested link passes the authenticity check,\nthe <code>$secure_link</code> variable is set to the link\nextracted from the request URI.\nOtherwise, the <code>$secure_link</code> variable\nis set to an empty string.</p>\n\n<p>Example:</p>\n\n<pre><code>location /p/ {\n    secure_link_secret secret;\n\n    if ($secure_link = &quot;&quot;) {\n        return 403;\n    }\n\n    rewrite ^ /secure/$secure_link;\n}\n\nlocation /secure/ {\n    internal;\n}\n</code></pre>\n\n<p>A request of “<code>/p/5e814704a28d9bc1914ff19fa0c4a00a/link</code>”\nwill be internally redirected to\n“<code>/secure/link</code>”.</p>\n\n<p>On UNIX, the hash value for this example can be obtained as:</p>\n\n<pre><code>echo -n 'linksecret' | openssl md5 -hex\n</code></pre>\n"
         }
+      ],
+      "variables": [
+        {
+          "name": "$secure_link",
+          "description_md": "The status of a link check.\nThe specific value depends on the selected operation mode.",
+          "description_html": "<p>The status of a link check.\nThe specific value depends on the selected operation mode.</p>\n"
+        },
+        {
+          "name": "$secure_link_expires",
+          "description_md": "The lifetime of a link passed in a request;\nintended to be used only in the\n[`secure_link_md5`](https://nginx.org/en/docs/http/ngx_http_secure_link_module.html#secure_link_md5) directive.",
+          "description_html": "<p>The lifetime of a link passed in a request;\nintended to be used only in the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_secure_link_module.html#secure_link_md5\" target=\"_blank\"><code>secure_link_md5</code></a> directive.</p>\n"
+        }
       ]
     },
     {
@@ -7931,6 +8313,18 @@
           "description_md": "Sets the path to a log file and configures the shared memory zone that is used\nto store currently active sessions.\n\nA session is considered active for as long as the time elapsed since\nthe last request in the session does not exceed the specified\n`timeout` (by default, 30 seconds).\nOnce a session is no longer active, it is written to the log.\n\nThe `id` parameter identifies the\nsession to which a request is mapped.\nThe `id` parameter is set to the hexadecimal representation\nof an MD5 hash (for example, obtained from a cookie using variables).\nIf this parameter is not specified or does not represent the valid\nMD5 hash, nginx computes the MD5 hash from the value of\nthe `md5` parameter and creates a new session using this hash.\nBoth the `id` and `md5` parameters\ncan contain variables.\n\nThe `format` parameter sets the custom session log\nformat configured by the [`session_log_format`](https://nginx.org/en/docs/http/ngx_http_session_log_module.html#session_log_format) directive.\nIf `format` is not specified, the predefined\n“`combined`” format is used.",
           "description_html": "<p>Sets the path to a log file and configures the shared memory zone that is used\nto store currently active sessions.</p>\n\n<p>A session is considered active for as long as the time elapsed since\nthe last request in the session does not exceed the specified\n<code>timeout</code> (by default, 30 seconds).\nOnce a session is no longer active, it is written to the log.</p>\n\n<p>The <code>id</code> parameter identifies the\nsession to which a request is mapped.\nThe <code>id</code> parameter is set to the hexadecimal representation\nof an MD5 hash (for example, obtained from a cookie using variables).\nIf this parameter is not specified or does not represent the valid\nMD5 hash, nginx computes the MD5 hash from the value of\nthe <code>md5</code> parameter and creates a new session using this hash.\nBoth the <code>id</code> and <code>md5</code> parameters\ncan contain variables.</p>\n\n<p>The <code>format</code> parameter sets the custom session log\nformat configured by the <a href=\"https://nginx.org/en/docs/http/ngx_http_session_log_module.html#session_log_format\" target=\"_blank\"><code>session_log_format</code></a> directive.\nIf <code>format</code> is not specified, the predefined\n“<code>combined</code>” format is used.</p>\n"
         }
+      ],
+      "variables": [
+        {
+          "name": "$session_log_id",
+          "description_md": "current session ID;",
+          "description_html": "<p>current session ID;</p>\n"
+        },
+        {
+          "name": "$session_log_binary_id",
+          "description_md": "current session ID in binary form (16 bytes).",
+          "description_html": "<p>current session ID in binary form (16 bytes).</p>\n"
+        }
       ]
     },
     {
@@ -7954,6 +8348,13 @@
           "isBlock": false,
           "description_md": "Sets the *`size`* of the slice.\nThe zero value disables splitting responses into slices.\nNote that a too low value may result in excessive memory usage\nand opening a large number of files.\n\nIn order for a subrequest to return the required range,\nthe `$slice_range` variable should be\n[passed](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header) to\nthe proxied server as the `Range` request header field.\nIf\n[caching](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache)\nis enabled, `$slice_range` should be added to the\n[cache key](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_key)\nand caching of responses with 206 status code should be\n[enabled](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_valid).",
           "description_html": "<p>Sets the <em><code>size</code></em> of the slice.\nThe zero value disables splitting responses into slices.\nNote that a too low value may result in excessive memory usage\nand opening a large number of files.</p>\n\n<p>In order for a subrequest to return the required range,\nthe <code>$slice_range</code> variable should be\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header\" target=\"_blank\">passed</a> to\nthe proxied server as the <code>Range</code> request header field.\nIf\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache\" target=\"_blank\">caching</a>\nis enabled, <code>$slice_range</code> should be added to the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_key\" target=\"_blank\">cache key</a>\nand caching of responses with 206 status code should be\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_valid\" target=\"_blank\">enabled</a>.</p>\n"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$slice_range",
+          "description_md": "the current slice range in\n[HTTP byte range](https://datatracker.ietf.org/doc/html/rfc7233#section-2.1) format,\nfor example, `bytes=0-1048575`.",
+          "description_html": "<p>the current slice range in\n<a href=\"https://datatracker.ietf.org/doc/html/rfc7233#section-2.1\" target=\"_blank\">HTTP byte range</a> format,\nfor example, <code>bytes=0-1048575</code>.</p>\n"
         }
       ]
     },
@@ -8091,6 +8492,18 @@
           "isBlock": false,
           "description_md": "Sets the maximum length of parameter values in SSI commands.",
           "description_html": "<p>Sets the maximum length of parameter values in SSI commands.</p>\n"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$date_local",
+          "description_md": "current time in the local time zone.\nThe format is set by the `config` command\nwith the `timefmt` parameter.",
+          "description_html": "<p>current time in the local time zone.\nThe format is set by the <code>config</code> command\nwith the <code>timefmt</code> parameter.</p>\n"
+        },
+        {
+          "name": "$date_gmt",
+          "description_md": "current time in GMT.\nThe format is set by the `config` command\nwith the `timefmt` parameter.",
+          "description_html": "<p>current time in GMT.\nThe format is set by the <code>config</code> command\nwith the <code>timefmt</code> parameter.</p>\n"
         }
       ]
     },
@@ -8591,6 +9004,123 @@
           "description_md": "Sets the verification depth in the client certificates chain.",
           "description_html": "<p>Sets the verification depth in the client certificates chain.</p>\n"
         }
+      ],
+      "variables": [
+        {
+          "name": "$ssl_alpn_protocol",
+          "description_md": "returns the protocol selected by ALPN during the SSL handshake,\nor an empty string otherwise (1.21.4);",
+          "description_html": "<p>returns the protocol selected by ALPN during the SSL handshake,\nor an empty string otherwise (1.21.4);</p>\n"
+        },
+        {
+          "name": "$ssl_cipher",
+          "description_md": "returns the name of the cipher used\nfor an established SSL connection;",
+          "description_html": "<p>returns the name of the cipher used\nfor an established SSL connection;</p>\n"
+        },
+        {
+          "name": "$ssl_ciphers",
+          "description_md": "returns the list of ciphers supported by the client (1.11.7).\nKnown ciphers are listed by names, unknown are shown in hexadecimal,\nfor example:\n```\nAES128-SHA:AES256-SHA:0x00ff\n```\n> The variable is fully supported only when using OpenSSL version 1.0.2 or higher.\n> With older versions, the variable is available\n> only for new sessions and lists only known ciphers.",
+          "description_html": "<p>returns the list of ciphers supported by the client (1.11.7).\nKnown ciphers are listed by names, unknown are shown in hexadecimal,\nfor example:</p>\n\n<pre><code>AES128-SHA:AES256-SHA:0x00ff\n</code></pre>\n\n<blockquote>\n<p>The variable is fully supported only when using OpenSSL version 1.0.2 or higher.\nWith older versions, the variable is available\nonly for new sessions and lists only known ciphers.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "$ssl_client_escaped_cert",
+          "description_md": "returns the client certificate in the PEM format (urlencoded)\nfor an established SSL connection (1.13.5);",
+          "description_html": "<p>returns the client certificate in the PEM format (urlencoded)\nfor an established SSL connection (1.13.5);</p>\n"
+        },
+        {
+          "name": "$ssl_client_cert",
+          "description_md": "returns the client certificate in the PEM format\nfor an established SSL connection, with each line except the first\nprepended with the tab character;\nthis is intended for the use in the\n[`proxy_set_header`](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header) directive;\n> The variable is deprecated,\n> the `$ssl_client_escaped_cert` variable should be used instead.",
+          "description_html": "<p>returns the client certificate in the PEM format\nfor an established SSL connection, with each line except the first\nprepended with the tab character;\nthis is intended for the use in the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header\" target=\"_blank\"><code>proxy_set_header</code></a> directive;</p>\n\n<blockquote>\n<p>The variable is deprecated,\nthe <code>$ssl_client_escaped_cert</code> variable should be used instead.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "$ssl_client_fingerprint",
+          "description_md": "returns the SHA1 fingerprint of the client certificate\nfor an established SSL connection (1.7.1);",
+          "description_html": "<p>returns the SHA1 fingerprint of the client certificate\nfor an established SSL connection (1.7.1);</p>\n"
+        },
+        {
+          "name": "$ssl_client_i_dn",
+          "description_md": "returns the “issuer DN” string of the client certificate\nfor an established SSL connection according to\n[RFC 2253](https://datatracker.ietf.org/doc/html/rfc2253) (1.11.6);",
+          "description_html": "<p>returns the “issuer DN” string of the client certificate\nfor an established SSL connection according to\n<a href=\"https://datatracker.ietf.org/doc/html/rfc2253\" target=\"_blank\">RFC 2253</a> (1.11.6);</p>\n"
+        },
+        {
+          "name": "$ssl_client_i_dn_legacy",
+          "description_md": "returns the “issuer DN” string of the client certificate\nfor an established SSL connection;\n> Prior to version 1.11.6, the variable name was `$ssl_client_i_dn`.",
+          "description_html": "<p>returns the “issuer DN” string of the client certificate\nfor an established SSL connection;</p>\n\n<blockquote>\n<p>Prior to version 1.11.6, the variable name was <code>$ssl_client_i_dn</code>.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "$ssl_client_raw_cert",
+          "description_md": "returns the client certificate in the PEM format\nfor an established SSL connection;",
+          "description_html": "<p>returns the client certificate in the PEM format\nfor an established SSL connection;</p>\n"
+        },
+        {
+          "name": "$ssl_client_s_dn",
+          "description_md": "returns the “subject DN” string of the client certificate\nfor an established SSL connection according to\n[RFC 2253](https://datatracker.ietf.org/doc/html/rfc2253) (1.11.6);",
+          "description_html": "<p>returns the “subject DN” string of the client certificate\nfor an established SSL connection according to\n<a href=\"https://datatracker.ietf.org/doc/html/rfc2253\" target=\"_blank\">RFC 2253</a> (1.11.6);</p>\n"
+        },
+        {
+          "name": "$ssl_client_s_dn_legacy",
+          "description_md": "returns the “subject DN” string of the client certificate\nfor an established SSL connection;\n> Prior to version 1.11.6, the variable name was `$ssl_client_s_dn`.",
+          "description_html": "<p>returns the “subject DN” string of the client certificate\nfor an established SSL connection;</p>\n\n<blockquote>\n<p>Prior to version 1.11.6, the variable name was <code>$ssl_client_s_dn</code>.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "$ssl_client_serial",
+          "description_md": "returns the serial number of the client certificate\nfor an established SSL connection;",
+          "description_html": "<p>returns the serial number of the client certificate\nfor an established SSL connection;</p>\n"
+        },
+        {
+          "name": "$ssl_client_v_end",
+          "description_md": "returns the end date of the client certificate (1.11.7);",
+          "description_html": "<p>returns the end date of the client certificate (1.11.7);</p>\n"
+        },
+        {
+          "name": "$ssl_client_v_remain",
+          "description_md": "returns the number of days\nuntil the client certificate expires (1.11.7);",
+          "description_html": "<p>returns the number of days\nuntil the client certificate expires (1.11.7);</p>\n"
+        },
+        {
+          "name": "$ssl_client_v_start",
+          "description_md": "returns the start date of the client certificate (1.11.7);",
+          "description_html": "<p>returns the start date of the client certificate (1.11.7);</p>\n"
+        },
+        {
+          "name": "$ssl_client_verify",
+          "description_md": "returns the result of client certificate verification:\n“`SUCCESS`”, “`FAILED:`*`reason`*”,\nand “`NONE`” if a certificate was not present;\n> Prior to version 1.11.7, the “`FAILED`” result\n> did not contain the *`reason`* string.",
+          "description_html": "<p>returns the result of client certificate verification:\n“<code>SUCCESS</code>”, “<code>FAILED:</code>*<code>reason</code>*”,\nand “<code>NONE</code>” if a certificate was not present;</p>\n\n<blockquote>\n<p>Prior to version 1.11.7, the “<code>FAILED</code>” result\ndid not contain the <em><code>reason</code></em> string.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "$ssl_curve",
+          "description_md": "returns the negotiated curve used for\nSSL handshake key exchange process (1.21.5).\nKnown curves are listed by names, unknown are shown in hexadecimal,\nfor example:\n```\nprime256v1\n```\n> The variable is supported only when using OpenSSL version 3.0 or higher.\n> With older versions, the variable value will be an empty string.",
+          "description_html": "<p>returns the negotiated curve used for\nSSL handshake key exchange process (1.21.5).\nKnown curves are listed by names, unknown are shown in hexadecimal,\nfor example:</p>\n\n<pre><code>prime256v1\n</code></pre>\n\n<blockquote>\n<p>The variable is supported only when using OpenSSL version 3.0 or higher.\nWith older versions, the variable value will be an empty string.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "$ssl_curves",
+          "description_md": "returns the list of curves supported by the client (1.11.7).\nKnown curves are listed by names, unknown are shown in hexadecimal,\nfor example:\n```\n0x001d:prime256v1:secp521r1:secp384r1\n```\n> The variable is supported only when using OpenSSL version 1.0.2 or higher.\n> With older versions, the variable value will be an empty string.\n\n> The variable is available only for new sessions.",
+          "description_html": "<p>returns the list of curves supported by the client (1.11.7).\nKnown curves are listed by names, unknown are shown in hexadecimal,\nfor example:</p>\n\n<pre><code>0x001d:prime256v1:secp521r1:secp384r1\n</code></pre>\n\n<blockquote>\n<p>The variable is supported only when using OpenSSL version 1.0.2 or higher.\nWith older versions, the variable value will be an empty string.</p>\n\n<p>The variable is available only for new sessions.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "$ssl_early_data",
+          "description_md": "returns “`1`” if\nTLS 1.3 [early data](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_early_data) is used\nand the handshake is not complete, otherwise “” (1.15.3).",
+          "description_html": "<p>returns “<code>1</code>” if\nTLS 1.3 <a href=\"https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_early_data\" target=\"_blank\">early data</a> is used\nand the handshake is not complete, otherwise “” (1.15.3).</p>\n"
+        },
+        {
+          "name": "$ssl_protocol",
+          "description_md": "returns the protocol of an established SSL connection;",
+          "description_html": "<p>returns the protocol of an established SSL connection;</p>\n"
+        },
+        {
+          "name": "$ssl_server_name",
+          "description_md": "returns the server name requested through\n[SNI](http://en.wikipedia.org/wiki/Server_Name_Indication)\n(1.7.0);",
+          "description_html": "<p>returns the server name requested through\n<a href=\"http://en.wikipedia.org/wiki/Server_Name_Indication\" target=\"_blank\">SNI</a>\n(1.7.0);</p>\n"
+        },
+        {
+          "name": "$ssl_session_id",
+          "description_md": "returns the session identifier of an established SSL connection;",
+          "description_html": "<p>returns the session identifier of an established SSL connection;</p>\n"
+        },
+        {
+          "name": "$ssl_session_reused",
+          "description_md": "returns “`r`” if an SSL session was reused,\nor “`.`” otherwise (1.5.11).",
+          "description_html": "<p>returns “<code>r</code>” if an SSL session was reused,\nor “<code>.</code>” otherwise (1.5.11).</p>\n"
+        }
       ]
     },
     {
@@ -8671,6 +9201,28 @@
           "isBlock": false,
           "description_md": "The basic status information will be accessible from the surrounding location.\n\n> In versions prior to 1.7.5,\n> the directive syntax required an arbitrary argument, for example,\n> “`stub_status on`”.",
           "description_html": "<p>The basic status information will be accessible from the surrounding location.</p>\n\n<blockquote>\n<p>In versions prior to 1.7.5,\nthe directive syntax required an arbitrary argument, for example,\n“<code>stub_status on</code>”.</p>\n</blockquote>\n"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$connections_active",
+          "description_md": "same as the `Active connections` value;",
+          "description_html": "<p>same as the <code>Active connections</code> value;</p>\n"
+        },
+        {
+          "name": "$connections_reading",
+          "description_md": "same as the `Reading` value;",
+          "description_html": "<p>same as the <code>Reading</code> value;</p>\n"
+        },
+        {
+          "name": "$connections_writing",
+          "description_md": "same as the `Writing` value;",
+          "description_html": "<p>same as the <code>Writing</code> value;</p>\n"
+        },
+        {
+          "name": "$connections_waiting",
+          "description_md": "same as the `Waiting` value.",
+          "description_html": "<p>same as the <code>Waiting</code> value.</p>\n"
         }
       ]
     },
@@ -9124,6 +9676,78 @@
           "description_md": "This directive is obsolete since version 1.5.7.\nAn equivalent\n[`sticky`](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#sticky) directive with a new syntax should be used instead:\n> `sticky cookie` *`name`*\n> [`expires=`*`time`*]\n> [`domain=`*`domain`*]\n> [`path=`*`path`*];",
           "description_html": "<p>This directive is obsolete since version 1.5.7.\nAn equivalent\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#sticky\" target=\"_blank\"><code>sticky</code></a> directive with a new syntax should be used instead:</p>\n\n<blockquote>\n<p><code>sticky cookie</code> <em><code>name</code></em>\n[<code>expires=</code><em><code>time</code></em>]\n[<code>domain=</code><em><code>domain</code></em>]\n[<code>path=</code><em><code>path</code></em>];</p>\n</blockquote>\n"
         }
+      ],
+      "variables": [
+        {
+          "name": "$upstream_addr",
+          "description_md": "keeps the IP address and port,\nor the path to the UNIX-domain socket of the upstream server.\nIf several servers were contacted during request processing,\ntheir addresses are separated by commas, e.g.\n“`192.168.1.1:80, 192.168.1.2:80, unix:/tmp/sock`”.\nIf an internal redirect from one server group to another happens,\ninitiated by\n\"X-Accel-Redirect\" or\n[`error_page`](https://nginx.org/en/docs/http/ngx_http_core_module.html#error_page),\nthen the server addresses from different groups are separated by colons, e.g.\n“`192.168.1.1:80, 192.168.1.2:80, unix:/tmp/sock : 192.168.10.1:80, 192.168.10.2:80`”.\nIf a server cannot be selected,\nthe variable keeps the name of the server group.",
+          "description_html": "<p>keeps the IP address and port,\nor the path to the UNIX-domain socket of the upstream server.\nIf several servers were contacted during request processing,\ntheir addresses are separated by commas, e.g.\n“<code>192.168.1.1:80, 192.168.1.2:80, unix:/tmp/sock</code>”.\nIf an internal redirect from one server group to another happens,\ninitiated by\n&ldquo;X-Accel-Redirect&rdquo; or\n<a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#error_page\" target=\"_blank\"><code>error_page</code></a>,\nthen the server addresses from different groups are separated by colons, e.g.\n“<code>192.168.1.1:80, 192.168.1.2:80, unix:/tmp/sock : 192.168.10.1:80, 192.168.10.2:80</code>”.\nIf a server cannot be selected,\nthe variable keeps the name of the server group.</p>\n"
+        },
+        {
+          "name": "$upstream_bytes_received",
+          "description_md": "number of bytes received from an upstream server (1.11.4).\nValues from several connections\nare separated by commas and colons like addresses in the\n[$upstream_addr](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr) variable.",
+          "description_html": "<p>number of bytes received from an upstream server (1.11.4).\nValues from several connections\nare separated by commas and colons like addresses in the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr\" target=\"_blank\">$upstream_addr</a> variable.</p>\n"
+        },
+        {
+          "name": "$upstream_bytes_sent",
+          "description_md": "number of bytes sent to an upstream server (1.15.8).\nValues from several connections\nare separated by commas and colons like addresses in the\n[$upstream_addr](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr) variable.",
+          "description_html": "<p>number of bytes sent to an upstream server (1.15.8).\nValues from several connections\nare separated by commas and colons like addresses in the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr\" target=\"_blank\">$upstream_addr</a> variable.</p>\n"
+        },
+        {
+          "name": "$upstream_cache_status",
+          "description_md": "keeps the status of accessing a response cache (0.8.3).\nThe status can be either “`MISS`”,\n“`BYPASS`”, “`EXPIRED`”,\n“`STALE`”, “`UPDATING`”,\n“`REVALIDATED`”, or “`HIT`”.",
+          "description_html": "<p>keeps the status of accessing a response cache (0.8.3).\nThe status can be either “<code>MISS</code>”,\n“<code>BYPASS</code>”, “<code>EXPIRED</code>”,\n“<code>STALE</code>”, “<code>UPDATING</code>”,\n“<code>REVALIDATED</code>”, or “<code>HIT</code>”.</p>\n"
+        },
+        {
+          "name": "$upstream_connect_time",
+          "description_md": "keeps time spent on establishing a connection with the upstream server (1.9.1);\nthe time is kept in seconds with millisecond resolution.\nIn case of SSL, includes time spent on handshake.\nTimes of several connections\nare separated by commas and colons like addresses in the\n[$upstream_addr](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr) variable.",
+          "description_html": "<p>keeps time spent on establishing a connection with the upstream server (1.9.1);\nthe time is kept in seconds with millisecond resolution.\nIn case of SSL, includes time spent on handshake.\nTimes of several connections\nare separated by commas and colons like addresses in the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr\" target=\"_blank\">$upstream_addr</a> variable.</p>\n"
+        },
+        {
+          "name": "$upstream_cookie_NAME",
+          "description_md": "cookie with the specified *`name`* sent by the upstream server\nin the \"Set-Cookie\" response header field (1.7.1).\nOnly the cookies from the response of the last server are saved.",
+          "description_html": "<p>cookie with the specified <em><code>name</code></em> sent by the upstream server\nin the &ldquo;Set-Cookie&rdquo; response header field (1.7.1).\nOnly the cookies from the response of the last server are saved.</p>\n"
+        },
+        {
+          "name": "$upstream_header_time",
+          "description_md": "keeps time\nspent on receiving the response header from the upstream server (1.7.10);\nthe time is kept in seconds with millisecond resolution.\nTimes of several responses\nare separated by commas and colons like addresses in the\n[$upstream_addr](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr) variable.",
+          "description_html": "<p>keeps time\nspent on receiving the response header from the upstream server (1.7.10);\nthe time is kept in seconds with millisecond resolution.\nTimes of several responses\nare separated by commas and colons like addresses in the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr\" target=\"_blank\">$upstream_addr</a> variable.</p>\n"
+        },
+        {
+          "name": "$upstream_http_NAME",
+          "description_md": "keep server response header fields.\nFor example, the \"Server\" response header field\nis available through the `$upstream_http_server` variable.\nThe rules of converting header field names to variable names are the same\nas for the variables that start with the\n“[$http_](https://nginx.org/en/docs/http/ngx_http_core_module.html#var_http_)” prefix.\nOnly the header fields from the response of the last server are saved.",
+          "description_html": "<p>keep server response header fields.\nFor example, the &ldquo;Server&rdquo; response header field\nis available through the <code>$upstream_http_server</code> variable.\nThe rules of converting header field names to variable names are the same\nas for the variables that start with the\n“<a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#var_http_\" target=\"_blank\">$http_</a>” prefix.\nOnly the header fields from the response of the last server are saved.</p>\n"
+        },
+        {
+          "name": "$upstream_last_server_name",
+          "description_md": "keeps the name of last selected upstream server (1.25.3);\nallows passing it\n[through SNI](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_server_name):\n```\nproxy_ssl_server_name on;\nproxy_ssl_name        $upstream_last_server_name;\n```\n\n\n> This variable is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>keeps the name of last selected upstream server (1.25.3);\nallows passing it\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_server_name\" target=\"_blank\">through SNI</a>:</p>\n\n<pre><code>proxy_ssl_server_name on;\nproxy_ssl_name        $upstream_last_server_name;\n</code></pre>\n\n<blockquote>\n<p>This variable is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "$upstream_queue_time",
+          "description_md": "keeps time the request spent in the upstream [queue](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#queue)\n(1.13.9);\nthe time is kept in seconds with millisecond resolution.\nTimes of several responses\nare separated by commas and colons like addresses in the\n[$upstream_addr](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr) variable.",
+          "description_html": "<p>keeps time the request spent in the upstream <a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#queue\" target=\"_blank\">queue</a>\n(1.13.9);\nthe time is kept in seconds with millisecond resolution.\nTimes of several responses\nare separated by commas and colons like addresses in the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr\" target=\"_blank\">$upstream_addr</a> variable.</p>\n"
+        },
+        {
+          "name": "$upstream_response_length",
+          "description_md": "keeps the length of the response obtained from the upstream server (0.7.27);\nthe length is kept in bytes.\nLengths of several responses\nare separated by commas and colons like addresses in the\n[$upstream_addr](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr) variable.",
+          "description_html": "<p>keeps the length of the response obtained from the upstream server (0.7.27);\nthe length is kept in bytes.\nLengths of several responses\nare separated by commas and colons like addresses in the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr\" target=\"_blank\">$upstream_addr</a> variable.</p>\n"
+        },
+        {
+          "name": "$upstream_response_time",
+          "description_md": "keeps time spent on receiving the response from the upstream server;\nthe time is kept in seconds with millisecond resolution.\nTimes of several responses\nare separated by commas and colons like addresses in the\n[$upstream_addr](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr) variable.",
+          "description_html": "<p>keeps time spent on receiving the response from the upstream server;\nthe time is kept in seconds with millisecond resolution.\nTimes of several responses\nare separated by commas and colons like addresses in the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr\" target=\"_blank\">$upstream_addr</a> variable.</p>\n"
+        },
+        {
+          "name": "$upstream_status",
+          "description_md": "keeps status code of the response obtained from the upstream server.\nStatus codes of several responses\nare separated by commas and colons like addresses in the\n[$upstream_addr](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr) variable.\nIf a server cannot be selected,\nthe variable keeps the 502 (Bad Gateway) status code.",
+          "description_html": "<p>keeps status code of the response obtained from the upstream server.\nStatus codes of several responses\nare separated by commas and colons like addresses in the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_addr\" target=\"_blank\">$upstream_addr</a> variable.\nIf a server cannot be selected,\nthe variable keeps the 502 (Bad Gateway) status code.</p>\n"
+        },
+        {
+          "name": "$upstream_trailer_NAME",
+          "description_md": "keeps fields from the end of the response\nobtained from the upstream server (1.13.10).",
+          "description_html": "<p>keeps fields from the end of the response\nobtained from the upstream server (1.13.10).</p>\n"
+        }
       ]
     },
     {
@@ -9291,6 +9915,23 @@
           "isBlock": false,
           "description_md": "If identifiers are issued by multiple servers (services),\neach service should be assigned its own *`number`*\nto ensure that client identifiers are unique.\nFor version 1 cookies, the default value is zero.\nFor version 2 cookies, the default value is the number composed from the last\nfour octets of the server’s IP address.",
           "description_html": "<p>If identifiers are issued by multiple servers (services),\neach service should be assigned its own <em><code>number</code></em>\nto ensure that client identifiers are unique.\nFor version 1 cookies, the default value is zero.\nFor version 2 cookies, the default value is the number composed from the last\nfour octets of the server’s IP address.</p>\n"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$uid_got",
+          "description_md": "The cookie name and received client identifier.",
+          "description_html": "<p>The cookie name and received client identifier.</p>\n"
+        },
+        {
+          "name": "$uid_reset",
+          "description_md": "If the variable is set to a non-empty string that is not “`0`”,\nthe client identifiers are reset.\nThe special value “`log`” additionally leads to the output of\nmessages about the reset identifiers to the\n[`error_log`](https://nginx.org/en/docs/ngx_core_module.html#error_log).",
+          "description_html": "<p>If the variable is set to a non-empty string that is not “<code>0</code>”,\nthe client identifiers are reset.\nThe special value “<code>log</code>” additionally leads to the output of\nmessages about the reset identifiers to the\n<a href=\"https://nginx.org/en/docs/ngx_core_module.html#error_log\" target=\"_blank\"><code>error_log</code></a>.</p>\n"
+        },
+        {
+          "name": "$uid_set",
+          "description_md": "The cookie name and sent client identifier.",
+          "description_html": "<p>The cookie name and sent client identifier.</p>\n"
         }
       ]
     },
@@ -10604,6 +11245,13 @@
           "description_md": "> This directive is obsolete since version 1.19.7.\n> The [`client_header_timeout`](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_header_timeout)\n> directive should be used instead.\n\nSets the timeout for expecting more data from the client,\nafter which the connection is closed.",
           "description_html": "<blockquote>\n<p>This directive is obsolete since version 1.19.7.\nThe <a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#client_header_timeout\" target=\"_blank\"><code>client_header_timeout</code></a>\ndirective should be used instead.</p>\n</blockquote>\n\n<p>Sets the timeout for expecting more data from the client,\nafter which the connection is closed.</p>\n"
         }
+      ],
+      "variables": [
+        {
+          "name": "$http2",
+          "description_md": "negotiated protocol identifier:\n“`h2`” for HTTP/2 over TLS,\n“`h2c`” for HTTP/2 over cleartext TCP,\nor an empty string otherwise.",
+          "description_html": "<p>negotiated protocol identifier:\n“<code>h2</code>” for HTTP/2 over TLS,\n“<code>h2c</code>” for HTTP/2 over cleartext TCP,\nor an empty string otherwise.</p>\n"
+        }
       ]
     },
     {
@@ -10761,6 +11409,13 @@
           "isBlock": false,
           "description_md": "Enables the\n[QUIC Address Validation](https://datatracker.ietf.org/doc/html/rfc9000#name-address-validation) feature.\nThis includes sending a new token in a `Retry` packet\nor a `NEW_TOKEN` frame\nand\nvalidating a token received in the `Initial` packet.",
           "description_html": "<p>Enables the\n<a href=\"https://datatracker.ietf.org/doc/html/rfc9000#name-address-validation\" target=\"_blank\">QUIC Address Validation</a> feature.\nThis includes sending a new token in a <code>Retry</code> packet\nor a <code>NEW_TOKEN</code> frame\nand\nvalidating a token received in the <code>Initial</code> packet.</p>\n"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$http3",
+          "description_md": "negotiated protocol identifier:\n“`h3`” for HTTP/3 connections,\n“`hq`” for hq connections,\nor an empty string otherwise.",
+          "description_html": "<p>negotiated protocol identifier:\n“<code>h3</code>” for HTTP/3 connections,\n“<code>hq</code>” for hq connections,\nor an empty string otherwise.</p>\n"
         }
       ]
     },
@@ -12688,6 +13343,28 @@
           "description_md": "Adds a custom OTel span attribute.\nThe value can contain variables.",
           "description_html": "<p>Adds a custom OTel span attribute.\nThe value can contain variables.</p>\n"
         }
+      ],
+      "variables": [
+        {
+          "name": "$otel_trace_id",
+          "description_md": "the identifier of the trace the current span belongs to,\nfor example, `56552bc4daa3bf39c08362527e1dd6c4`",
+          "description_html": "<p>the identifier of the trace the current span belongs to,\nfor example, <code>56552bc4daa3bf39c08362527e1dd6c4</code></p>\n"
+        },
+        {
+          "name": "$otel_span_id",
+          "description_md": "the identifier of the current span,\nfor example, `4c0b8531ec38ca59`",
+          "description_html": "<p>the identifier of the current span,\nfor example, <code>4c0b8531ec38ca59</code></p>\n"
+        },
+        {
+          "name": "$otel_parent_id",
+          "description_md": "the identifier of the parent span,\nfor example, `dc94d281b0f884ea`",
+          "description_html": "<p>the identifier of the parent span,\nfor example, <code>dc94d281b0f884ea</code></p>\n"
+        },
+        {
+          "name": "$otel_parent_sampled",
+          "description_md": "the “`sampled`” flag of the parent span,\ncan be “`1`” or “`0`”",
+          "description_html": "<p>the “<code>sampled</code>” flag of the parent span,\ncan be “<code>1</code>” or “<code>0</code>”</p>\n"
+        }
       ]
     },
     {
@@ -12963,6 +13640,118 @@
           "isBlock": false,
           "description_md": "Sets the maximum *`size`* of the variables hash table.\nThe details of setting up hash tables are provided in a separate\n[document](https://nginx.org/en/docs/hash.html).",
           "description_html": "<p>Sets the maximum <em><code>size</code></em> of the variables hash table.\nThe details of setting up hash tables are provided in a separate\n<a href=\"https://nginx.org/en/docs/hash.html\" target=\"_blank\">document</a>.</p>\n"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$binary_remote_addr",
+          "description_md": "client address in a binary form, value’s length is always 4 bytes\nfor IPv4 addresses or 16 bytes for IPv6 addresses",
+          "description_html": "<p>client address in a binary form, value’s length is always 4 bytes\nfor IPv4 addresses or 16 bytes for IPv6 addresses</p>\n"
+        },
+        {
+          "name": "$bytes_received",
+          "description_md": "number of bytes received from a client (1.11.4)",
+          "description_html": "<p>number of bytes received from a client (1.11.4)</p>\n"
+        },
+        {
+          "name": "$bytes_sent",
+          "description_md": "number of bytes sent to a client",
+          "description_html": "<p>number of bytes sent to a client</p>\n"
+        },
+        {
+          "name": "$connection",
+          "description_md": "connection serial number",
+          "description_html": "<p>connection serial number</p>\n"
+        },
+        {
+          "name": "$hostname",
+          "description_md": "host name",
+          "description_html": "<p>host name</p>\n"
+        },
+        {
+          "name": "$msec",
+          "description_md": "current time in seconds with the milliseconds resolution",
+          "description_html": "<p>current time in seconds with the milliseconds resolution</p>\n"
+        },
+        {
+          "name": "$nginx_version",
+          "description_md": "nginx version",
+          "description_html": "<p>nginx version</p>\n"
+        },
+        {
+          "name": "$pid",
+          "description_md": "PID of the worker process",
+          "description_html": "<p>PID of the worker process</p>\n"
+        },
+        {
+          "name": "$protocol",
+          "description_md": "protocol used to communicate with the client:\n`TCP` or `UDP` (1.11.4)",
+          "description_html": "<p>protocol used to communicate with the client:\n<code>TCP</code> or <code>UDP</code> (1.11.4)</p>\n"
+        },
+        {
+          "name": "$proxy_protocol_addr",
+          "description_md": "client address from the PROXY protocol header (1.11.4)\n\nThe PROXY protocol must be previously enabled by setting the\n`proxy_protocol` parameter\nin the [`listen`](https://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen) directive.",
+          "description_html": "<p>client address from the PROXY protocol header (1.11.4)</p>\n\n<p>The PROXY protocol must be previously enabled by setting the\n<code>proxy_protocol</code> parameter\nin the <a href=\"https://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen\" target=\"_blank\"><code>listen</code></a> directive.</p>\n"
+        },
+        {
+          "name": "$proxy_protocol_port",
+          "description_md": "client port from the PROXY protocol header (1.11.4)\n\nThe PROXY protocol must be previously enabled by setting the\n`proxy_protocol` parameter\nin the [`listen`](https://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen) directive.",
+          "description_html": "<p>client port from the PROXY protocol header (1.11.4)</p>\n\n<p>The PROXY protocol must be previously enabled by setting the\n<code>proxy_protocol</code> parameter\nin the <a href=\"https://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen\" target=\"_blank\"><code>listen</code></a> directive.</p>\n"
+        },
+        {
+          "name": "$proxy_protocol_server_addr",
+          "description_md": "server address from the PROXY protocol header (1.17.6)\n\nThe PROXY protocol must be previously enabled by setting the\n`proxy_protocol` parameter\nin the [`listen`](https://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen) directive.",
+          "description_html": "<p>server address from the PROXY protocol header (1.17.6)</p>\n\n<p>The PROXY protocol must be previously enabled by setting the\n<code>proxy_protocol</code> parameter\nin the <a href=\"https://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen\" target=\"_blank\"><code>listen</code></a> directive.</p>\n"
+        },
+        {
+          "name": "$proxy_protocol_server_port",
+          "description_md": "server port from the PROXY protocol header (1.17.6)\n\nThe PROXY protocol must be previously enabled by setting the\n`proxy_protocol` parameter\nin the [`listen`](https://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen) directive.",
+          "description_html": "<p>server port from the PROXY protocol header (1.17.6)</p>\n\n<p>The PROXY protocol must be previously enabled by setting the\n<code>proxy_protocol</code> parameter\nin the <a href=\"https://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen\" target=\"_blank\"><code>listen</code></a> directive.</p>\n"
+        },
+        {
+          "name": "$proxy_protocol_tlv_NAME",
+          "description_md": "TLV from the PROXY Protocol header (1.23.2).\nThe `name` can be a TLV type name or its numeric value.\nIn the latter case, the value is hexadecimal\nand should be prefixed with `0x`:\n\n```\n$proxy_protocol_tlv_alpn\n$proxy_protocol_tlv_0x01\n```\nSSL TLVs can also be accessed by TLV type name or its numeric value,\nboth prefixed by `ssl_`:\n```\n$proxy_protocol_tlv_ssl_version\n$proxy_protocol_tlv_ssl_0x21\n```\n\n\nThe following TLV type names are supported:\n- `alpn` (`0x01`)—\n    upper layer protocol used over the connection\n- `authority` (`0x02`)—\n    host name value passed by the client\n- `unique_id` (`0x05`)—\n    unique connection id\n- `netns` (`0x30`)—\n    name of the namespace\n- `ssl` (`0x20`)—\n    binary SSL TLV structure\n\n\n\n\nThe following SSL TLV type names are supported:\n- `ssl_version` (`0x21`)—\n    SSL version used in client connection\n- `ssl_cn` (`0x22`)—\n    SSL certificate Common Name\n- `ssl_cipher` (`0x23`)—\n    name of the used cipher\n- `ssl_sig_alg` (`0x24`)—\n    algorithm used to sign the certificate\n- `ssl_key_alg` (`0x25`)—\n    public-key algorithm\n\n\n\n\nAlso, the following special SSL TLV type name is supported:\n- `ssl_verify`—\n    client SSL certificate verification result,\n    zero if the client presented a certificate\n    and it was successfully verified, and non-zero otherwise\n\n\n\n\nThe PROXY protocol must be previously enabled by setting the\n`proxy_protocol` parameter\nin the [`listen`](https://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen) directive.",
+          "description_html": "<p>TLV from the PROXY Protocol header (1.23.2).\nThe <code>name</code> can be a TLV type name or its numeric value.\nIn the latter case, the value is hexadecimal\nand should be prefixed with <code>0x</code>:</p>\n\n<pre><code>$proxy_protocol_tlv_alpn\n$proxy_protocol_tlv_0x01\n</code></pre>\n\n<p>SSL TLVs can also be accessed by TLV type name or its numeric value,\nboth prefixed by <code>ssl_</code>:</p>\n\n<pre><code>$proxy_protocol_tlv_ssl_version\n$proxy_protocol_tlv_ssl_0x21\n</code></pre>\n\n<p>The following TLV type names are supported:</p>\n\n<ul>\n<li><code>alpn</code> (<code>0x01</code>)—\nupper layer protocol used over the connection</li>\n<li><code>authority</code> (<code>0x02</code>)—\nhost name value passed by the client</li>\n<li><code>unique_id</code> (<code>0x05</code>)—\nunique connection id</li>\n<li><code>netns</code> (<code>0x30</code>)—\nname of the namespace</li>\n<li><code>ssl</code> (<code>0x20</code>)—\nbinary SSL TLV structure</li>\n</ul>\n\n<p>The following SSL TLV type names are supported:</p>\n\n<ul>\n<li><code>ssl_version</code> (<code>0x21</code>)—\nSSL version used in client connection</li>\n<li><code>ssl_cn</code> (<code>0x22</code>)—\nSSL certificate Common Name</li>\n<li><code>ssl_cipher</code> (<code>0x23</code>)—\nname of the used cipher</li>\n<li><code>ssl_sig_alg</code> (<code>0x24</code>)—\nalgorithm used to sign the certificate</li>\n<li><code>ssl_key_alg</code> (<code>0x25</code>)—\npublic-key algorithm</li>\n</ul>\n\n<p>Also, the following special SSL TLV type name is supported:</p>\n\n<ul>\n<li><code>ssl_verify</code>—\nclient SSL certificate verification result,\nzero if the client presented a certificate\nand it was successfully verified, and non-zero otherwise</li>\n</ul>\n\n<p>The PROXY protocol must be previously enabled by setting the\n<code>proxy_protocol</code> parameter\nin the <a href=\"https://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen\" target=\"_blank\"><code>listen</code></a> directive.</p>\n"
+        },
+        {
+          "name": "$remote_addr",
+          "description_md": "client address",
+          "description_html": "<p>client address</p>\n"
+        },
+        {
+          "name": "$remote_port",
+          "description_md": "client port",
+          "description_html": "<p>client port</p>\n"
+        },
+        {
+          "name": "$server_addr",
+          "description_md": "an address of the server which accepted a connection\n\nComputing a value of this variable usually requires one system call.\nTo avoid a system call, the [`listen`](https://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen) directives\nmust specify addresses and use the `bind` parameter.",
+          "description_html": "<p>an address of the server which accepted a connection</p>\n\n<p>Computing a value of this variable usually requires one system call.\nTo avoid a system call, the <a href=\"https://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen\" target=\"_blank\"><code>listen</code></a> directives\nmust specify addresses and use the <code>bind</code> parameter.</p>\n"
+        },
+        {
+          "name": "$server_port",
+          "description_md": "port of the server which accepted a connection",
+          "description_html": "<p>port of the server which accepted a connection</p>\n"
+        },
+        {
+          "name": "$session_time",
+          "description_md": "session duration in seconds with a milliseconds resolution\n(1.11.4);",
+          "description_html": "<p>session duration in seconds with a milliseconds resolution\n(1.11.4);</p>\n"
+        },
+        {
+          "name": "$status",
+          "description_md": "session status (1.11.4), can be one of the following:\n- `200`\n\n    session completed successfully\n- `400`\n\n    client data could not be parsed, for example,\n    the [PROXY protocol](https://nginx.org/en/docs/stream/ngx_stream_core_module.html#proxy_protocol) header\n- `403`\n\n    access forbidden, for example, when access is limited for\n    [certain client addresses](https://nginx.org/en/docs/stream/ngx_stream_access_module.html)\n- `500`\n\n    internal server error\n- `502`\n\n    bad gateway, for example,\n    if an upstream server could not be selected or reached.\n- `503`\n\n    service unavailable, for example, when access is limited by the\n    [number of connections](https://nginx.org/en/docs/stream/ngx_stream_limit_conn_module.html)",
+          "description_html": "<p>session status (1.11.4), can be one of the following:</p>\n\n<ul>\n<li><p><code>200</code></p>\n\n<p>session completed successfully</p></li>\n\n<li><p><code>400</code></p>\n\n<p>client data could not be parsed, for example,\nthe <a href=\"https://nginx.org/en/docs/stream/ngx_stream_core_module.html#proxy_protocol\" target=\"_blank\">PROXY protocol</a> header</p></li>\n\n<li><p><code>403</code></p>\n\n<p>access forbidden, for example, when access is limited for\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_access_module.html\" target=\"_blank\">certain client addresses</a></p></li>\n\n<li><p><code>500</code></p>\n\n<p>internal server error</p></li>\n\n<li><p><code>502</code></p>\n\n<p>bad gateway, for example,\nif an upstream server could not be selected or reached.</p></li>\n\n<li><p><code>503</code></p>\n\n<p>service unavailable, for example, when access is limited by the\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_limit_conn_module.html\" target=\"_blank\">number of connections</a></p></li>\n</ul>\n"
+        },
+        {
+          "name": "$time_iso8601",
+          "description_md": "local time in the ISO 8601 standard format",
+          "description_html": "<p>local time in the ISO 8601 standard format</p>\n"
+        },
+        {
+          "name": "$time_local",
+          "description_md": "local time in the Common Log Format",
+          "description_html": "<p>local time in the Common Log Format</p>\n"
         }
       ]
     },
@@ -13477,6 +14266,13 @@
           "description_md": "Sets parameters for a shared memory zone\nthat will keep states for various keys.\nIn particular, the state includes the current number of connections.\nThe *`key`* can contain text, variables,\nand their combinations (1.11.2).\nConnections with an empty key value are not accounted.\nUsage example:\n```\nlimit_conn_zone $binary_remote_addr zone=addr:10m;\n```\nHere, the key is a client IP address set by the\n`$binary_remote_addr` variable.\nThe size of `$binary_remote_addr`\nis 4 bytes for IPv4 addresses or 16 bytes for IPv6 addresses.\nThe stored state always occupies 32 or 64 bytes\non 32-bit platforms and 64 bytes on 64-bit platforms.\nOne megabyte zone can keep about 32 thousand 32-byte states\nor about 16 thousand 64-byte states.\nIf the zone storage is exhausted, the server will close the connection.\n\n> Additionally, as part of our\n> [commercial subscription](https://nginx.com/products/),\n> the\n> [status information](https://nginx.org/en/docs/http/ngx_http_api_module.html#stream_limit_conns_)\n> for each such shared memory zone can be\n> [obtained](https://nginx.org/en/docs/http/ngx_http_api_module.html#getStreamLimitConnZone) or\n> [reset](https://nginx.org/en/docs/http/ngx_http_api_module.html#deleteStreamLimitConnZoneStat)\n> with the [API](https://nginx.org/en/docs/http/ngx_http_api_module.html) since 1.17.7.",
           "description_html": "<p>Sets parameters for a shared memory zone\nthat will keep states for various keys.\nIn particular, the state includes the current number of connections.\nThe <em><code>key</code></em> can contain text, variables,\nand their combinations (1.11.2).\nConnections with an empty key value are not accounted.\nUsage example:</p>\n\n<pre><code>limit_conn_zone $binary_remote_addr zone=addr:10m;\n</code></pre>\n\n<p>Here, the key is a client IP address set by the\n<code>$binary_remote_addr</code> variable.\nThe size of <code>$binary_remote_addr</code>\nis 4 bytes for IPv4 addresses or 16 bytes for IPv6 addresses.\nThe stored state always occupies 32 or 64 bytes\non 32-bit platforms and 64 bytes on 64-bit platforms.\nOne megabyte zone can keep about 32 thousand 32-byte states\nor about 16 thousand 64-byte states.\nIf the zone storage is exhausted, the server will close the connection.</p>\n\n<blockquote>\n<p>Additionally, as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>,\nthe\n<a href=\"https://nginx.org/en/docs/http/ngx_http_api_module.html#stream_limit_conns_\" target=\"_blank\">status information</a>\nfor each such shared memory zone can be\n<a href=\"https://nginx.org/en/docs/http/ngx_http_api_module.html#getStreamLimitConnZone\" target=\"_blank\">obtained</a> or\n<a href=\"https://nginx.org/en/docs/http/ngx_http_api_module.html#deleteStreamLimitConnZoneStat\" target=\"_blank\">reset</a>\nwith the <a href=\"https://nginx.org/en/docs/http/ngx_http_api_module.html\" target=\"_blank\">API</a> since 1.17.7.</p>\n</blockquote>\n"
         }
+      ],
+      "variables": [
+        {
+          "name": "$limit_conn_status",
+          "description_md": "keeps the result of limiting the number of connections (1.17.6):\n`PASSED`,\n`REJECTED`, or\n`REJECTED_DRY_RUN`",
+          "description_html": "<p>keeps the result of limiting the number of connections (1.17.6):\n<code>PASSED</code>,\n<code>REJECTED</code>, or\n<code>REJECTED_DRY_RUN</code></p>\n"
+        }
       ]
     },
     {
@@ -13685,6 +14481,18 @@
           "isBlock": false,
           "description_md": "Enables extracting information from the MQTT CONNECT message at\nthe [preread](https://nginx.org/en/docs/stream/stream_processing.html#preread_phase) phase.",
           "description_html": "<p>Enables extracting information from the MQTT CONNECT message at\nthe <a href=\"https://nginx.org/en/docs/stream/stream_processing.html#preread_phase\" target=\"_blank\">preread</a> phase.</p>\n"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$mqtt_preread_clientid",
+          "description_md": "the `clientid` value from the CONNECT message",
+          "description_html": "<p>the <code>clientid</code> value from the CONNECT message</p>\n"
+        },
+        {
+          "name": "$mqtt_preread_username",
+          "description_md": "the `username` value from the CONNECT message",
+          "description_html": "<p>the <code>username</code> value from the CONNECT message</p>\n"
         }
       ]
     },
@@ -14246,6 +15054,18 @@
           "description_md": "Defines trusted addresses that are known to send correct\nreplacement addresses.\nIf the special value `unix:` is specified,\nall UNIX-domain sockets will be trusted.",
           "description_html": "<p>Defines trusted addresses that are known to send correct\nreplacement addresses.\nIf the special value <code>unix:</code> is specified,\nall UNIX-domain sockets will be trusted.</p>\n"
         }
+      ],
+      "variables": [
+        {
+          "name": "$realip_remote_addr",
+          "description_md": "keeps the original client address",
+          "description_html": "<p>keeps the original client address</p>\n"
+        },
+        {
+          "name": "$realip_remote_port",
+          "description_md": "keeps the original client port",
+          "description_html": "<p>keeps the original client port</p>\n"
+        }
       ]
     },
     {
@@ -14675,6 +15495,103 @@
           "description_md": "Sets the verification depth in the client certificates chain.",
           "description_html": "<p>Sets the verification depth in the client certificates chain.</p>\n"
         }
+      ],
+      "variables": [
+        {
+          "name": "$ssl_alpn_protocol",
+          "description_md": "returns the protocol selected by ALPN during the SSL handshake,\nor an empty string otherwise (1.21.4);",
+          "description_html": "<p>returns the protocol selected by ALPN during the SSL handshake,\nor an empty string otherwise (1.21.4);</p>\n"
+        },
+        {
+          "name": "$ssl_cipher",
+          "description_md": "returns the name of the cipher used\nfor an established SSL connection;",
+          "description_html": "<p>returns the name of the cipher used\nfor an established SSL connection;</p>\n"
+        },
+        {
+          "name": "$ssl_ciphers",
+          "description_md": "returns the list of ciphers supported by the client (1.11.7).\nKnown ciphers are listed by names, unknown are shown in hexadecimal,\nfor example:\n```\nAES128-SHA:AES256-SHA:0x00ff\n```\n> The variable is fully supported only when using OpenSSL version 1.0.2 or higher.\n> With older versions, the variable is available\n> only for new sessions and lists only known ciphers.",
+          "description_html": "<p>returns the list of ciphers supported by the client (1.11.7).\nKnown ciphers are listed by names, unknown are shown in hexadecimal,\nfor example:</p>\n\n<pre><code>AES128-SHA:AES256-SHA:0x00ff\n</code></pre>\n\n<blockquote>\n<p>The variable is fully supported only when using OpenSSL version 1.0.2 or higher.\nWith older versions, the variable is available\nonly for new sessions and lists only known ciphers.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "$ssl_client_cert",
+          "description_md": "returns the client certificate in the PEM format\nfor an established SSL connection, with each line except the first\nprepended with the tab character (1.11.8);",
+          "description_html": "<p>returns the client certificate in the PEM format\nfor an established SSL connection, with each line except the first\nprepended with the tab character (1.11.8);</p>\n"
+        },
+        {
+          "name": "$ssl_client_fingerprint",
+          "description_md": "returns the SHA1 fingerprint of the client certificate\nfor an established SSL connection (1.11.8);",
+          "description_html": "<p>returns the SHA1 fingerprint of the client certificate\nfor an established SSL connection (1.11.8);</p>\n"
+        },
+        {
+          "name": "$ssl_client_i_dn",
+          "description_md": "returns the “issuer DN” string of the client certificate\nfor an established SSL connection according to\n[RFC 2253](https://datatracker.ietf.org/doc/html/rfc2253) (1.11.8);",
+          "description_html": "<p>returns the “issuer DN” string of the client certificate\nfor an established SSL connection according to\n<a href=\"https://datatracker.ietf.org/doc/html/rfc2253\" target=\"_blank\">RFC 2253</a> (1.11.8);</p>\n"
+        },
+        {
+          "name": "$ssl_client_raw_cert",
+          "description_md": "returns the client certificate in the PEM format\nfor an established SSL connection (1.11.8);",
+          "description_html": "<p>returns the client certificate in the PEM format\nfor an established SSL connection (1.11.8);</p>\n"
+        },
+        {
+          "name": "$ssl_client_s_dn",
+          "description_md": "returns the “subject DN” string of the client certificate\nfor an established SSL connection according to\n[RFC 2253](https://datatracker.ietf.org/doc/html/rfc2253) (1.11.8);",
+          "description_html": "<p>returns the “subject DN” string of the client certificate\nfor an established SSL connection according to\n<a href=\"https://datatracker.ietf.org/doc/html/rfc2253\" target=\"_blank\">RFC 2253</a> (1.11.8);</p>\n"
+        },
+        {
+          "name": "$ssl_client_serial",
+          "description_md": "returns the serial number of the client certificate\nfor an established SSL connection (1.11.8);",
+          "description_html": "<p>returns the serial number of the client certificate\nfor an established SSL connection (1.11.8);</p>\n"
+        },
+        {
+          "name": "$ssl_client_v_end",
+          "description_md": "returns the end date of the client certificate (1.11.8);",
+          "description_html": "<p>returns the end date of the client certificate (1.11.8);</p>\n"
+        },
+        {
+          "name": "$ssl_client_v_remain",
+          "description_md": "returns the number of days\nuntil the client certificate expires (1.11.8);",
+          "description_html": "<p>returns the number of days\nuntil the client certificate expires (1.11.8);</p>\n"
+        },
+        {
+          "name": "$ssl_client_v_start",
+          "description_md": "returns the start date of the client certificate (1.11.8);",
+          "description_html": "<p>returns the start date of the client certificate (1.11.8);</p>\n"
+        },
+        {
+          "name": "$ssl_client_verify",
+          "description_md": "returns the result of client certificate verification (1.11.8):\n“`SUCCESS`”, “`FAILED:`*`reason`*”,\nand “`NONE`” if a certificate was not present;",
+          "description_html": "<p>returns the result of client certificate verification (1.11.8):\n“<code>SUCCESS</code>”, “<code>FAILED:</code>*<code>reason</code>*”,\nand “<code>NONE</code>” if a certificate was not present;</p>\n"
+        },
+        {
+          "name": "$ssl_curve",
+          "description_md": "returns the negotiated curve used for\nSSL handshake key exchange process (1.21.5).\nKnown curves are listed by names, unknown are shown in hexadecimal,\nfor example:\n```\nprime256v1\n```\n> The variable is supported only when using OpenSSL version 3.0 or higher.\n> With older versions, the variable value will be an empty string.",
+          "description_html": "<p>returns the negotiated curve used for\nSSL handshake key exchange process (1.21.5).\nKnown curves are listed by names, unknown are shown in hexadecimal,\nfor example:</p>\n\n<pre><code>prime256v1\n</code></pre>\n\n<blockquote>\n<p>The variable is supported only when using OpenSSL version 3.0 or higher.\nWith older versions, the variable value will be an empty string.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "$ssl_curves",
+          "description_md": "returns the list of curves supported by the client (1.11.7).\nKnown curves are listed by names, unknown are shown in hexadecimal,\nfor example:\n```\n0x001d:prime256v1:secp521r1:secp384r1\n```\n> The variable is supported only when using OpenSSL version 1.0.2 or higher.\n> With older versions, the variable value will be an empty string.\n\n> The variable is available only for new sessions.",
+          "description_html": "<p>returns the list of curves supported by the client (1.11.7).\nKnown curves are listed by names, unknown are shown in hexadecimal,\nfor example:</p>\n\n<pre><code>0x001d:prime256v1:secp521r1:secp384r1\n</code></pre>\n\n<blockquote>\n<p>The variable is supported only when using OpenSSL version 1.0.2 or higher.\nWith older versions, the variable value will be an empty string.</p>\n\n<p>The variable is available only for new sessions.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "$ssl_protocol",
+          "description_md": "returns the protocol of an established SSL connection;",
+          "description_html": "<p>returns the protocol of an established SSL connection;</p>\n"
+        },
+        {
+          "name": "$ssl_server_name",
+          "description_md": "returns the server name requested through\n[SNI](http://en.wikipedia.org/wiki/Server_Name_Indication);",
+          "description_html": "<p>returns the server name requested through\n<a href=\"http://en.wikipedia.org/wiki/Server_Name_Indication\" target=\"_blank\">SNI</a>;</p>\n"
+        },
+        {
+          "name": "$ssl_session_id",
+          "description_md": "returns the session identifier of an established SSL connection;",
+          "description_html": "<p>returns the session identifier of an established SSL connection;</p>\n"
+        },
+        {
+          "name": "$ssl_session_reused",
+          "description_md": "returns “`r`” if an SSL session was reused,\nor “`.`” otherwise.",
+          "description_html": "<p>returns “<code>r</code>” if an SSL session was reused,\nor “<code>.</code>” otherwise.</p>\n"
+        }
       ]
     },
     {
@@ -14697,6 +15614,23 @@
           "isBlock": false,
           "description_md": "Enables extracting information from the ClientHello message at\nthe [preread](https://nginx.org/en/docs/stream/stream_processing.html#preread_phase) phase.",
           "description_html": "<p>Enables extracting information from the ClientHello message at\nthe <a href=\"https://nginx.org/en/docs/stream/stream_processing.html#preread_phase\" target=\"_blank\">preread</a> phase.</p>\n"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$ssl_preread_protocol",
+          "description_md": "the highest SSL protocol version supported by the client (1.15.2)",
+          "description_html": "<p>the highest SSL protocol version supported by the client (1.15.2)</p>\n"
+        },
+        {
+          "name": "$ssl_preread_server_name",
+          "description_md": "server name requested through SNI",
+          "description_html": "<p>server name requested through SNI</p>\n"
+        },
+        {
+          "name": "$ssl_preread_alpn_protocols",
+          "description_md": "list of protocols advertised by the client through ALPN (1.13.10).\nThe values are separated by commas.",
+          "description_html": "<p>list of protocols advertised by the client through ALPN (1.13.10).\nThe values are separated by commas.</p>\n"
         }
       ]
     },
@@ -14918,6 +15852,38 @@
           "isBlock": false,
           "description_md": "Sets a timeout for name resolution, for example:\n```\nresolver_timeout 5s;\n```\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
           "description_html": "<p>Sets a timeout for name resolution, for example:</p>\n\n<pre><code>resolver_timeout 5s;\n</code></pre>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$upstream_addr",
+          "description_md": "keeps the IP address and port,\nor the path to the UNIX-domain socket of the upstream server (1.11.4).\nIf several servers were contacted during proxying,\ntheir addresses are separated by commas, e.g.\n“`192.168.1.1:12345, 192.168.1.2:12345, unix:/tmp/sock`”.\nIf a server cannot be selected,\nthe variable keeps the name of the server group.",
+          "description_html": "<p>keeps the IP address and port,\nor the path to the UNIX-domain socket of the upstream server (1.11.4).\nIf several servers were contacted during proxying,\ntheir addresses are separated by commas, e.g.\n“<code>192.168.1.1:12345, 192.168.1.2:12345, unix:/tmp/sock</code>”.\nIf a server cannot be selected,\nthe variable keeps the name of the server group.</p>\n"
+        },
+        {
+          "name": "$upstream_bytes_received",
+          "description_md": "number of bytes received from an upstream server (1.11.4).\nValues from several connections\nare separated by commas like addresses in the\n[$upstream_addr](https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#var_upstream_addr) variable.",
+          "description_html": "<p>number of bytes received from an upstream server (1.11.4).\nValues from several connections\nare separated by commas like addresses in the\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#var_upstream_addr\" target=\"_blank\">$upstream_addr</a> variable.</p>\n"
+        },
+        {
+          "name": "$upstream_bytes_sent",
+          "description_md": "number of bytes sent to an upstream server (1.11.4).\nValues from several connections\nare separated by commas like addresses in the\n[$upstream_addr](https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#var_upstream_addr) variable.",
+          "description_html": "<p>number of bytes sent to an upstream server (1.11.4).\nValues from several connections\nare separated by commas like addresses in the\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#var_upstream_addr\" target=\"_blank\">$upstream_addr</a> variable.</p>\n"
+        },
+        {
+          "name": "$upstream_connect_time",
+          "description_md": "time to connect to the upstream server (1.11.4);\nthe time is kept in seconds with millisecond resolution.\nTimes of several connections\nare separated by commas like addresses in the\n[$upstream_addr](https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#var_upstream_addr) variable.",
+          "description_html": "<p>time to connect to the upstream server (1.11.4);\nthe time is kept in seconds with millisecond resolution.\nTimes of several connections\nare separated by commas like addresses in the\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#var_upstream_addr\" target=\"_blank\">$upstream_addr</a> variable.</p>\n"
+        },
+        {
+          "name": "$upstream_first_byte_time",
+          "description_md": "time to receive the first byte of data (1.11.4);\nthe time is kept in seconds with millisecond resolution.\nTimes of several connections\nare separated by commas like addresses in the\n[$upstream_addr](https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#var_upstream_addr) variable.",
+          "description_html": "<p>time to receive the first byte of data (1.11.4);\nthe time is kept in seconds with millisecond resolution.\nTimes of several connections\nare separated by commas like addresses in the\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#var_upstream_addr\" target=\"_blank\">$upstream_addr</a> variable.</p>\n"
+        },
+        {
+          "name": "$upstream_session_time",
+          "description_md": "session duration in seconds with millisecond resolution (1.11.4).\nTimes of several connections\nare separated by commas like addresses in the\n[$upstream_addr](https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#var_upstream_addr) variable.",
+          "description_html": "<p>session duration in seconds with millisecond resolution (1.11.4).\nTimes of several connections\nare separated by commas like addresses in the\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#var_upstream_addr\" target=\"_blank\">$upstream_addr</a> variable.</p>\n"
         }
       ]
     },
@@ -15283,5 +16249,5 @@
       ]
     }
   ],
-  "version": "https://hg.nginx.org:80/nginx.org/rev/d3b2c35a7ea4"
+  "version": "https://github.com/nginx/nginx.org/commit/f5cea0fff718819832c358a7c6d183343deb1f0b"
 }
