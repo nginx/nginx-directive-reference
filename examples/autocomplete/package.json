@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@nginx/reference-lib": "file:../../reference-lib",
-    "@types/node": "^20.14.9",
+    "@types/node": "^20.14.10",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.3"
   }
 }
