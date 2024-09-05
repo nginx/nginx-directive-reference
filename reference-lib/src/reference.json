@@ -15220,8 +15220,8 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with trusted CA certificates in the PEM format\nused to [verify](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_verify_client) client certificates.\n\nThe list of certificates will be sent to clients.\nIf this is not desired, the [`ssl_trusted_certificate`](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_trusted_certificate)\ndirective can be used.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with trusted CA certificates in the PEM format\nused to <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_verify_client\" target=\"_blank\">verify</a> client certificates.</p>\n\n<p>The list of certificates will be sent to clients.\nIf this is not desired, the <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_trusted_certificate\" target=\"_blank\"><code>ssl_trusted_certificate</code></a>\ndirective can be used.</p>\n"
+          "description_md": "Specifies a *`file`* with trusted CA certificates in the PEM format\nused to [verify](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_verify_client) client certificates and\nOCSP responses if [`ssl_stapling`](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_stapling) is enabled.\n\nThe list of certificates will be sent to clients.\nIf this is not desired, the [`ssl_trusted_certificate`](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_trusted_certificate)\ndirective can be used.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with trusted CA certificates in the PEM format\nused to <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_verify_client\" target=\"_blank\">verify</a> client certificates and\nOCSP responses if <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_stapling\" target=\"_blank\"><code>ssl_stapling</code></a> is enabled.</p>\n\n<p>The list of certificates will be sent to clients.\nIf this is not desired, the <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_trusted_certificate\" target=\"_blank\"><code>ssl_trusted_certificate</code></a>\ndirective can be used.</p>\n"
         },
         {
           "name": "ssl_conf_command",
@@ -15307,6 +15307,57 @@
           "isBlock": false,
           "description_md": "Specifies a timeout for the SSL handshake to complete.",
           "description_html": "<p>Specifies a timeout for the SSL handshake to complete.</p>\n"
+        },
+        {
+          "name": "ssl_ocsp",
+          "default": "off",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "`on` | `off` | `leaf`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code> | <code>leaf</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables OCSP validation of the client certificate chain.\nThe `leaf` parameter\nenables validation of the client certificate only.\n\nFor the OCSP validation to work,\nthe [`ssl_verify_client`](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_verify_client) directive should be set to\n`on` or `optional`.\n\nTo resolve the OCSP responder hostname,\nthe [`resolver`](https://nginx.org/en/docs/stream/ngx_stream_core_module.html#resolver) directive\nshould also be specified.\n\nExample:\n```\nssl_verify_client on;\nssl_ocsp          on;\nresolver          192.0.2.1;\n```",
+          "description_html": "<p>Enables OCSP validation of the client certificate chain.\nThe <code>leaf</code> parameter\nenables validation of the client certificate only.</p>\n\n<p>For the OCSP validation to work,\nthe <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_verify_client\" target=\"_blank\"><code>ssl_verify_client</code></a> directive should be set to\n<code>on</code> or <code>optional</code>.</p>\n\n<p>To resolve the OCSP responder hostname,\nthe <a href=\"https://nginx.org/en/docs/stream/ngx_stream_core_module.html#resolver\" target=\"_blank\"><code>resolver</code></a> directive\nshould also be specified.</p>\n\n<p>Example:</p>\n\n<pre><code>ssl_verify_client on;\nssl_ocsp          on;\nresolver          192.0.2.1;\n</code></pre>\n"
+        },
+        {
+          "name": "ssl_ocsp_cache",
+          "default": "off",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "`off` | [`shared`:*`name`*:*`size`*]"
+          ],
+          "syntax_html": [
+            "<p><code>off</code> | [<code>shared</code>:<em><code>name</code></em>:<em><code>size</code></em>]</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets `name` and `size` of the cache\nthat stores client certificates status for OCSP validation.\nThe cache is shared between all worker processes.\nA cache with the same name can be used in several virtual servers.\n\nThe `off` parameter prohibits the use of the cache.",
+          "description_html": "<p>Sets <code>name</code> and <code>size</code> of the cache\nthat stores client certificates status for OCSP validation.\nThe cache is shared between all worker processes.\nA cache with the same name can be used in several virtual servers.</p>\n\n<p>The <code>off</code> parameter prohibits the use of the cache.</p>\n"
+        },
+        {
+          "name": "ssl_ocsp_responder",
+          "default": "",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "*`url`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>url</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Overrides the URL of the OCSP responder specified in the\n“[Authority Information Access](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.2.1)” certificate extension\nfor [validation](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_ocsp) of client certificates.\n\nOnly “`http://`” OCSP responders are supported:\n```\nssl_ocsp_responder http://ocsp.example.com/;\n```",
+          "description_html": "<p>Overrides the URL of the OCSP responder specified in the\n“<a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.2.1\" target=\"_blank\">Authority Information Access</a>” certificate extension\nfor <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_ocsp\" target=\"_blank\">validation</a> of client certificates.</p>\n\n<p>Only “<code>http://</code>” OCSP responders are supported:</p>\n\n<pre><code>ssl_ocsp_responder http://ocsp.example.com/;\n</code></pre>\n"
         },
         {
           "name": "ssl_password_file",
@@ -15445,6 +15496,74 @@
           "description_html": "<p>Specifies a time during which a client may reuse the\nsession parameters.</p>\n"
         },
         {
+          "name": "ssl_stapling",
+          "default": "off",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables or disables\n[stapling of OCSP responses](https://datatracker.ietf.org/doc/html/rfc6066#section-8) by the server.\nExample:\n```\nssl_stapling on;\nresolver 192.0.2.1;\n```\n\nFor the OCSP stapling to work, the certificate of the server certificate\nissuer should be known.\nIf the [`ssl_certificate`](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_certificate) file does\nnot contain intermediate certificates,\nthe certificate of the server certificate issuer should be\npresent in the\n[`ssl_trusted_certificate`](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_trusted_certificate) file.\n\nFor a resolution of the OCSP responder hostname,\nthe [`resolver`](https://nginx.org/en/docs/stream/ngx_stream_core_module.html#resolver) directive\nshould also be specified.",
+          "description_html": "<p>Enables or disables\n<a href=\"https://datatracker.ietf.org/doc/html/rfc6066#section-8\" target=\"_blank\">stapling of OCSP responses</a> by the server.\nExample:</p>\n\n<pre><code>ssl_stapling on;\nresolver 192.0.2.1;\n</code></pre>\n\n<p>For the OCSP stapling to work, the certificate of the server certificate\nissuer should be known.\nIf the <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_certificate\" target=\"_blank\"><code>ssl_certificate</code></a> file does\nnot contain intermediate certificates,\nthe certificate of the server certificate issuer should be\npresent in the\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_trusted_certificate\" target=\"_blank\"><code>ssl_trusted_certificate</code></a> file.</p>\n\n<p>For a resolution of the OCSP responder hostname,\nthe <a href=\"https://nginx.org/en/docs/stream/ngx_stream_core_module.html#resolver\" target=\"_blank\"><code>resolver</code></a> directive\nshould also be specified.</p>\n"
+        },
+        {
+          "name": "ssl_stapling_file",
+          "default": "",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "When set, the stapled OCSP response will be taken from the\nspecified *`file`* instead of querying\nthe OCSP responder specified in the server certificate.\n\nThe file should be in the DER format as produced by the\n“`openssl ocsp`” command.",
+          "description_html": "<p>When set, the stapled OCSP response will be taken from the\nspecified <em><code>file</code></em> instead of querying\nthe OCSP responder specified in the server certificate.</p>\n\n<p>The file should be in the DER format as produced by the\n“<code>openssl ocsp</code>” command.</p>\n"
+        },
+        {
+          "name": "ssl_stapling_responder",
+          "default": "",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "*`url`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>url</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Overrides the URL of the OCSP responder specified in the\n“[Authority Information Access](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.2.1)” certificate extension.\n\nOnly “`http://`” OCSP responders are supported:\n```\nssl_stapling_responder http://ocsp.example.com/;\n```",
+          "description_html": "<p>Overrides the URL of the OCSP responder specified in the\n“<a href=\"https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.2.1\" target=\"_blank\">Authority Information Access</a>” certificate extension.</p>\n\n<p>Only “<code>http://</code>” OCSP responders are supported:</p>\n\n<pre><code>ssl_stapling_responder http://ocsp.example.com/;\n</code></pre>\n"
+        },
+        {
+          "name": "ssl_stapling_verify",
+          "default": "off",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables or disables verification of OCSP responses by the server.\n\nFor verification to work, the certificate of the server certificate\nissuer, the root certificate, and all intermediate certificates\nshould be configured as trusted using the\n[`ssl_trusted_certificate`](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_trusted_certificate) directive.",
+          "description_html": "<p>Enables or disables verification of OCSP responses by the server.</p>\n\n<p>For verification to work, the certificate of the server certificate\nissuer, the root certificate, and all intermediate certificates\nshould be configured as trusted using the\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_trusted_certificate\" target=\"_blank\"><code>ssl_trusted_certificate</code></a> directive.</p>\n"
+        },
+        {
           "name": "ssl_trusted_certificate",
           "default": "",
           "contexts": [
@@ -15458,8 +15577,8 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with trusted CA certificates in the PEM format\nused to [verify](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_verify_client) client certificates.\n\nIn contrast to the certificate set by [`ssl_client_certificate`](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_client_certificate),\nthe list of these certificates will not be sent to clients.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with trusted CA certificates in the PEM format\nused to <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_verify_client\" target=\"_blank\">verify</a> client certificates.</p>\n\n<p>In contrast to the certificate set by <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_client_certificate\" target=\"_blank\"><code>ssl_client_certificate</code></a>,\nthe list of these certificates will not be sent to clients.</p>\n"
+          "description_md": "Specifies a *`file`* with trusted CA certificates in the PEM format\nused to [verify](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_verify_client) client certificates and\nOCSP responses if [`ssl_stapling`](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_stapling) is enabled.\n\nIn contrast to the certificate set by [`ssl_client_certificate`](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_client_certificate),\nthe list of these certificates will not be sent to clients.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with trusted CA certificates in the PEM format\nused to <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_verify_client\" target=\"_blank\">verify</a> client certificates and\nOCSP responses if <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_stapling\" target=\"_blank\"><code>ssl_stapling</code></a> is enabled.</p>\n\n<p>In contrast to the certificate set by <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_client_certificate\" target=\"_blank\"><code>ssl_client_certificate</code></a>,\nthe list of these certificates will not be sent to clients.</p>\n"
         },
         {
           "name": "ssl_verify_client",
@@ -16249,5 +16368,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/5dd1de03c22d985d794ea90c3c6ac0ccb36448a0"
+  "version": "https://github.com/nginx/nginx.org/commit/6e199dec7bb66c7683a37531b802fa7fbf216cac"
 }
