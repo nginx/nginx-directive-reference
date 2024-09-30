@@ -4700,6 +4700,42 @@
           "description_html": "<p>Sets an njs function as a location content handler.\nSince <a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.4.0\" target=\"_blank\">0.4.0</a>,\na module function can be referenced.</p>\n\n<blockquote>\n<p>The directive can be specified inside the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#if\" target=\"_blank\">if</a> block\nsince <a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.7.7\" target=\"_blank\">0.7.7</a>.</p>\n</blockquote>\n"
         },
         {
+          "name": "js_context_reuse",
+          "default": "128",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`number`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>number</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets a maximum number of JS context to be reused for\n[QuickJS engine](https://nginx.org/en/docs/njs/engine.html).\nEach context is used for a single request.\nThe finished context is put into a pool of reusable contexts.\nIf the pool is full, the context is destroyed.",
+          "description_html": "<p>Sets a maximum number of JS context to be reused for\n<a href=\"https://nginx.org/en/docs/njs/engine.html\" target=\"_blank\">QuickJS engine</a>.\nEach context is used for a single request.\nThe finished context is put into a pool of reusable contexts.\nIf the pool is full, the context is destroyed.</p>\n"
+        },
+        {
+          "name": "js_engine",
+          "default": "njs",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`njs` | `qjs`"
+          ],
+          "syntax_html": [
+            "<p><code>njs</code> | <code>qjs</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets a [JavaScript engine](https://nginx.org/en/docs/njs/engine.html)\nto be used for njs scripts.\nThe `njs` parameter sets the njs engine, also used by default.\nThe `qjs` parameter sets the QuickJS engine.",
+          "description_html": "<p>Sets a <a href=\"https://nginx.org/en/docs/njs/engine.html\" target=\"_blank\">JavaScript engine</a>\nto be used for njs scripts.\nThe <code>njs</code> parameter sets the njs engine, also used by default.\nThe <code>qjs</code> parameter sets the QuickJS engine.</p>\n"
+        },
+        {
           "name": "js_fetch_buffer_size",
           "default": "16k",
           "contexts": [
@@ -4956,14 +4992,14 @@
             "location"
           ],
           "syntax_md": [
-            "*`$variable`* *`function`* | *`module.function`*"
+            "*`$variable`* *`function`* | *`module.function`* [`nocache`]"
           ],
           "syntax_html": [
-            "<p><em><code>$variable</code></em> <em><code>function</code></em> | <em><code>module.function</code></em></p>\n"
+            "<p><em><code>$variable</code></em> <em><code>function</code></em> | <em><code>module.function</code></em> [<code>nocache</code>]</p>\n"
           ],
           "isBlock": false,
-          "description_md": "Sets an njs `function`\nfor the specified `variable`.\nSince [0.4.0](https://nginx.org/en/docs/njs/changes.html#njs0.4.0),\na module function can be referenced.\n\nThe function is called when\nthe variable is referenced for the first time for a given request.\nThe exact moment depends on a\n[phase](https://nginx.org/en/docs/dev/development_guide.html#http_phases)\nat which the variable is referenced.\nThis can be used to perform some logic\nnot related to variable evaluation.\nFor example, if the variable is referenced only in the\n[`log_format`](https://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) directive,\nits handler will not be executed until the log phase.\nThis handler can be used to do some cleanup\nright before the request is freed.\n\n> As the `js_set` handler\n> returns its result immediately, it supports\n> only synchronous operations.\n> Thus, asynchronous operations such as\n> [r.subrequest()](https://nginx.org/en/docs/njs/reference.html#r_subrequest)\n> or\n> [setTimeout()](https://nginx.org/en/docs/njs/reference.html#settimeout)\n> are not supported.\n\n> The directive can be specified on the\n> `server` and `location` level\n> since [0.7.7](https://nginx.org/en/docs/njs/changes.html#njs0.7.7).",
-          "description_html": "<p>Sets an njs <code>function</code>\nfor the specified <code>variable</code>.\nSince <a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.4.0\" target=\"_blank\">0.4.0</a>,\na module function can be referenced.</p>\n\n<p>The function is called when\nthe variable is referenced for the first time for a given request.\nThe exact moment depends on a\n<a href=\"https://nginx.org/en/docs/dev/development_guide.html#http_phases\" target=\"_blank\">phase</a>\nat which the variable is referenced.\nThis can be used to perform some logic\nnot related to variable evaluation.\nFor example, if the variable is referenced only in the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_log_module.html#log_format\" target=\"_blank\"><code>log_format</code></a> directive,\nits handler will not be executed until the log phase.\nThis handler can be used to do some cleanup\nright before the request is freed.</p>\n\n<blockquote>\n<p>As the <code>js_set</code> handler\nreturns its result immediately, it supports\nonly synchronous operations.\nThus, asynchronous operations such as\n<a href=\"https://nginx.org/en/docs/njs/reference.html#r_subrequest\" target=\"_blank\">r.subrequest()</a>\nor\n<a href=\"https://nginx.org/en/docs/njs/reference.html#settimeout\" target=\"_blank\">setTimeout()</a>\nare not supported.</p>\n\n<p>The directive can be specified on the\n<code>server</code> and <code>location</code> level\nsince <a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.7.7\" target=\"_blank\">0.7.7</a>.</p>\n</blockquote>\n"
+          "description_md": "Sets an njs `function`\nfor the specified `variable`.\nSince [0.4.0](https://nginx.org/en/docs/njs/changes.html#njs0.4.0),\na module function can be referenced.\n\nThe function is called when\nthe variable is referenced for the first time for a given request.\nThe exact moment depends on a\n[phase](https://nginx.org/en/docs/dev/development_guide.html#http_phases)\nat which the variable is referenced.\nThis can be used to perform some logic\nnot related to variable evaluation.\nFor example, if the variable is referenced only in the\n[`log_format`](https://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) directive,\nits handler will not be executed until the log phase.\nThis handler can be used to do some cleanup\nright before the request is freed.\n\nSince [0.8.6](https://nginx.org/en/docs/njs/changes.html#njs0.8.6),\nif an optional argument `nocache` is specified,\nthe handler is called every time it is referenced.\nDue to current limitations\nof the [rewrite](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html) module,\nwhen a `nocache` variable is referenced by the\n[set](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#set) directive\nits handler should always return a fixed-length value.\n\n> As the `js_set` handler\n> returns its result immediately, it supports\n> only synchronous operations.\n> Thus, asynchronous operations such as\n> [r.subrequest()](https://nginx.org/en/docs/njs/reference.html#r_subrequest)\n> or\n> [setTimeout()](https://nginx.org/en/docs/njs/reference.html#settimeout)\n> are not supported.\n\n> The directive can be specified on the\n> `server` and `location` level\n> since [0.7.7](https://nginx.org/en/docs/njs/changes.html#njs0.7.7).",
+          "description_html": "<p>Sets an njs <code>function</code>\nfor the specified <code>variable</code>.\nSince <a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.4.0\" target=\"_blank\">0.4.0</a>,\na module function can be referenced.</p>\n\n<p>The function is called when\nthe variable is referenced for the first time for a given request.\nThe exact moment depends on a\n<a href=\"https://nginx.org/en/docs/dev/development_guide.html#http_phases\" target=\"_blank\">phase</a>\nat which the variable is referenced.\nThis can be used to perform some logic\nnot related to variable evaluation.\nFor example, if the variable is referenced only in the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_log_module.html#log_format\" target=\"_blank\"><code>log_format</code></a> directive,\nits handler will not be executed until the log phase.\nThis handler can be used to do some cleanup\nright before the request is freed.</p>\n\n<p>Since <a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.8.6\" target=\"_blank\">0.8.6</a>,\nif an optional argument <code>nocache</code> is specified,\nthe handler is called every time it is referenced.\nDue to current limitations\nof the <a href=\"https://nginx.org/en/docs/http/ngx_http_rewrite_module.html\" target=\"_blank\">rewrite</a> module,\nwhen a <code>nocache</code> variable is referenced by the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#set\" target=\"_blank\">set</a> directive\nits handler should always return a fixed-length value.</p>\n\n<blockquote>\n<p>As the <code>js_set</code> handler\nreturns its result immediately, it supports\nonly synchronous operations.\nThus, asynchronous operations such as\n<a href=\"https://nginx.org/en/docs/njs/reference.html#r_subrequest\" target=\"_blank\">r.subrequest()</a>\nor\n<a href=\"https://nginx.org/en/docs/njs/reference.html#settimeout\" target=\"_blank\">setTimeout()</a>\nare not supported.</p>\n\n<p>The directive can be specified on the\n<code>server</code> and <code>location</code> level\nsince <a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.7.7\" target=\"_blank\">0.7.7</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "js_shared_dict_zone",
@@ -6607,6 +6643,24 @@
           "isBlock": false,
           "description_md": "Indicates whether the header fields of the original request are passed\nto the proxied server.\n```\nlocation /x-accel-redirect-here/ {\n    proxy_method GET;\n    proxy_pass_request_headers off;\n    proxy_pass_request_body off;\n\n    proxy_pass ...\n}\n```\nSee also the [`proxy_set_header`](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header) and\n[`proxy_pass_request_body`](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass_request_body) directives.",
           "description_html": "<p>Indicates whether the header fields of the original request are passed\nto the proxied server.</p>\n\n<pre><code>location /x-accel-redirect-here/ {\n    proxy_method GET;\n    proxy_pass_request_headers off;\n    proxy_pass_request_body off;\n\n    proxy_pass ...\n}\n</code></pre>\n\n<p>See also the <a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header\" target=\"_blank\"><code>proxy_set_header</code></a> and\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass_request_body\" target=\"_blank\"><code>proxy_pass_request_body</code></a> directives.</p>\n"
+        },
+        {
+          "name": "proxy_pass_trailers",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Permits passing trailer fields from a proxied server to a client.\n\n> A trailer section in HTTP/1.1 is\n> [explicitly enabled](https://datatracker.ietf.org/doc/html/rfc9110#section-6.5.1).\n\n```\nlocation / {\n    proxy_http_version 1.1;\n    proxy_set_header Connection \"te\";\n    proxy_set_header TE \"trailers\";\n    proxy_pass_trailers on;\n\n    proxy_pass ...\n}\n```",
+          "description_html": "<p>Permits passing trailer fields from a proxied server to a client.</p>\n\n<blockquote>\n<p>A trailer section in HTTP/1.1 is\n<a href=\"https://datatracker.ietf.org/doc/html/rfc9110#section-6.5.1\" target=\"_blank\">explicitly enabled</a>.</p>\n</blockquote>\n\n<pre><code>location / {\n    proxy_http_version 1.1;\n    proxy_set_header Connection &quot;te&quot;;\n    proxy_set_header TE &quot;trailers&quot;;\n    proxy_pass_trailers on;\n\n    proxy_pass ...\n}\n</code></pre>\n"
         },
         {
           "name": "proxy_read_timeout",
@@ -13853,6 +13907,40 @@
           "description_html": "<p>Sets an njs function which will be called at the\n<a href=\"https://nginx.org/en/docs/stream/stream_processing.html#access_phase\" target=\"_blank\">access</a> phase.\nSince <a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.4.0\" target=\"_blank\">0.4.0</a>,\na module function can be referenced.</p>\n\n<p>The function is called once at the moment when the stream session reaches\nthe <a href=\"https://nginx.org/en/docs/stream/stream_processing.html#access_phase\" target=\"_blank\">access</a> phase\nfor the first time.\nThe function is called with the following arguments:</p>\n\n<ul>\n<li><p><code>s</code></p>\n\n<p>the <a href=\"https://nginx.org/en/docs/njs/reference.html#stream\" target=\"_blank\">Stream Session</a> object</p></li>\n</ul>\n\n<p>At this phase, it is possible to perform initialization\nor register a callback with\nthe <a href=\"https://nginx.org/en/docs/njs/reference.html#s_on\" target=\"_blank\"><code>s.on()</code></a>\nmethod\nfor each incoming data chunk until one of the following methods are called:\n<a href=\"https://nginx.org/en/docs/njs/reference.html#s_allow\" target=\"_blank\"><code>s.allow()</code></a>,\n<a href=\"https://nginx.org/en/docs/njs/reference.html#s_decline\" target=\"_blank\"><code>s.decline()</code></a>,\n<a href=\"https://nginx.org/en/docs/njs/reference.html#s_done\" target=\"_blank\"><code>s.done()</code></a>.\nAs soon as one of these methods is called, the stream session processing\nswitches to the <a href=\"https://nginx.org/en/docs/stream/stream_processing.html\" target=\"_blank\">next phase</a>\nand all current\n<a href=\"https://nginx.org/en/docs/njs/reference.html#s_on\" target=\"_blank\"><code>s.on()</code></a>\ncallbacks are dropped.</p>\n"
         },
         {
+          "name": "js_context_reuse",
+          "default": "128",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "*`number`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>number</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets a maximum number of JS context to be reused for\n[QuickJS engine](https://nginx.org/en/docs/njs/engine.html).\nEach context is used for a single stream session.\nThe finished context is put into a pool of reusable contexts.\nIf the pool is full, the context is destroyed.",
+          "description_html": "<p>Sets a maximum number of JS context to be reused for\n<a href=\"https://nginx.org/en/docs/njs/engine.html\" target=\"_blank\">QuickJS engine</a>.\nEach context is used for a single stream session.\nThe finished context is put into a pool of reusable contexts.\nIf the pool is full, the context is destroyed.</p>\n"
+        },
+        {
+          "name": "js_engine",
+          "default": "njs",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "`njs` | `qjs`"
+          ],
+          "syntax_html": [
+            "<p><code>njs</code> | <code>qjs</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets a [JavaScript engine](https://nginx.org/en/docs/njs/engine.html)\nto be used for njs scripts.\nThe `njs` parameter sets the njs engine, also used by default.\nThe `qjs` parameter sets the QuickJS engine.",
+          "description_html": "<p>Sets a <a href=\"https://nginx.org/en/docs/njs/engine.html\" target=\"_blank\">JavaScript engine</a>\nto be used for njs scripts.\nThe <code>njs</code> parameter sets the njs engine, also used by default.\nThe <code>qjs</code> parameter sets the QuickJS engine.</p>\n"
+        },
+        {
           "name": "js_fetch_buffer_size",
           "default": "16k",
           "contexts": [
@@ -14113,14 +14201,14 @@
             "server"
           ],
           "syntax_md": [
-            "*`$variable`* *`function`* | *`module.function`*"
+            "*`$variable`* *`function`* | *`module.function`* [`nocache`]"
           ],
           "syntax_html": [
-            "<p><em><code>$variable</code></em> <em><code>function</code></em> | <em><code>module.function</code></em></p>\n"
+            "<p><em><code>$variable</code></em> <em><code>function</code></em> | <em><code>module.function</code></em> [<code>nocache</code>]</p>\n"
           ],
           "isBlock": false,
-          "description_md": "Sets an njs `function`\nfor the specified `variable`.\nSince [0.4.0](https://nginx.org/en/docs/njs/changes.html#njs0.4.0),\na module function can be referenced.\n\nThe function is called when\nthe variable is referenced for the first time for a given request.\nThe exact moment depends on a\n[phase](https://nginx.org/en/docs/stream/stream_processing.html)\nat which the variable is referenced.\nThis can be used to perform some logic\nnot related to variable evaluation.\nFor example, if the variable is referenced only in the\n[`log_format`](https://nginx.org/en/docs/stream/ngx_stream_log_module.html#log_format) directive,\nits handler will not be executed until the log phase.\nThis handler can be used to do some cleanup\nright before the request is freed.\n\n> As the `js_set` handler\n> returns its result immediately, it supports\n> only synchronous callbacks.\n> Thus, asynchronous callbacks such as\n> [ngx.fetch()](https://nginx.org/en/docs/njs/reference.html#ngx_fetch)\n> or\n> [setTimeout()](https://nginx.org/en/docs/njs/reference.html#settimeout)\n> are not supported.\n\n> The directive can be specified on the\n> `server` level\n> since [0.7.7](https://nginx.org/en/docs/njs/changes.html#njs0.7.7).",
-          "description_html": "<p>Sets an njs <code>function</code>\nfor the specified <code>variable</code>.\nSince <a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.4.0\" target=\"_blank\">0.4.0</a>,\na module function can be referenced.</p>\n\n<p>The function is called when\nthe variable is referenced for the first time for a given request.\nThe exact moment depends on a\n<a href=\"https://nginx.org/en/docs/stream/stream_processing.html\" target=\"_blank\">phase</a>\nat which the variable is referenced.\nThis can be used to perform some logic\nnot related to variable evaluation.\nFor example, if the variable is referenced only in the\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_log_module.html#log_format\" target=\"_blank\"><code>log_format</code></a> directive,\nits handler will not be executed until the log phase.\nThis handler can be used to do some cleanup\nright before the request is freed.</p>\n\n<blockquote>\n<p>As the <code>js_set</code> handler\nreturns its result immediately, it supports\nonly synchronous callbacks.\nThus, asynchronous callbacks such as\n<a href=\"https://nginx.org/en/docs/njs/reference.html#ngx_fetch\" target=\"_blank\">ngx.fetch()</a>\nor\n<a href=\"https://nginx.org/en/docs/njs/reference.html#settimeout\" target=\"_blank\">setTimeout()</a>\nare not supported.</p>\n\n<p>The directive can be specified on the\n<code>server</code> level\nsince <a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.7.7\" target=\"_blank\">0.7.7</a>.</p>\n</blockquote>\n"
+          "description_md": "Sets an njs `function`\nfor the specified `variable`.\nSince [0.4.0](https://nginx.org/en/docs/njs/changes.html#njs0.4.0),\na module function can be referenced.\n\nThe function is called when\nthe variable is referenced for the first time for a given request.\nThe exact moment depends on a\n[phase](https://nginx.org/en/docs/stream/stream_processing.html)\nat which the variable is referenced.\nThis can be used to perform some logic\nnot related to variable evaluation.\nFor example, if the variable is referenced only in the\n[`log_format`](https://nginx.org/en/docs/stream/ngx_stream_log_module.html#log_format) directive,\nits handler will not be executed until the log phase.\nThis handler can be used to do some cleanup\nright before the request is freed.\n\nSince [0.8.6](https://nginx.org/en/docs/njs/changes.html#njs0.8.6), when\noptional argument `nocache` is provided the handler\nis called every time it is referenced.\nDue to current limitations\nof the [rewrite](https://nginx.org/en/docs/stream/ngx_stream_js_module.html) module,\nwhen a `nocache` variable is referenced by the\n[set](https://nginx.org/en/docs/stream/ngx_stream_set_module.html#set) directive\nits handler should always return a fixed-length value.\n\n> As the `js_set` handler\n> returns its result immediately, it supports\n> only synchronous callbacks.\n> Thus, asynchronous callbacks such as\n> [ngx.fetch()](https://nginx.org/en/docs/njs/reference.html#ngx_fetch)\n> or\n> [setTimeout()](https://nginx.org/en/docs/njs/reference.html#settimeout)\n> are not supported.\n\n> The directive can be specified on the\n> `server` level\n> since [0.7.7](https://nginx.org/en/docs/njs/changes.html#njs0.7.7).",
+          "description_html": "<p>Sets an njs <code>function</code>\nfor the specified <code>variable</code>.\nSince <a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.4.0\" target=\"_blank\">0.4.0</a>,\na module function can be referenced.</p>\n\n<p>The function is called when\nthe variable is referenced for the first time for a given request.\nThe exact moment depends on a\n<a href=\"https://nginx.org/en/docs/stream/stream_processing.html\" target=\"_blank\">phase</a>\nat which the variable is referenced.\nThis can be used to perform some logic\nnot related to variable evaluation.\nFor example, if the variable is referenced only in the\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_log_module.html#log_format\" target=\"_blank\"><code>log_format</code></a> directive,\nits handler will not be executed until the log phase.\nThis handler can be used to do some cleanup\nright before the request is freed.</p>\n\n<p>Since <a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.8.6\" target=\"_blank\">0.8.6</a>, when\noptional argument <code>nocache</code> is provided the handler\nis called every time it is referenced.\nDue to current limitations\nof the <a href=\"https://nginx.org/en/docs/stream/ngx_stream_js_module.html\" target=\"_blank\">rewrite</a> module,\nwhen a <code>nocache</code> variable is referenced by the\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_set_module.html#set\" target=\"_blank\">set</a> directive\nits handler should always return a fixed-length value.</p>\n\n<blockquote>\n<p>As the <code>js_set</code> handler\nreturns its result immediately, it supports\nonly synchronous callbacks.\nThus, asynchronous callbacks such as\n<a href=\"https://nginx.org/en/docs/njs/reference.html#ngx_fetch\" target=\"_blank\">ngx.fetch()</a>\nor\n<a href=\"https://nginx.org/en/docs/njs/reference.html#settimeout\" target=\"_blank\">setTimeout()</a>\nare not supported.</p>\n\n<p>The directive can be specified on the\n<code>server</code> level\nsince <a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.7.7\" target=\"_blank\">0.7.7</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "js_shared_dict_zone",
@@ -16368,5 +16456,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/6e199dec7bb66c7683a37531b802fa7fbf216cac"
+  "version": "https://github.com/nginx/nginx.org/commit/2a84b6107338e8f3b8f1eb1862caf888ddde69bf"
 }
