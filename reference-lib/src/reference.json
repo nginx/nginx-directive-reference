@@ -3908,6 +3908,24 @@
           "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the gRPC SSL server.</p>\n"
         },
         {
+          "name": "grpc_ssl_key_log",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "path"
+          ],
+          "syntax_html": [
+            "<p>path</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables logging of gRPC SSL server connection SSL keys\nand specifies the path to the key log file.\nKeys are logged in the\n[SSLKEYLOGFILE](https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile)\nformat compatible with Wireshark.\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Enables logging of gRPC SSL server connection SSL keys\nand specifies the path to the key log file.\nKeys are logged in the\n<a href=\"https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile\" target=\"_blank\">SSLKEYLOGFILE</a>\nformat compatible with Wireshark.</p>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
+        },
+        {
           "name": "grpc_ssl_name",
           "default": "host from grpc_pass",
           "contexts": [
@@ -6901,6 +6919,24 @@
           "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the proxied HTTPS server.</p>\n"
         },
         {
+          "name": "proxy_ssl_key_log",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "path"
+          ],
+          "syntax_html": [
+            "<p>path</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables logging of proxied HTTPS server connection SSL keys\nand specifies the path to the key log file.\nKeys are logged in the\n[SSLKEYLOGFILE](https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile)\nformat compatible with Wireshark.\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Enables logging of proxied HTTPS server connection SSL keys\nand specifies the path to the key log file.\nKeys are logged in the\n<a href=\"https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile\" target=\"_blank\">SSLKEYLOGFILE</a>\nformat compatible with Wireshark.</p>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
+        },
+        {
           "name": "proxy_ssl_name",
           "default": "$proxy_host",
           "contexts": [
@@ -8751,6 +8787,23 @@
           "isBlock": false,
           "description_md": "Specifies a *`curve`* for ECDHE ciphers.\n\nWhen using OpenSSL 1.0.2 or higher,\nit is possible to specify multiple curves (1.11.0), for example:\n```\nssl_ecdh_curve prime256v1:secp384r1;\n```\n\nThe special value `auto` (1.11.0) instructs nginx to use\na list built into the OpenSSL library when using OpenSSL 1.0.2 or higher,\nor `prime256v1` with older versions.\n\n> Prior to version 1.11.0,\n> the `prime256v1` curve was used by default.\n\n> When using OpenSSL 1.0.2 or higher,\n> this directive sets the list of curves supported by the server.\n> Thus, in order for ECDSA certificates to work,\n> it is important to include the curves used in the certificates.",
           "description_html": "<p>Specifies a <em><code>curve</code></em> for ECDHE ciphers.</p>\n\n<p>When using OpenSSL 1.0.2 or higher,\nit is possible to specify multiple curves (1.11.0), for example:</p>\n\n<pre><code>ssl_ecdh_curve prime256v1:secp384r1;\n</code></pre>\n\n<p>The special value <code>auto</code> (1.11.0) instructs nginx to use\na list built into the OpenSSL library when using OpenSSL 1.0.2 or higher,\nor <code>prime256v1</code> with older versions.</p>\n\n<blockquote>\n<p>Prior to version 1.11.0,\nthe <code>prime256v1</code> curve was used by default.</p>\n\n<p>When using OpenSSL 1.0.2 or higher,\nthis directive sets the list of curves supported by the server.\nThus, in order for ECDSA certificates to work,\nit is important to include the curves used in the certificates.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "ssl_key_log",
+          "default": "",
+          "contexts": [
+            "http",
+            "server"
+          ],
+          "syntax_md": [
+            "path"
+          ],
+          "syntax_html": [
+            "<p>path</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables logging of client connection SSL keys\nand specifies the path to the key log file.\nKeys are logged in the\n[SSLKEYLOGFILE](https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile)\nformat compatible with Wireshark.\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Enables logging of client connection SSL keys\nand specifies the path to the key log file.\nKeys are logged in the\n<a href=\"https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile\" target=\"_blank\">SSLKEYLOGFILE</a>\nformat compatible with Wireshark.</p>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "ssl_ocsp",
@@ -10853,6 +10906,24 @@
           "isBlock": false,
           "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_ssl_verify)\nthe certificate of the secured uwsgi server.",
           "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the secured uwsgi server.</p>\n"
+        },
+        {
+          "name": "uwsgi_ssl_key_log",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "path"
+          ],
+          "syntax_html": [
+            "<p>path</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables logging of secured uwsgi server connection SSL keys\nand specifies the path to the key log file.\nKeys are logged in the\n[SSLKEYLOGFILE](https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile)\nformat compatible with Wireshark.\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Enables logging of secured uwsgi server connection SSL keys\nand specifies the path to the key log file.\nKeys are logged in the\n<a href=\"https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile\" target=\"_blank\">SSLKEYLOGFILE</a>\nformat compatible with Wireshark.</p>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "uwsgi_ssl_name",
@@ -12968,22 +13039,6 @@
       "name": "ngx_mgmt_module",
       "directives": [
         {
-          "name": "connect_timeout",
-          "default": "15s",
-          "contexts": [
-            "mgmt"
-          ],
-          "syntax_md": [
-            "*`time`*"
-          ],
-          "syntax_html": [
-            "<p><em><code>time</code></em></p>\n"
-          ],
-          "isBlock": false,
-          "description_md": "Defines a timeout for establishing a connection with the Instance Manager.",
-          "description_html": "<p>Defines a timeout for establishing a connection with the Instance Manager.</p>\n"
-        },
-        {
           "name": "mgmt",
           "default": "",
           "contexts": [
@@ -12996,24 +13051,40 @@
             "<p><code>{...}</code></p>\n"
           ],
           "isBlock": true,
-          "description_md": "Provides the configuration file context\nin which the management server directives are specified.",
-          "description_html": "<p>Provides the configuration file context\nin which the management server directives are specified.</p>\n"
+          "description_md": "Provides the configuration file context in which\nusage reporting and license management directives\nare specified.",
+          "description_html": "<p>Provides the configuration file context in which\nusage reporting and license management directives\nare specified.</p>\n"
         },
         {
-          "name": "read_timeout",
-          "default": "60s",
+          "name": "enforce_initial_report",
+          "default": "on",
           "contexts": [
             "mgmt"
           ],
           "syntax_md": [
-            "*`time`*"
+            "`on` | `off`"
           ],
           "syntax_html": [
-            "<p><em><code>time</code></em></p>\n"
+            "<p><code>on</code> | <code>off</code></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Defines a timeout for reading a response from the Instance Manager.\nThe timeout is set only between two successive read operations,\nnot for the transmission of the whole response.\nIf the Instance Manager does not transmit anything within this time,\nthe connection is closed.",
-          "description_html": "<p>Defines a timeout for reading a response from the Instance Manager.\nThe timeout is set only between two successive read operations,\nnot for the transmission of the whole response.\nIf the Instance Manager does not transmit anything within this time,\nthe connection is closed.</p>\n"
+          "description_md": "Enables or disables the 180-day grace period\nfor sending the initial usage report.\n\nThe initial usage report is sent immediately\nupon nginx first start after installation.\nBy default, if the initial report is not received by F5 licensing endpoint,\nnginx stops processing traffic until the report is successfully delivered.\nSetting the directive value to `off` enables\nthe 180-day grace period during which\nthe initial usage report must be received by F5 licensing endpoint.",
+          "description_html": "<p>Enables or disables the 180-day grace period\nfor sending the initial usage report.</p>\n\n<p>The initial usage report is sent immediately\nupon nginx first start after installation.\nBy default, if the initial report is not received by F5 licensing endpoint,\nnginx stops processing traffic until the report is successfully delivered.\nSetting the directive value to <code>off</code> enables\nthe 180-day grace period during which\nthe initial usage report must be received by F5 licensing endpoint.</p>\n"
+        },
+        {
+          "name": "license_token",
+          "default": "license.jwt",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a JWT license *`file`*.\nBy default, the *`license.jwt`* file is expected to be at\n`/etc/nginx/` for Linux or at\n`/usr/local/etc/nginx/` for FreeBSD.",
+          "description_html": "<p>Specifies a JWT license <em><code>file</code></em>.\nBy default, the <em><code>license.jwt</code></em> file is expected to be at\n<code>/etc/nginx/</code> for Linux or at\n<code>/usr/local/etc/nginx/</code> for FreeBSD.</p>\n"
         },
         {
           "name": "resolver",
@@ -13028,104 +13099,8 @@
             "<p><em><code>address</code></em> &hellip; [<code>valid</code>=<em><code>time</code></em>] [<code>ipv4</code>=<code>on</code>|<code>off</code>] [<code>ipv6</code>=<code>on</code>|<code>off</code>] [<code>status_zone</code>=<em><code>zone</code></em>]</p>\n"
           ],
           "isBlock": false,
-          "description_md": "Configures name servers used to resolve names of the Instance Manager\ninto addresses, for example:\n```\nresolver 127.0.0.1 [::1]:5353;\n```\nThe address can be specified as a domain name or IP address,\nwith an optional port.\nIf port is not specified, the port 53 is used.\nName servers are queried in a round-robin fashion.\n\nBy default, nginx will look up both IPv4 and IPv6 addresses while resolving.\nIf looking up of IPv4 or IPv6 addresses is not desired,\nthe `ipv4=off` or\nthe `ipv6=off` parameter can be specified.\n\nBy default, nginx caches answers using the TTL value of a response.\nAn optional `valid` parameter allows overriding it:\n```\nresolver 127.0.0.1 [::1]:5353 valid=30s;\n```\n> To prevent DNS spoofing, it is recommended\n> configuring DNS servers in a properly secured trusted local network.\n\nThe optional `status_zone` parameter\nenables\n[collection](https://nginx.org/en/docs/ngx_mgmt_module.html#resolvers_)\nof DNS server statistics of requests and responses\nin the specified *`zone`*.",
-          "description_html": "<p>Configures name servers used to resolve names of the Instance Manager\ninto addresses, for example:</p>\n\n<pre><code>resolver 127.0.0.1 [::1]:5353;\n</code></pre>\n\n<p>The address can be specified as a domain name or IP address,\nwith an optional port.\nIf port is not specified, the port 53 is used.\nName servers are queried in a round-robin fashion.</p>\n\n<p>By default, nginx will look up both IPv4 and IPv6 addresses while resolving.\nIf looking up of IPv4 or IPv6 addresses is not desired,\nthe <code>ipv4=off</code> or\nthe <code>ipv6=off</code> parameter can be specified.</p>\n\n<p>By default, nginx caches answers using the TTL value of a response.\nAn optional <code>valid</code> parameter allows overriding it:</p>\n\n<pre><code>resolver 127.0.0.1 [::1]:5353 valid=30s;\n</code></pre>\n\n<blockquote>\n<p>To prevent DNS spoofing, it is recommended\nconfiguring DNS servers in a properly secured trusted local network.</p>\n</blockquote>\n\n<p>The optional <code>status_zone</code> parameter\nenables\n<a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#resolvers_\" target=\"_blank\">collection</a>\nof DNS server statistics of requests and responses\nin the specified <em><code>zone</code></em>.</p>\n"
-        },
-        {
-          "name": "resolver_timeout",
-          "default": "30s",
-          "contexts": [
-            "mgmt"
-          ],
-          "syntax_md": [
-            "*`time`*"
-          ],
-          "syntax_html": [
-            "<p><em><code>time</code></em></p>\n"
-          ],
-          "isBlock": false,
-          "description_md": "Sets a timeout for name resolution.",
-          "description_html": "<p>Sets a timeout for name resolution.</p>\n"
-        },
-        {
-          "name": "send_timeout",
-          "default": "60s",
-          "contexts": [
-            "mgmt"
-          ],
-          "syntax_md": [
-            "*`time`*"
-          ],
-          "syntax_html": [
-            "<p><em><code>time</code></em></p>\n"
-          ],
-          "isBlock": false,
-          "description_md": "Sets a timeout for transmitting a request to the Instance Manager.\nThe timeout is set only between two successive write operations,\nnot for the transmission of the whole request.\nIf the Instance Manager does not receive anything within this time,\nthe connection is closed.",
-          "description_html": "<p>Sets a timeout for transmitting a request to the Instance Manager.\nThe timeout is set only between two successive write operations,\nnot for the transmission of the whole request.\nIf the Instance Manager does not receive anything within this time,\nthe connection is closed.</p>\n"
-        },
-        {
-          "name": "ssl",
-          "default": "on",
-          "contexts": [
-            "mgmt"
-          ],
-          "syntax_md": [
-            "`on` | `off`"
-          ],
-          "syntax_html": [
-            "<p><code>on</code> | <code>off</code></p>\n"
-          ],
-          "isBlock": false,
-          "description_md": "Enables the HTTPS protocol for all\nconnections to the Instance Manager.",
-          "description_html": "<p>Enables the HTTPS protocol for all\nconnections to the Instance Manager.</p>\n"
-        },
-        {
-          "name": "ssl_certificate",
-          "default": "",
-          "contexts": [
-            "mgmt"
-          ],
-          "syntax_md": [
-            "*`file`*"
-          ],
-          "syntax_html": [
-            "<p><em><code>file</code></em></p>\n"
-          ],
-          "isBlock": false,
-          "description_md": "Specifies a *`file`* with the certificate in the PEM format\nused for authentication to the Instance Manager.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with the certificate in the PEM format\nused for authentication to the Instance Manager.</p>\n"
-        },
-        {
-          "name": "ssl_certificate_key",
-          "default": "",
-          "contexts": [
-            "mgmt"
-          ],
-          "syntax_md": [
-            "*`file`*"
-          ],
-          "syntax_html": [
-            "<p><em><code>file</code></em></p>\n"
-          ],
-          "isBlock": false,
-          "description_md": "Specifies a *`file`* with the secret key in the PEM format\nused for authentication to the Instance Manager.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with the secret key in the PEM format\nused for authentication to the Instance Manager.</p>\n"
-        },
-        {
-          "name": "ssl_ciphers",
-          "default": "DEFAULT",
-          "contexts": [
-            "mgmt"
-          ],
-          "syntax_md": [
-            "*`ciphers`*"
-          ],
-          "syntax_html": [
-            "<p><em><code>ciphers</code></em></p>\n"
-          ],
-          "isBlock": false,
-          "description_md": "Specifies the enabled ciphers for requests to the Instance Manager.\nThe ciphers are specified in the format understood by the OpenSSL library.\n\nThe full list can be viewed using the\n“`openssl ciphers`” command.",
-          "description_html": "<p>Specifies the enabled ciphers for requests to the Instance Manager.\nThe ciphers are specified in the format understood by the OpenSSL library.</p>\n\n<p>The full list can be viewed using the\n“<code>openssl ciphers</code>” command.</p>\n"
+          "description_md": "Configures name servers used to resolve usage reporting endpoint name.\nBy default, the system resolver is used.\n\nSee [`resolver`](https://nginx.org/en/docs/http/ngx_http_core_module.html#resolver) for details.",
+          "description_html": "<p>Configures name servers used to resolve usage reporting endpoint name.\nBy default, the system resolver is used.</p>\n\n<p>See <a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#resolver\" target=\"_blank\"><code>resolver</code></a> for details.</p>\n"
         },
         {
           "name": "ssl_crl",
@@ -13140,76 +13115,12 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify)\nthe certificate of the Instance Manager.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the Instance Manager.</p>\n"
-        },
-        {
-          "name": "ssl_name",
-          "default": "ssl_name host",
-          "contexts": [
-            "mgmt"
-          ],
-          "syntax_md": [
-            "*`name`*"
-          ],
-          "syntax_html": [
-            "<p><em><code>name</code></em></p>\n"
-          ],
-          "isBlock": false,
-          "description_md": "Allows overriding the server name used to\n[verify](https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify)\nthe certificate of the Instance Manager and to be\n[passed through SNI](https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_server_name)\nwhen establishing a connection with the Instance Manager.",
-          "description_html": "<p>Allows overriding the server name used to\n<a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the Instance Manager and to be\n<a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_server_name\" target=\"_blank\">passed through SNI</a>\nwhen establishing a connection with the Instance Manager.</p>\n"
-        },
-        {
-          "name": "ssl_password_file",
-          "default": "",
-          "contexts": [
-            "mgmt"
-          ],
-          "syntax_md": [
-            "*`file`*"
-          ],
-          "syntax_html": [
-            "<p><em><code>file</code></em></p>\n"
-          ],
-          "isBlock": false,
-          "description_md": "Specifies a *`file`* with passphrases for\n[secret keys](https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_certificate_key)\nwhere each passphrase is specified on a separate line.\nPassphrases are tried in turn when loading the key.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with passphrases for\n<a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_certificate_key\" target=\"_blank\">secret keys</a>\nwhere each passphrase is specified on a separate line.\nPassphrases are tried in turn when loading the key.</p>\n"
-        },
-        {
-          "name": "ssl_protocols",
-          "default": "TLSv1 TLSv1.1 TLSv1.2 TLSv1.3",
-          "contexts": [
-            "mgmt"
-          ],
-          "syntax_md": [
-            "[`SSLv2`] [`SSLv3`] [`TLSv1`] [`TLSv1.1`] [`TLSv1.2`] [`TLSv1.3`]"
-          ],
-          "syntax_html": [
-            "<p>[<code>SSLv2</code>] [<code>SSLv3</code>] [<code>TLSv1</code>] [<code>TLSv1.1</code>] [<code>TLSv1.2</code>] [<code>TLSv1.3</code>]</p>\n"
-          ],
-          "isBlock": false,
-          "description_md": "Enables the specified protocols for requests to the Instance Manager.",
-          "description_html": "<p>Enables the specified protocols for requests to the Instance Manager.</p>\n"
-        },
-        {
-          "name": "ssl_server_name",
-          "default": "off",
-          "contexts": [
-            "mgmt"
-          ],
-          "syntax_md": [
-            "`on` | `off`"
-          ],
-          "syntax_html": [
-            "<p><code>on</code> | <code>off</code></p>\n"
-          ],
-          "isBlock": false,
-          "description_md": "Enables or disables passing of the server name through\n[TLS Server Name Indication extension](http://en.wikipedia.org/wiki/Server_Name_Indication) (SNI, RFC 6066)\nwhen establishing a connection with the Instance Manager.",
-          "description_html": "<p>Enables or disables passing of the server name through\n<a href=\"http://en.wikipedia.org/wiki/Server_Name_Indication\" target=\"_blank\">TLS Server Name Indication extension</a> (SNI, RFC 6066)\nwhen establishing a connection with the Instance Manager.</p>\n"
+          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify)\nthe certificate of the usage reporting endpoint.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the usage reporting endpoint.</p>\n"
         },
         {
           "name": "ssl_trusted_certificate",
-          "default": "",
+          "default": "system CA bundle",
           "contexts": [
             "mgmt"
           ],
@@ -13220,12 +13131,12 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with trusted CA certificates in the PEM format\nused to [verify](https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify)\nthe certificate of the Instance Manager.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with trusted CA certificates in the PEM format\nused to <a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the Instance Manager.</p>\n"
+          "description_md": "Specifies a *`file`* with trusted CA certificates in the PEM format\nused to [verify](https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify)\nthe certificate of the usage reporting endpoint.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with trusted CA certificates in the PEM format\nused to <a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the usage reporting endpoint.</p>\n"
         },
         {
           "name": "ssl_verify",
-          "default": "off",
+          "default": "on",
           "contexts": [
             "mgmt"
           ],
@@ -13236,28 +13147,28 @@
             "<p><code>on</code> | <code>off</code></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Enables or disables verification of the Instance Manager certificate.",
-          "description_html": "<p>Enables or disables verification of the Instance Manager certificate.</p>\n"
+          "description_md": "Enables or disables verification of the usage reporting endpoint certificate.\n\n> Before 1.27.2, the default value was `off`.",
+          "description_html": "<p>Enables or disables verification of the usage reporting endpoint certificate.</p>\n\n<blockquote>\n<p>Before 1.27.2, the default value was <code>off</code>.</p>\n</blockquote>\n"
         },
         {
-          "name": "ssl_verify_depth",
-          "default": "1",
+          "name": "state_path",
+          "default": "",
           "contexts": [
             "mgmt"
           ],
           "syntax_md": [
-            "*`number`*"
+            "*`path`*"
           ],
           "syntax_html": [
-            "<p><em><code>number</code></em></p>\n"
+            "<p><em><code>path</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Sets the verification depth in the Instance Manager certificates chain.",
-          "description_html": "<p>Sets the verification depth in the Instance Manager certificates chain.</p>\n"
+          "description_md": "Defines a directory for storing state files\n(`nginx-mgmt-*`)\ncreated by the `ngx_mgmt_module` module.\nThe default directory\nfor Linux is `/var/lib/nginx/state`,\nfor FreeBSD is `/var/db/nginx/state`.",
+          "description_html": "<p>Defines a directory for storing state files\n(<code>nginx-mgmt-*</code>)\ncreated by the <code>ngx_mgmt_module</code> module.\nThe default directory\nfor Linux is <code>/var/lib/nginx/state</code>,\nfor FreeBSD is <code>/var/db/nginx/state</code>.</p>\n"
         },
         {
           "name": "usage_report",
-          "default": "",
+          "default": "endpoint=product.connect.nginx.com interval=1h",
           "contexts": [
             "mgmt"
           ],
@@ -13268,24 +13179,8 @@
             "<p>[<code>endpoint</code>=<em><code>address</code></em>] [<code>interval</code>=<em><code>time</code></em>]</p>\n"
           ],
           "isBlock": false,
-          "description_md": "Sets the *`address`* and *`port`* for IP,\nor the *`path`* for a UNIX-domain socket on which\nthe Instance Manager is installed,\nby default `nginx-mgmt.local`.\nThe `interval` sets an interval between reports\nto the Instance Manager, by default 30m.",
-          "description_html": "<p>Sets the <em><code>address</code></em> and <em><code>port</code></em> for IP,\nor the <em><code>path</code></em> for a UNIX-domain socket on which\nthe Instance Manager is installed,\nby default <code>nginx-mgmt.local</code>.\nThe <code>interval</code> sets an interval between reports\nto the Instance Manager, by default 30m.</p>\n"
-        },
-        {
-          "name": "uuid_file",
-          "default": "logs/uuid",
-          "contexts": [
-            "mgmt"
-          ],
-          "syntax_md": [
-            "*`file`*"
-          ],
-          "syntax_html": [
-            "<p><em><code>file</code></em></p>\n"
-          ],
-          "isBlock": false,
-          "description_md": "Specifies a *`file`* that keeps the ID of nginx instance.\n\nExamples:\n```\nuuid_file /var/lib/nginx/nginx.id; # path for Linux\nuuid_file /var/db/nginx/nginx.id;  # path for FreeBSD\n```\n\nChanging the file content directly should be avoided.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> that keeps the ID of nginx instance.</p>\n\n<p>Examples:</p>\n\n<pre><code>uuid_file /var/lib/nginx/nginx.id; # path for Linux\nuuid_file /var/db/nginx/nginx.id;  # path for FreeBSD\n</code></pre>\n\n<p>Changing the file content directly should be avoided.</p>\n"
+          "description_md": "Sets the *`address`* and *`port`*\nof the usage reporting endpoint.\nThe `interval` parameter sets an interval between\ntwo consecutive reports.\n> Before 1.27.2, the default values were\n> `nginx-mgmt.local` and\n> `30m`.",
+          "description_html": "<p>Sets the <em><code>address</code></em> and <em><code>port</code></em>\nof the usage reporting endpoint.\nThe <code>interval</code> parameter sets an interval between\ntwo consecutive reports.</p>\n\n<blockquote>\n<p>Before 1.27.2, the default values were\n<code>nginx-mgmt.local</code> and\n<code>30m</code>.</p>\n</blockquote>\n"
         }
       ]
     },
@@ -14950,6 +14845,23 @@
           "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the proxied server.</p>\n"
         },
         {
+          "name": "proxy_ssl_key_log",
+          "default": "",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "path"
+          ],
+          "syntax_html": [
+            "<p>path</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables logging of proxied server connection SSL keys\nand specifies the path to the key log file.\nKeys are logged in the\n[SSLKEYLOGFILE](https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile)\nformat compatible with Wireshark.\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Enables logging of proxied server connection SSL keys\nand specifies the path to the key log file.\nKeys are logged in the\n<a href=\"https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile\" target=\"_blank\">SSLKEYLOGFILE</a>\nformat compatible with Wireshark.</p>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
+        },
+        {
           "name": "proxy_ssl_name",
           "default": "host from proxy_pass",
           "contexts": [
@@ -15395,6 +15307,23 @@
           "isBlock": false,
           "description_md": "Specifies a timeout for the SSL handshake to complete.",
           "description_html": "<p>Specifies a timeout for the SSL handshake to complete.</p>\n"
+        },
+        {
+          "name": "ssl_key_log",
+          "default": "",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "path"
+          ],
+          "syntax_html": [
+            "<p>path</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables logging of client connection SSL keys\nand specifies the path to the key log file.\nKeys are logged in the\n[SSLKEYLOGFILE](https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile)\nformat compatible with Wireshark.\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Enables logging of client connection SSL keys\nand specifies the path to the key log file.\nKeys are logged in the\n<a href=\"https://datatracker.ietf.org/doc/html/draft-ietf-tls-keylogfile\" target=\"_blank\">SSLKEYLOGFILE</a>\nformat compatible with Wireshark.</p>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "ssl_ocsp",
@@ -16456,5 +16385,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/120efa0a24ae3e19529f7c94a11603699ced5472"
+  "version": "https://github.com/nginx/nginx.org/commit/3aad6b0f8f073986c4114a57cb42395a0d1b18ad"
 }
