@@ -1,12 +1,12 @@
-ARG GO_VERSION=1.21
+ARG GO_VERSION=1.23
 ARG NODE_VERSION=18
 ARG BASE_IMG=docker.io/library/node:${NODE_VERSION}-bullseye
 
-FROM docker.io/library/golang:${GO_VERSION}-bullseye as golang
+FROM docker.io/library/golang:${GO_VERSION}-bullseye AS golang
 ARG GO_JUNIT_REPORT_VERSION=latest
 ARG GOPLS_VERSION=latest
 ARG DELVE_VERSION=latest
-ARG GOLANGCI_LINT_VERSION=1.54.1
+ARG GOLANGCI_LINT_VERSION=1.62.2
 
 RUN go install github.com/jstemmer/go-junit-report/v2@${GO_JUNIT_REPORT_VERSION} \
     && go install -v golang.org/x/tools/gopls@${GOPLS_VERSION} \

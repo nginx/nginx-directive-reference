@@ -1,9 +1,9 @@
 module github.com/nginxinc/nginx-directive-reference/reference-converter
 
-go 1.21
+go 1.23
 
 require (
-	github.com/gomarkdown/markdown v0.0.0-20230716120725-531d2d74bc12
+	github.com/gomarkdown/markdown v0.0.0-20241205020045-f7e15b2f3e62
 	github.com/stretchr/testify v1.10.0
 )
 
