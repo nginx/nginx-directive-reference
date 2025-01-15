@@ -3963,7 +3963,7 @@
         },
         {
           "name": "grpc_ssl_protocols",
-          "default": "TLSv1 TLSv1.1 TLSv1.2 TLSv1.3",
+          "default": "TLSv1.2 TLSv1.3",
           "contexts": [
             "http",
             "server",
@@ -6974,7 +6974,7 @@
         },
         {
           "name": "proxy_ssl_protocols",
-          "default": "TLSv1 TLSv1.1 TLSv1.2 TLSv1.3",
+          "default": "TLSv1.2 TLSv1.3",
           "contexts": [
             "http",
             "server",
@@ -8892,7 +8892,7 @@
         },
         {
           "name": "ssl_protocols",
-          "default": "TLSv1 TLSv1.1 TLSv1.2 TLSv1.3",
+          "default": "TLSv1.2 TLSv1.3",
           "contexts": [
             "http",
             "server"
@@ -10963,7 +10963,7 @@
         },
         {
           "name": "uwsgi_ssl_protocols",
-          "default": "TLSv1 TLSv1.1 TLSv1.2 TLSv1.3",
+          "default": "TLSv1.2 TLSv1.3",
           "contexts": [
             "http",
             "server",
@@ -12382,7 +12382,7 @@
         },
         {
           "name": "ssl_protocols",
-          "default": "TLSv1 TLSv1.1 TLSv1.2 TLSv1.3",
+          "default": "TLSv1.2 TLSv1.3",
           "contexts": [
             "mail",
             "server"
@@ -12797,8 +12797,8 @@
             "<p><em><code>device</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Defines the name of the hardware SSL accelerator.",
-          "description_html": "<p>Defines the name of the hardware SSL accelerator.</p>\n"
+          "description_md": "Defines the name of the hardware SSL accelerator.\n\n> The module may be dynamically loaded by OpenSSL during configuration testing.",
+          "description_html": "<p>Defines the name of the hardware SSL accelerator.</p>\n\n<blockquote>\n<p>The module may be dynamically loaded by OpenSSL during configuration testing.</p>\n</blockquote>\n"
         },
         {
           "name": "thread_pool",
@@ -14897,7 +14897,7 @@
         },
         {
           "name": "proxy_ssl_protocols",
-          "default": "TLSv1 TLSv1.1 TLSv1.2 TLSv1.3",
+          "default": "TLSv1.2 TLSv1.3",
           "contexts": [
             "stream",
             "server"
@@ -15412,7 +15412,7 @@
         },
         {
           "name": "ssl_protocols",
-          "default": "TLSv1 TLSv1.1 TLSv1.2 TLSv1.3",
+          "default": "TLSv1.2 TLSv1.3",
           "contexts": [
             "stream",
             "server"
@@ -16282,7 +16282,7 @@
         },
         {
           "name": "zone_sync_ssl_protocols",
-          "default": "TLSv1 TLSv1.1 TLSv1.2",
+          "default": "TLSv1.2 TLSv1.3",
           "contexts": [
             "stream",
             "server"
@@ -16385,5 +16385,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/c9f5a565b315bf58bd564ab028ba9173d4208cc3"
+  "version": "https://github.com/nginx/nginx.org/commit/a3201c527e80eb36a2a3b117ff8900097977f945"
 }
