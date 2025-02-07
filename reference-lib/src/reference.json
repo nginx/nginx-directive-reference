@@ -1137,6 +1137,24 @@
           "description_html": "<p>Disables keep-alive connections with misbehaving browsers.\nThe <em><code>browser</code></em> parameters specify which\nbrowsers will be affected.\nThe value <code>msie6</code> disables keep-alive connections\nwith old versions of MSIE, once a POST request is received.\nThe value <code>safari</code> disables keep-alive connections\nwith Safari and Safari-like browsers on macOS and macOS-like\noperating systems.\nThe value <code>none</code> enables keep-alive connections\nwith all browsers.</p>\n\n<blockquote>\n<p>Prior to version 1.1.18, the value <code>safari</code> matched\nall Safari and Safari-like browsers on all operating systems, and\nkeep-alive connections with them were disabled by default.</p>\n</blockquote>\n"
         },
         {
+          "name": "keepalive_min_timeout",
+          "default": "0",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`timeout`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>timeout</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets a timeout during which a keep-alive\nclient connection will not be closed on the server side\nfor connection reuse or on graceful shutdown of worker processes.",
+          "description_html": "<p>Sets a timeout during which a keep-alive\nclient connection will not be closed on the server side\nfor connection reuse or on graceful shutdown of worker processes.</p>\n"
+        },
+        {
           "name": "keepalive_requests",
           "default": "1000",
           "contexts": [
@@ -16518,5 +16536,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/4280753a9646343caab18a66beae25d7c6a9e650"
+  "version": "https://github.com/nginx/nginx.org/commit/7ce55f6a9579d4b928d03f94e3a7901767ea9a50"
 }
