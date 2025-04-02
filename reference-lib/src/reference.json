@@ -1748,8 +1748,8 @@
             "<p><code>all</code> | <code>any</code></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Allows access if all (`all`) or at least one\n(`any`) of the\n[ngx_http_access_module](https://nginx.org/en/docs/http/ngx_http_access_module.html),\n[ngx_http_auth_basic_module](https://nginx.org/en/docs/http/ngx_http_auth_basic_module.html),\n[ngx_http_auth_request_module](https://nginx.org/en/docs/http/ngx_http_auth_request_module.html),\nor\n[ngx_http_auth_jwt_module](https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html)\nmodules allow access.\n\nExample:\n```\nlocation / {\n    satisfy any;\n\n    allow 192.168.1.0/32;\n    deny  all;\n\n    auth_basic           \"closed site\";\n    auth_basic_user_file conf/htpasswd;\n}\n```",
-          "description_html": "<p>Allows access if all (<code>all</code>) or at least one\n(<code>any</code>) of the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_access_module.html\" target=\"_blank\">ngx_http_access_module</a>,\n<a href=\"https://nginx.org/en/docs/http/ngx_http_auth_basic_module.html\" target=\"_blank\">ngx_http_auth_basic_module</a>,\n<a href=\"https://nginx.org/en/docs/http/ngx_http_auth_request_module.html\" target=\"_blank\">ngx_http_auth_request_module</a>,\nor\n<a href=\"https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html\" target=\"_blank\">ngx_http_auth_jwt_module</a>\nmodules allow access.</p>\n\n<p>Example:</p>\n\n<pre><code>location / {\n    satisfy any;\n\n    allow 192.168.1.0/32;\n    deny  all;\n\n    auth_basic           &quot;closed site&quot;;\n    auth_basic_user_file conf/htpasswd;\n}\n</code></pre>\n"
+          "description_md": "Allows access if all (`all`) or at least one\n(`any`) of the\n[ngx_http_access_module](https://nginx.org/en/docs/http/ngx_http_access_module.html),\n[ngx_http_auth_basic_module](https://nginx.org/en/docs/http/ngx_http_auth_basic_module.html),\n[ngx_http_auth_request_module](https://nginx.org/en/docs/http/ngx_http_auth_request_module.html),\n[ngx_http_auth_jwt_module](https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html)\n(1.13.10),\nor\n[ngx_http_auth_oidc_module](https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html)\n(1.27.4)\nmodules allow access.\n\nExample:\n```\nlocation / {\n    satisfy any;\n\n    allow 192.168.1.0/32;\n    deny  all;\n\n    auth_basic           \"closed site\";\n    auth_basic_user_file conf/htpasswd;\n}\n```",
+          "description_html": "<p>Allows access if all (<code>all</code>) or at least one\n(<code>any</code>) of the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_access_module.html\" target=\"_blank\">ngx_http_access_module</a>,\n<a href=\"https://nginx.org/en/docs/http/ngx_http_auth_basic_module.html\" target=\"_blank\">ngx_http_auth_basic_module</a>,\n<a href=\"https://nginx.org/en/docs/http/ngx_http_auth_request_module.html\" target=\"_blank\">ngx_http_auth_request_module</a>,\n<a href=\"https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html\" target=\"_blank\">ngx_http_auth_jwt_module</a>\n(1.13.10),\nor\n<a href=\"https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html\" target=\"_blank\">ngx_http_auth_oidc_module</a>\n(1.27.4)\nmodules allow access.</p>\n\n<p>Example:</p>\n\n<pre><code>location / {\n    satisfy any;\n\n    allow 192.168.1.0/32;\n    deny  all;\n\n    auth_basic           &quot;closed site&quot;;\n    auth_basic_user_file conf/htpasswd;\n}\n</code></pre>\n"
         },
         {
           "name": "send_lowat",
@@ -5828,6 +5828,255 @@
           "isBlock": false,
           "description_md": "Forces output video to always start with a key video frame.\nIf the `start` argument does not point to a key frame,\ninitial frames are hidden using an mp4 edit list.\nEdit lists are supported by major players and browsers such as\nChrome, Safari, QuickTime and ffmpeg,\npartially supported by Firefox.",
           "description_html": "<p>Forces output video to always start with a key video frame.\nIf the <code>start</code> argument does not point to a key frame,\ninitial frames are hidden using an mp4 edit list.\nEdit lists are supported by major players and browsers such as\nChrome, Safari, QuickTime and ffmpeg,\npartially supported by Firefox.</p>\n"
+        }
+      ]
+    },
+    {
+      "id": "/en/docs/http/ngx_http_oidc_module.html",
+      "name": "ngx_http_oidc_module",
+      "directives": [
+        {
+          "name": "oidc_provider",
+          "default": "",
+          "contexts": [
+            "http"
+          ],
+          "syntax_md": [
+            "*`name`* `{...}`"
+          ],
+          "syntax_html": [
+            "<p><em><code>name</code></em> <code>{...}</code></p>\n"
+          ],
+          "isBlock": true,
+          "description_md": "Defines an OpenID Provider for use with the [`auth_oidc`](https://nginx.org/en/docs/http/ngx_http_oidc_module.html#auth_oidc) directive.",
+          "description_html": "<p>Defines an OpenID Provider for use with the <a href=\"https://nginx.org/en/docs/http/ngx_http_oidc_module.html#auth_oidc\" target=\"_blank\"><code>auth_oidc</code></a> directive.</p>\n"
+        },
+        {
+          "name": "auth_oidc",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`name`* | `off`"
+          ],
+          "syntax_html": [
+            "<p><em><code>name</code></em> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables end user authentication with the\n[specified](https://nginx.org/en/docs/http/ngx_http_oidc_module.html#oidc_provider) OpenID Provider.\n\nThe special value `off` cancels the effect\nof the `auth_oidc` directive\ninherited from the previous configuration level.",
+          "description_html": "<p>Enables end user authentication with the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_oidc_module.html#oidc_provider\" target=\"_blank\">specified</a> OpenID Provider.</p>\n\n<p>The special value <code>off</code> cancels the effect\nof the <code>auth_oidc</code> directive\ninherited from the previous configuration level.</p>\n"
+        },
+        {
+          "name": "issuer",
+          "default": "",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`URL`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>URL</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the Issuer Identifier URL of the OpenID Provider;\nrequired directive.\nThe URL must exactly match the value of “`issuer`”\nin the OpenID Provider metadata\nand requires the “`https`” scheme.",
+          "description_html": "<p>Sets the Issuer Identifier URL of the OpenID Provider;\nrequired directive.\nThe URL must exactly match the value of “<code>issuer</code>”\nin the OpenID Provider metadata\nand requires the “<code>https</code>” scheme.</p>\n"
+        },
+        {
+          "name": "client_id",
+          "default": "",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`string`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>string</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies the client ID of the Relying Party;\nrequired directive.",
+          "description_html": "<p>Specifies the client ID of the Relying Party;\nrequired directive.</p>\n"
+        },
+        {
+          "name": "client_secret",
+          "default": "",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`string`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>string</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a secret value\nused to authenticate the Relying Party with the OpenID Provider.",
+          "description_html": "<p>Specifies a secret value\nused to authenticate the Relying Party with the OpenID Provider.</p>\n"
+        },
+        {
+          "name": "config_url",
+          "default": "<issuer>/.well-known/openid-configuration",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`URL`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>URL</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets a custom URL to retrieve the OpenID Provider metadata.",
+          "description_html": "<p>Sets a custom URL to retrieve the OpenID Provider metadata.</p>\n"
+        },
+        {
+          "name": "cookie_name",
+          "default": "NGX_OIDC_SESSION",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`name`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>name</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the name of a session cookie.",
+          "description_html": "<p>Sets the name of a session cookie.</p>\n"
+        },
+        {
+          "name": "extra_auth_args",
+          "default": "",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`string`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>string</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets additional query arguments for the\n[authentication request](https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest) URL.\n```\nextra_auth_args \"display=page&prompt=login\";\n```",
+          "description_html": "<p>Sets additional query arguments for the\n<a href=\"https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest\" target=\"_blank\">authentication request</a> URL.</p>\n\n<pre><code>extra_auth_args &quot;display=page&amp;prompt=login&quot;;\n</code></pre>\n"
+        },
+        {
+          "name": "redirect_uri",
+          "default": "/oidc_callback",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`uri`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>uri</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines the Redirection URI path for post-authentication redirects\nexpected by the module from the OpenID Provider.\nThe *`uri`* must match the configuration on the Provider's side.",
+          "description_html": "<p>Defines the Redirection URI path for post-authentication redirects\nexpected by the module from the OpenID Provider.\nThe <em><code>uri</code></em> must match the configuration on the Provider&rsquo;s side.</p>\n"
+        },
+        {
+          "name": "scope",
+          "default": "openid",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`scope`* ..."
+          ],
+          "syntax_html": [
+            "<p><em><code>scope</code></em> &hellip;</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets requested scopes.\nThe `openid` scope is always required by OIDC.",
+          "description_html": "<p>Sets requested scopes.\nThe <code>openid</code> scope is always required by OIDC.</p>\n"
+        },
+        {
+          "name": "session_store",
+          "default": "",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`name`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>name</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a custom\n[key-value database](https://nginx.org/en/docs/http/ngx_http_keyval_module.html#keyval_zone)\nthat stores session data.\nBy default, an 8-megabyte key-value database named \n`oidc_default_store_<provider name>`\nis created automatically.\n> A separate key-value database should be configured for each Provider\n> to prevent session reuse across providers.",
+          "description_html": "<p>Specifies a custom\n<a href=\"https://nginx.org/en/docs/http/ngx_http_keyval_module.html#keyval_zone\" target=\"_blank\">key-value database</a>\nthat stores session data.\nBy default, an 8-megabyte key-value database named\n<code>oidc_default_store_&lt;provider name&gt;</code>\nis created automatically.</p>\n\n<blockquote>\n<p>A separate key-value database should be configured for each Provider\nto prevent session reuse across providers.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "session_timeout",
+          "default": "8h",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets a timeout after which the session is deleted, unless it was\n[refreshed](https://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens).",
+          "description_html": "<p>Sets a timeout after which the session is deleted, unless it was\n<a href=\"https://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens\" target=\"_blank\">refreshed</a>.</p>\n"
+        },
+        {
+          "name": "ssl_crl",
+          "default": "",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to verify\nthe certificates of the OpenID Provider endpoints.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to verify\nthe certificates of the OpenID Provider endpoints.</p>\n"
+        },
+        {
+          "name": "ssl_trusted_certificate",
+          "default": "system CA bundle",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a *`file`* with trusted CA certificates in the PEM format\nused to verify\nthe certificates of the OpenID Provider endpoints.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with trusted CA certificates in the PEM format\nused to verify\nthe certificates of the OpenID Provider endpoints.</p>\n"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$oidc_id_token",
+          "description_md": "ID token",
+          "description_html": "<p>ID token</p>\n"
+        },
+        {
+          "name": "$oidc_access_token",
+          "description_md": "access token",
+          "description_html": "<p>access token</p>\n"
+        },
+        {
+          "name": "$oidc_claim_NAME",
+          "description_md": "top-level ID token claim\n\nNested claims can be fetched with the\n[auth_jwt](https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html) module:\n```\nhttp {\n    auth_jwt_claim_set $postal_code address postal_code;\n\n    server {\n        location / {\n            auth_oidc my_idp;\n            auth_jwt  off token=$oidc_id_token;\n\n            proxy_set_header x-postal_code $postal_code;\n            proxy_pass       http://backend;\n        }\n    }\n}\n```",
+          "description_html": "<p>top-level ID token claim</p>\n\n<p>Nested claims can be fetched with the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html\" target=\"_blank\">auth_jwt</a> module:</p>\n\n<pre><code>http {\n    auth_jwt_claim_set $postal_code address postal_code;\n\n    server {\n        location / {\n            auth_oidc my_idp;\n            auth_jwt  off token=$oidc_id_token;\n\n            proxy_set_header x-postal_code $postal_code;\n            proxy_pass       http://backend;\n        }\n    }\n}\n</code></pre>\n"
         }
       ]
     },
@@ -13200,6 +13449,54 @@
           "description_html": "<p>Specifies a JWT license <em><code>file</code></em>.\nBy default, the <em><code>license.jwt</code></em> file is expected to be at\n<code>/etc/nginx/</code> for Linux or at\n<code>/usr/local/etc/nginx/</code> for FreeBSD.</p>\n"
         },
         {
+          "name": "proxy",
+          "default": "",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`host`*:*`port`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>host</code></em>:<em><code>port</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the HTTP CONNECT proxy\nused for sending the usage report.",
+          "description_html": "<p>Sets the HTTP CONNECT proxy\nused for sending the usage report.</p>\n"
+        },
+        {
+          "name": "proxy_username",
+          "default": "",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`string`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>string</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the user name used for authentication on\nthe [proxy](https://nginx.org/en/docs/ngx_mgmt_module.html#proxy).",
+          "description_html": "<p>Sets the user name used for authentication on\nthe <a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#proxy\" target=\"_blank\">proxy</a>.</p>\n"
+        },
+        {
+          "name": "proxy_password",
+          "default": "",
+          "contexts": [
+            "mgmt"
+          ],
+          "syntax_md": [
+            "*`string`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>string</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the password used for authentication on\nthe [proxy](https://nginx.org/en/docs/ngx_mgmt_module.html#proxy).\n\nThe password is sent unencrypted by default.\nIf the proxy supports TLS, the connection to the proxy can be\nprotected with the [stream](https://nginx.org/en/docs/stream/ngx_stream_proxy_module.html)\nmodule:\n```\nmgmt {\n    proxy          127.0.0.1:8080;\n    proxy_username <name>;\n    proxy_password <password>;\n}\n\nstream {\n    server {\n        listen 127.0.0.1:8080;\n        \n        proxy_ssl                     on;\n        proxy_ssl_verify              on;\n        proxy_ssl_trusted_certificate <proxy_ca_file>;\n\n        proxy_pass <proxy_host>:<proxy_port>;\n    }\n}\n```",
+          "description_html": "<p>Sets the password used for authentication on\nthe <a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#proxy\" target=\"_blank\">proxy</a>.</p>\n\n<p>The password is sent unencrypted by default.\nIf the proxy supports TLS, the connection to the proxy can be\nprotected with the <a href=\"https://nginx.org/en/docs/stream/ngx_stream_proxy_module.html\" target=\"_blank\">stream</a>\nmodule:</p>\n\n<pre><code>mgmt {\n    proxy          127.0.0.1:8080;\n    proxy_username &lt;name&gt;;\n    proxy_password &lt;password&gt;;\n}\n\nstream {\n    server {\n        listen 127.0.0.1:8080;\n        \n        proxy_ssl                     on;\n        proxy_ssl_verify              on;\n        proxy_ssl_trusted_certificate &lt;proxy_ca_file&gt;;\n\n        proxy_pass &lt;proxy_host&gt;:&lt;proxy_port&gt;;\n    }\n}\n</code></pre>\n"
+        },
+        {
           "name": "resolver",
           "default": "",
           "contexts": [
@@ -13314,8 +13611,8 @@
             "<p><code>{...}</code></p>\n"
           ],
           "isBlock": true,
-          "description_md": "Specifies OTel data export parameters:\n\n- `endpoint`\n\n    the address of OTLP/gRPC endpoint that will accept telemetry data.\n- `interval`\n\n    the maximum interval between two exports,\n    by default is `5` seconds.\n- `batch_size`\n\n    the maximum number of spans to be sent in one batch per worker,\n    by default is `512`.\n- `batch_count`\n\n    the number of pending batches per worker,\n    spans exceeding the limit are dropped,\n    by default is `4`.\n\nExample:\n```\notel_exporter {\n    endpoint    localhost:4317;\n    interval    5s;\n    batch_size  512;\n    batch_count 4;\n}\n```",
-          "description_html": "<p>Specifies OTel data export parameters:</p>\n\n<ul>\n<li><p><code>endpoint</code></p>\n\n<p>the address of OTLP/gRPC endpoint that will accept telemetry data.</p></li>\n\n<li><p><code>interval</code></p>\n\n<p>the maximum interval between two exports,\nby default is <code>5</code> seconds.</p></li>\n\n<li><p><code>batch_size</code></p>\n\n<p>the maximum number of spans to be sent in one batch per worker,\nby default is <code>512</code>.</p></li>\n\n<li><p><code>batch_count</code></p>\n\n<p>the number of pending batches per worker,\nspans exceeding the limit are dropped,\nby default is <code>4</code>.</p></li>\n</ul>\n\n<p>Example:</p>\n\n<pre><code>otel_exporter {\n    endpoint    localhost:4317;\n    interval    5s;\n    batch_size  512;\n    batch_count 4;\n}\n</code></pre>\n"
+          "description_md": "Specifies OTel data export parameters:\n\n- `\n    endpoint [(http|https)://]host:port;`\n\n    OTLP/gRPC endpoint that will accept telemetry data.\n    TLS is supported since 0.1.2.\n- `\n    trusted_certificate path;`\n\n    the CA certificates file in PEM format used to verify TLS endpoint\n    (since 0.1.2).\n    Defaults to OS provided CA bundle.\n- `header name value;`\n\n    a custom HTTP header to add to telemetry export request (since 0.1.2).\n- `interval time;`\n\n    the maximum interval between two exports,\n    by default is `5` seconds.\n- `batch_size number;`\n\n    the maximum number of spans to be sent in one batch per worker,\n    by default is `512`.\n- `batch_count number;`\n\n    the number of pending batches per worker,\n    spans exceeding the limit are dropped,\n    by default is `4`.\n\nExample:\n```\notel_exporter {\n    endpoint https://otel-example.nginx.com:4317;\n\n    header X-API-Token \"my-token-value\";\n}\n```",
+          "description_html": "<p>Specifies OTel data export parameters:</p>\n\n<ul>\n<li><p><code>\nendpoint [(http|https)://]host:port;</code></p>\n\n<p>OTLP/gRPC endpoint that will accept telemetry data.\nTLS is supported since 0.1.2.</p></li>\n\n<li><p><code>\ntrusted_certificate path;</code></p>\n\n<p>the CA certificates file in PEM format used to verify TLS endpoint\n(since 0.1.2).\nDefaults to OS provided CA bundle.</p></li>\n\n<li><p><code>header name value;</code></p>\n\n<p>a custom HTTP header to add to telemetry export request (since 0.1.2).</p></li>\n\n<li><p><code>interval time;</code></p>\n\n<p>the maximum interval between two exports,\nby default is <code>5</code> seconds.</p></li>\n\n<li><p><code>batch_size number;</code></p>\n\n<p>the maximum number of spans to be sent in one batch per worker,\nby default is <code>512</code>.</p></li>\n\n<li><p><code>batch_count number;</code></p>\n\n<p>the number of pending batches per worker,\nspans exceeding the limit are dropped,\nby default is <code>4</code>.</p></li>\n</ul>\n\n<p>Example:</p>\n\n<pre><code>otel_exporter {\n    endpoint https://otel-example.nginx.com:4317;\n\n    header X-API-Token &quot;my-token-value&quot;;\n}\n</code></pre>\n"
         },
         {
           "name": "otel_service_name",
@@ -13332,6 +13629,22 @@
           "isBlock": false,
           "description_md": "Sets the\n“[`service.name`](https://opentelemetry.io/docs/reference/specification/resource/semantic_conventions/#service)”\nattribute of the OTel resource.",
           "description_html": "<p>Sets the\n“<a href=\"https://opentelemetry.io/docs/reference/specification/resource/semantic_conventions/#service\" target=\"_blank\"><code>service.name</code></a>”\nattribute of the OTel resource.</p>\n"
+        },
+        {
+          "name": "otel_resource_attr",
+          "default": "",
+          "contexts": [
+            "http"
+          ],
+          "syntax_md": [
+            "*`name`* *`value`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>name</code></em> <em><code>value</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets a custom OTel resource attribute.",
+          "description_html": "<p>Sets a custom OTel resource attribute.</p>\n"
         },
         {
           "name": "otel_trace",
@@ -16536,5 +16849,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/602b6808b4d5ebe0d52b366bb95015116523cf54"
+  "version": "https://github.com/nginx/nginx.org/commit/47117cd87beed1b8f92857e46a66f3e8e514cf07"
 }
