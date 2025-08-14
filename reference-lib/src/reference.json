@@ -45,6 +45,184 @@
       ]
     },
     {
+      "id": "/en/docs/http/ngx_http_acme_module.html",
+      "name": "ngx_http_acme_module",
+      "directives": [
+        {
+          "name": "acme_issuer",
+          "default": "",
+          "contexts": [
+            "http"
+          ],
+          "syntax_md": [
+            "*`name`* `{...}`"
+          ],
+          "syntax_html": [
+            "<p><em><code>name</code></em> <code>{...}</code></p>\n"
+          ],
+          "isBlock": true,
+          "description_md": "Defines an ACME certificate issuer object.",
+          "description_html": "<p>Defines an ACME certificate issuer object.</p>\n"
+        },
+        {
+          "name": "uri",
+          "default": "",
+          "contexts": [
+            "acme_issuer"
+          ],
+          "syntax_md": [
+            "*`uri`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>uri</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "The\n[directory URL](https://www.rfc-editor.org/rfc/rfc8555#section-7.1.1)\nof the ACME server.\nThis directive is mandatory.",
+          "description_html": "<p>The\n<a href=\"https://www.rfc-editor.org/rfc/rfc8555#section-7.1.1\" target=\"_blank\">directory URL</a>\nof the ACME server.\nThis directive is mandatory.</p>\n"
+        },
+        {
+          "name": "account_key",
+          "default": "",
+          "contexts": [
+            "acme_issuer"
+          ],
+          "syntax_md": [
+            "*`alg`*[:*`size`*] | *`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>alg</code></em>[:<em><code>size</code></em>] | <em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "The account's private key used for request authentication.\n\nAccepted values:\n- `ecdsa`:*`256`*/*`384`*/*`521`*\n    for ES256, ES384, or ES512 JSON Web Signature algorithms\n- `rsa`:*`2048`*/*`3072`*/*`4096`*\n    for RS256.\n- File path for an existing key, using one of the algorithms above.\n\nThe generated account keys are preserved across reloads,\nbut will be lost on restart unless [`state_path`](https://nginx.org/en/docs/http/ngx_http_acme_module.html#state_path) is configured.",
+          "description_html": "<p>The account&rsquo;s private key used for request authentication.</p>\n\n<p>Accepted values:</p>\n\n<ul>\n<li><code>ecdsa</code>:<em><code>256</code></em>/<em><code>384</code></em>/<em><code>521</code></em>\nfor ES256, ES384, or ES512 JSON Web Signature algorithms</li>\n<li><code>rsa</code>:<em><code>2048</code></em>/<em><code>3072</code></em>/<em><code>4096</code></em>\nfor RS256.</li>\n<li>File path for an existing key, using one of the algorithms above.</li>\n</ul>\n\n<p>The generated account keys are preserved across reloads,\nbut will be lost on restart unless <a href=\"https://nginx.org/en/docs/http/ngx_http_acme_module.html#state_path\" target=\"_blank\"><code>state_path</code></a> is configured.</p>\n"
+        },
+        {
+          "name": "contact",
+          "default": "",
+          "contexts": [
+            "acme_issuer"
+          ],
+          "syntax_md": [
+            "*`URL`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>URL</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets an array of URLs that the ACME server can use\nto contact the client regarding account issues.\nThe `mailto:` scheme will be used\nunless specified explicitly.",
+          "description_html": "<p>Sets an array of URLs that the ACME server can use\nto contact the client regarding account issues.\nThe <code>mailto:</code> scheme will be used\nunless specified explicitly.</p>\n"
+        },
+        {
+          "name": "ssl_trusted_certificate",
+          "default": "",
+          "contexts": [
+            "acme_issuer"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a *`file`* with trusted CA certificates in the PEM format\nused to [verify](https://nginx.org/en/docs/http/ngx_http_acme_module.html#ssl_verify) the certificate\nof the ACME server.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with trusted CA certificates in the PEM format\nused to <a href=\"https://nginx.org/en/docs/http/ngx_http_acme_module.html#ssl_verify\" target=\"_blank\">verify</a> the certificate\nof the ACME server.</p>\n"
+        },
+        {
+          "name": "ssl_verify",
+          "default": "on",
+          "contexts": [
+            "acme_issuer"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables or disables verification of the ACME server certificate.",
+          "description_html": "<p>Enables or disables verification of the ACME server certificate.</p>\n"
+        },
+        {
+          "name": "state_path",
+          "default": "",
+          "contexts": [
+            "acme_issuer"
+          ],
+          "syntax_md": [
+            "*`path`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>path</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines a directory for storing the module data\nthat can be persisted across restarts.\nThis can improve the load time by skipping some requests on startup,\nand avoid hitting request rate limits on the ACME server.\n\nThe directory contains sensitive content, such as\nthe account key, issued certificates, and private keys.",
+          "description_html": "<p>Defines a directory for storing the module data\nthat can be persisted across restarts.\nThis can improve the load time by skipping some requests on startup,\nand avoid hitting request rate limits on the ACME server.</p>\n\n<p>The directory contains sensitive content, such as\nthe account key, issued certificates, and private keys.</p>\n"
+        },
+        {
+          "name": "accept_terms_of_service",
+          "default": "",
+          "contexts": [
+            "acme_issuer"
+          ],
+          "syntax_md": [
+            ""
+          ],
+          "syntax_html": [
+            ""
+          ],
+          "isBlock": false,
+          "description_md": "Agrees to the terms of service under which the ACME server will be used.\nSome servers require accepting the terms of service\nbefore account registration.\nThe terms are usually available on the ACME server's website,\nand the URL will be printed to the error log if necessary.",
+          "description_html": "<p>Agrees to the terms of service under which the ACME server will be used.\nSome servers require accepting the terms of service\nbefore account registration.\nThe terms are usually available on the ACME server&rsquo;s website,\nand the URL will be printed to the error log if necessary.</p>\n"
+        },
+        {
+          "name": "acme_shared_zone",
+          "default": "zone=ngx_acme_shared:256k",
+          "contexts": [
+            "http"
+          ],
+          "syntax_md": [
+            "`zone`=*`name`*:*`size`*"
+          ],
+          "syntax_html": [
+            "<p><code>zone</code>=<em><code>name</code></em>:<em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Allows increasing the size of in-memory storage of the module.\nThe shared memory zone will be used to store the issued certificates,\nkeys and challenge data for all the configured certificate issuers.\n\nThe default zone size is sufficient to hold approximately\n50 ECDSA prime256v1 keys or 35 RSA 2048 keys.",
+          "description_html": "<p>Allows increasing the size of in-memory storage of the module.\nThe shared memory zone will be used to store the issued certificates,\nkeys and challenge data for all the configured certificate issuers.</p>\n\n<p>The default zone size is sufficient to hold approximately\n50 ECDSA prime256v1 keys or 35 RSA 2048 keys.</p>\n"
+        },
+        {
+          "name": "acme_certificate",
+          "default": "",
+          "contexts": [
+            "server"
+          ],
+          "syntax_md": [
+            "*`issuer`* [*`identifier`* ...] [`key`=*`alg`*[:*`size`*]]"
+          ],
+          "syntax_html": [
+            "<p><em><code>issuer</code></em> [<em><code>identifier</code></em> &hellip;] [<code>key</code>=<em><code>alg</code></em>[:<em><code>size</code></em>]]</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines a certificate with the list of `identifiers`\nrequested from issuer `issuer`.\n\nThe explicit list of identifiers can be omitted.\nIn this case, the identifiers will be taken from the\n[`server_name`](https://nginx.org/en/docs/http/ngx_http_core_module.html#server_name) directive\nin the same [`server`](https://nginx.org/en/docs/http/ngx_http_core_module.html#server) block.\nNot all values accepted in the `server_name`\nare valid certificate identifiers:\nregular expressions and wildcards are not supported.\n\nThe key parameter sets the type of a generated private key.\nSupported key algorithms and sizes:\n`ecdsa:256` (default),\n`ecdsa:384`,\n`ecdsa:521`,\n`rsa:2048`,\n`rsa:3072`,\n`rsa:4096`.",
+          "description_html": "<p>Defines a certificate with the list of <code>identifiers</code>\nrequested from issuer <code>issuer</code>.</p>\n\n<p>The explicit list of identifiers can be omitted.\nIn this case, the identifiers will be taken from the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#server_name\" target=\"_blank\"><code>server_name</code></a> directive\nin the same <a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#server\" target=\"_blank\"><code>server</code></a> block.\nNot all values accepted in the <code>server_name</code>\nare valid certificate identifiers:\nregular expressions and wildcards are not supported.</p>\n\n<p>The key parameter sets the type of a generated private key.\nSupported key algorithms and sizes:\n<code>ecdsa:256</code> (default),\n<code>ecdsa:384</code>,\n<code>ecdsa:521</code>,\n<code>rsa:2048</code>,\n<code>rsa:3072</code>,\n<code>rsa:4096</code>.</p>\n"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$acme_certificate",
+          "description_md": "SSL certificate that can be passed to the\n[`ssl_certificate`](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_certificate)",
+          "description_html": "<p>SSL certificate that can be passed to the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_certificate\" target=\"_blank\"><code>ssl_certificate</code></a></p>\n"
+        },
+        {
+          "name": "$acme_certificate_key",
+          "description_md": "SSL certificate private key that can be passed to\n[`ssl_certificate_key`](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_certificate_key)",
+          "description_html": "<p>SSL certificate private key that can be passed to\n<a href=\"https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_certificate_key\" target=\"_blank\"><code>ssl_certificate_key</code></a></p>\n"
+        }
+      ]
+    },
+    {
       "id": "/en/docs/http/ngx_http_addition_module.html",
       "name": "ngx_http_addition_module",
       "directives": [
@@ -413,6 +591,31 @@
           "isBlock": false,
           "description_md": "Sets the request *`variable`* to the given\n*`value`* after the authorization request completes.\nThe value may contain variables from the authorization request,\nsuch as `$upstream_http_*`.",
           "description_html": "<p>Sets the request <em><code>variable</code></em> to the given\n<em><code>value</code></em> after the authorization request completes.\nThe value may contain variables from the authorization request,\nsuch as <code>$upstream_http_*</code>.</p>\n"
+        }
+      ]
+    },
+    {
+      "id": "/en/docs/http/ngx_http_auth_require_module.html",
+      "name": "ngx_http_auth_require_module",
+      "directives": [
+        {
+          "name": "auth_require",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location",
+            "limit_except"
+          ],
+          "syntax_md": [
+            "*`$value`* ... [`error`=`4xx` | `5xx`]"
+          ],
+          "syntax_html": [
+            "<p><em><code>$value</code></em> &hellip; [<code>error</code>=<code>4xx</code> | <code>5xx</code>]</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables authorization based on the specified variables.\nThe access is allowed only if all the variables are not\nempty and are not equal to “0”.\nOtherwise, the module returns `403` code, which can be\noverridden by the `error` parameter.\nSeveral `auth_require` directives can be used to return\ndifferent error codes.",
+          "description_html": "<p>Enables authorization based on the specified variables.\nThe access is allowed only if all the variables are not\nempty and are not equal to “0”.\nOtherwise, the module returns <code>403</code> code, which can be\noverridden by the <code>error</code> parameter.\nSeveral <code>auth_require</code> directives can be used to return\ndifferent error codes.</p>\n"
         }
       ]
     },
@@ -5884,8 +6087,8 @@
             "<p><em><code>name</code></em> | <code>off</code></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Enables end user authentication with the\n[specified](https://nginx.org/en/docs/http/ngx_http_oidc_module.html#oidc_provider) OpenID Provider.\n\nThe special value `off` cancels the effect\nof the `auth_oidc` directive\ninherited from the previous configuration level.",
-          "description_html": "<p>Enables end user authentication with the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_oidc_module.html#oidc_provider\" target=\"_blank\">specified</a> OpenID Provider.</p>\n\n<p>The special value <code>off</code> cancels the effect\nof the <code>auth_oidc</code> directive\ninherited from the previous configuration level.</p>\n"
+          "description_md": "Enables end user authentication with the\n[specified](https://nginx.org/en/docs/http/ngx_http_oidc_module.html#oidc_provider) OpenID Provider.\n\nParameter value can contain variables (1.29.0).\n\nThe special value `off` cancels the effect\nof the `auth_oidc` directive\ninherited from the previous configuration level.",
+          "description_html": "<p>Enables end user authentication with the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_oidc_module.html#oidc_provider\" target=\"_blank\">specified</a> OpenID Provider.</p>\n\n<p>Parameter value can contain variables (1.29.0).</p>\n\n<p>The special value <code>off</code> cancels the effect\nof the <code>auth_oidc</code> directive\ninherited from the previous configuration level.</p>\n"
         },
         {
           "name": "issuer",
@@ -5996,8 +6199,56 @@
             "<p><em><code>uri</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Defines the Redirection URI path for post-authentication redirects\nexpected by the module from the OpenID Provider.\nThe *`uri`* must match the configuration on the Provider's side.",
-          "description_html": "<p>Defines the Redirection URI path for post-authentication redirects\nexpected by the module from the OpenID Provider.\nThe <em><code>uri</code></em> must match the configuration on the Provider&rsquo;s side.</p>\n"
+          "description_md": "Defines the Redirection URI path for post-authentication redirects\nexpected by the module from the OpenID Provider.\nThe *`uri`* must match the configuration on the Provider's side.\n\nAbsolute “`https`” URIs are supported since 1.29.0.",
+          "description_html": "<p>Defines the Redirection URI path for post-authentication redirects\nexpected by the module from the OpenID Provider.\nThe <em><code>uri</code></em> must match the configuration on the Provider&rsquo;s side.</p>\n\n<p>Absolute “<code>https</code>” URIs are supported since 1.29.0.</p>\n"
+        },
+        {
+          "name": "logout_uri",
+          "default": "",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`uri`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>uri</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines the URI path for initiating session logout.\nUpon session termination, the user is redirected to\n[Provider's Logout Endpoint](https://openid.net/specs/openid-connect-rpinitiated-1_0.html#OPMetadata)\nor to the [post logout page](https://nginx.org/en/docs/http/ngx_http_oidc_module.html#post_logout_uri).\nIf neither is configured, the built-in post logout page is displayed.",
+          "description_html": "<p>Defines the URI path for initiating session logout.\nUpon session termination, the user is redirected to\n<a href=\"https://openid.net/specs/openid-connect-rpinitiated-1_0.html#OPMetadata\" target=\"_blank\">Provider&rsquo;s Logout Endpoint</a>\nor to the <a href=\"https://nginx.org/en/docs/http/ngx_http_oidc_module.html#post_logout_uri\" target=\"_blank\">post logout page</a>.\nIf neither is configured, the built-in post logout page is displayed.</p>\n"
+        },
+        {
+          "name": "post_logout_uri",
+          "default": "",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`uri`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>uri</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines the path or absolute URI\nto redirect the user to after the logout.\nThe *`uri`* must match the configuration on the Provider's side.\nIf the post logout page is served by NGINX,\nthe OIDC module shouldn't be enabled for this location:\n```\nhttp {\n    oidc_provider my_idp {\n        ...\n\n        logout_uri      /logout;\n        post_logout_uri /logged_out_page.html;\n    }\n\n    server {\n        auth_oidc my_idp;\n\n        location /logged_out_page.html {\n            auth_oidc off;\n        }\n    }\n}\n```",
+          "description_html": "<p>Defines the path or absolute URI\nto redirect the user to after the logout.\nThe <em><code>uri</code></em> must match the configuration on the Provider&rsquo;s side.\nIf the post logout page is served by NGINX,\nthe OIDC module shouldn&rsquo;t be enabled for this location:</p>\n\n<pre><code>http {\n    oidc_provider my_idp {\n        ...\n\n        logout_uri      /logout;\n        post_logout_uri /logged_out_page.html;\n    }\n\n    server {\n        auth_oidc my_idp;\n\n        location /logged_out_page.html {\n            auth_oidc off;\n        }\n    }\n}\n</code></pre>\n"
+        },
+        {
+          "name": "logout_token_hint",
+          "default": "off",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Adds the\n[`id_token_hint`](https://openid.net/specs/openid-connect-rpinitiated-1_0.html#RPLogout)\nargument to the\n[Provider's Logout Endpoint](https://openid.net/specs/openid-connect-rpinitiated-1_0.html#OPMetadata)\nwhen redirecting user during logout.\nThis argument can be required by some OpenID Providers.",
+          "description_html": "<p>Adds the\n<a href=\"https://openid.net/specs/openid-connect-rpinitiated-1_0.html#RPLogout\" target=\"_blank\"><code>id_token_hint</code></a>\nargument to the\n<a href=\"https://openid.net/specs/openid-connect-rpinitiated-1_0.html#OPMetadata\" target=\"_blank\">Provider&rsquo;s Logout Endpoint</a>\nwhen redirecting user during logout.\nThis argument can be required by some OpenID Providers.</p>\n"
         },
         {
           "name": "scope",
@@ -6078,6 +6329,22 @@
           "isBlock": false,
           "description_md": "Specifies a *`file`* with trusted CA certificates in the PEM format\nused to verify\nthe certificates of the OpenID Provider endpoints.",
           "description_html": "<p>Specifies a <em><code>file</code></em> with trusted CA certificates in the PEM format\nused to verify\nthe certificates of the OpenID Provider endpoints.</p>\n"
+        },
+        {
+          "name": "userinfo",
+          "default": "off",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables downloading of the\n[UserInfo](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo)\ndata and makes UserInfo claims available via the \n[$oidc_claim_`name`](https://nginx.org/en/docs/http/ngx_http_oidc_module.html#var_oidc_claim_) variables.",
+          "description_html": "<p>Enables downloading of the\n<a href=\"https://openid.net/specs/openid-connect-core-1_0.html#UserInfo\" target=\"_blank\">UserInfo</a>\ndata and makes UserInfo claims available via the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_oidc_module.html#var_oidc_claim_\" target=\"_blank\">$oidc<em>claim</em><code>name</code></a> variables.</p>\n"
         }
       ],
       "variables": [
@@ -6093,8 +6360,13 @@
         },
         {
           "name": "$oidc_claim_NAME",
-          "description_md": "top-level ID token claim\n\nNested claims can be fetched with the\n[auth_jwt](https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html) module:\n```\nhttp {\n    auth_jwt_claim_set $postal_code address postal_code;\n\n    server {\n        location / {\n            auth_oidc my_idp;\n            auth_jwt  off token=$oidc_id_token;\n\n            proxy_set_header x-postal_code $postal_code;\n            proxy_pass       http://backend;\n        }\n    }\n}\n```",
-          "description_html": "<p>top-level ID token claim</p>\n\n<p>Nested claims can be fetched with the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html\" target=\"_blank\">auth_jwt</a> module:</p>\n\n<pre><code>http {\n    auth_jwt_claim_set $postal_code address postal_code;\n\n    server {\n        location / {\n            auth_oidc my_idp;\n            auth_jwt  off token=$oidc_id_token;\n\n            proxy_set_header x-postal_code $postal_code;\n            proxy_pass       http://backend;\n        }\n    }\n}\n</code></pre>\n"
+          "description_md": "top-level ID token or UserInfo claim\n\nNested claims can be fetched with the\n[auth_jwt](https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html) module:\n```\nhttp {\n    auth_jwt_claim_set $postal_code address postal_code;\n\n    server {\n        location / {\n            auth_oidc my_idp;\n            auth_jwt  off token=$oidc_id_token;\n\n            proxy_set_header x-postal_code $postal_code;\n            proxy_pass       http://backend;\n        }\n    }\n}\n```",
+          "description_html": "<p>top-level ID token or UserInfo claim</p>\n\n<p>Nested claims can be fetched with the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html\" target=\"_blank\">auth_jwt</a> module:</p>\n\n<pre><code>http {\n    auth_jwt_claim_set $postal_code address postal_code;\n\n    server {\n        location / {\n            auth_oidc my_idp;\n            auth_jwt  off token=$oidc_id_token;\n\n            proxy_set_header x-postal_code $postal_code;\n            proxy_pass       http://backend;\n        }\n    }\n}\n</code></pre>\n"
+        },
+        {
+          "name": "$oidc_userinfo",
+          "description_md": "UserInfo data in the JSON format (1.29.0)",
+          "description_html": "<p>UserInfo data in the JSON format (1.29.0)</p>\n"
         }
       ]
     },
@@ -8995,6 +9267,23 @@
           "isBlock": false,
           "description_md": "Defines a cache that stores\n[SSL certificates](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_certificate) and\n[secret keys](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_certificate_key)\nspecified with [variables](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_certificate_key_variables).\n\nThe directive has the following parameters:\n- `max`\n\n    sets the maximum number of elements in the cache;\n    on cache overflow the least recently used (LRU) elements are removed;\n- `inactive`\n\n    defines a time after which an element is removed from the cache\n    if it has not been accessed during this time;\n    by default, it is 10 seconds;\n- `valid`\n\n    defines a time during which\n    an element in the cache is considered valid\n    and can be reused;\n    by default, it is 60 seconds.\n    Certificates that exceed this time will be reloaded or revalidated;\n- `off`\n\n    disables the cache.\n\nExample:\n```\nssl_certificate       $ssl_server_name.crt;\nssl_certificate_key   $ssl_server_name.key;\nssl_certificate_cache max=1000 inactive=20s valid=1m;\n```",
           "description_html": "<p>Defines a cache that stores\n<a href=\"https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_certificate\" target=\"_blank\">SSL certificates</a> and\n<a href=\"https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_certificate_key\" target=\"_blank\">secret keys</a>\nspecified with <a href=\"https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_certificate_key_variables\" target=\"_blank\">variables</a>.</p>\n\n<p>The directive has the following parameters:</p>\n\n<ul>\n<li><p><code>max</code></p>\n\n<p>sets the maximum number of elements in the cache;\non cache overflow the least recently used (LRU) elements are removed;</p></li>\n\n<li><p><code>inactive</code></p>\n\n<p>defines a time after which an element is removed from the cache\nif it has not been accessed during this time;\nby default, it is 10 seconds;</p></li>\n\n<li><p><code>valid</code></p>\n\n<p>defines a time during which\nan element in the cache is considered valid\nand can be reused;\nby default, it is 60 seconds.\nCertificates that exceed this time will be reloaded or revalidated;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables the cache.</p></li>\n</ul>\n\n<p>Example:</p>\n\n<pre><code>ssl_certificate       $ssl_server_name.crt;\nssl_certificate_key   $ssl_server_name.key;\nssl_certificate_cache max=1000 inactive=20s valid=1m;\n</code></pre>\n"
+        },
+        {
+          "name": "ssl_certificate_compression",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables TLS 1.3\n[compression](https://datatracker.ietf.org/doc/html/rfc8879)\nof server certificates.\n> The directive is supported when using OpenSSL 3.2 or higher;\n> the list of supported compression algorithms is provided by the library.",
+          "description_html": "<p>Enables TLS 1.3\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8879\" target=\"_blank\">compression</a>\nof server certificates.</p>\n\n<blockquote>\n<p>The directive is supported when using OpenSSL 3.2 or higher;\nthe list of supported compression algorithms is provided by the library.</p>\n</blockquote>\n"
         },
         {
           "name": "ssl_certificate_key",
@@ -12592,6 +12881,23 @@
           "description_html": "<p>Specifies a <em><code>file</code></em> with the certificate in the PEM format\nfor the given server.\nIf intermediate certificates should be specified in addition to a primary\ncertificate, they should be specified in the same file in the following\norder: the primary certificate comes first, then the intermediate certificates.\nA secret key in the PEM format may be placed in the same file.</p>\n\n<p>Since version 1.11.0,\nthis directive can be specified multiple times\nto load certificates of different types, for example, RSA and ECDSA:</p>\n\n<pre><code>server {\n    listen              993 ssl;\n\n    ssl_certificate     example.com.rsa.crt;\n    ssl_certificate_key example.com.rsa.key;\n\n    ssl_certificate     example.com.ecdsa.crt;\n    ssl_certificate_key example.com.ecdsa.key;\n\n    ...\n}\n</code></pre>\n\n<blockquote>\n<p>Only OpenSSL 1.0.2 or higher supports separate\n<a href=\"https://nginx.org/en/docs/http/configuring_https_servers.html#chains\" target=\"_blank\">certificate chains</a>\nfor different certificates.\nWith older versions, only one certificate chain can be used.</p>\n</blockquote>\n\n<p>The value\n<code>data</code>:<em><code>certificate</code></em>\ncan be specified instead of the <em><code>file</code></em> (1.15.10),\nwhich loads a certificate\nwithout using intermediate files.\nNote that inappropriate use of this syntax may have its security implications,\nsuch as writing secret key data to\n<a href=\"https://nginx.org/en/docs/ngx_core_module.html#error_log\" target=\"_blank\">error log</a>.</p>\n"
         },
         {
+          "name": "ssl_certificate_compression",
+          "default": "off",
+          "contexts": [
+            "mail",
+            "server"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables TLS 1.3\n[compression](https://datatracker.ietf.org/doc/html/rfc8879)\nof server certificates.\n> The directive is supported when using OpenSSL 3.2 or higher;\n> the list of supported compression algorithms is provided by the library.",
+          "description_html": "<p>Enables TLS 1.3\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8879\" target=\"_blank\">compression</a>\nof server certificates.</p>\n\n<blockquote>\n<p>The directive is supported when using OpenSSL 3.2 or higher;\nthe list of supported compression algorithms is provided by the library.</p>\n</blockquote>\n"
+        },
+        {
           "name": "ssl_certificate_key",
           "default": "",
           "contexts": [
@@ -13179,6 +13485,22 @@
           "isBlock": false,
           "description_md": "If enabled, SSL objects\n(SSL certificates, secret keys, trusted CA certificates, CRL lists)\nwill be inherited across configuration reloads.\n\nSSL objects loaded from a file are inherited\nif the modification time and file index has not been changed\nsince the previous configuration load.\nSecret keys specified as\n`engine:name:id` are never inherited.\nSecret keys specified as\n`data:value` are always inherited.\n\n> SSL objects loaded from variables cannot be inherited.\n\nExample:\n```\nssl_object_cache_inheritable on;\n\nhttp {\n    ...\n    server {\n        ...\n        ssl_certificate     example.com.crt;\n        ssl_certificate_key example.com.key;\n    }\n}\n```",
           "description_html": "<p>If enabled, SSL objects\n(SSL certificates, secret keys, trusted CA certificates, CRL lists)\nwill be inherited across configuration reloads.</p>\n\n<p>SSL objects loaded from a file are inherited\nif the modification time and file index has not been changed\nsince the previous configuration load.\nSecret keys specified as\n<code>engine:name:id</code> are never inherited.\nSecret keys specified as\n<code>data:value</code> are always inherited.</p>\n\n<blockquote>\n<p>SSL objects loaded from variables cannot be inherited.</p>\n</blockquote>\n\n<p>Example:</p>\n\n<pre><code>ssl_object_cache_inheritable on;\n\nhttp {\n    ...\n    server {\n        ...\n        ssl_certificate     example.com.crt;\n        ssl_certificate_key example.com.key;\n    }\n}\n</code></pre>\n"
+        },
+        {
+          "name": "stall_threshold",
+          "default": "1000ms",
+          "contexts": [
+            "events"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Allows overriding the default time threshold for the event loop iteration\nbefore a stall is reported.\nBy default, a stall is reported\nwhen an event loop iteration exceeds *`1000ms`*.\nIf the [`timer_resolution`](https://nginx.org/en/docs/ngx_core_module.html#timer_resolution) directive is enabled,\nthe time threshold will be ignored.\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Allows overriding the default time threshold for the event loop iteration\nbefore a stall is reported.\nBy default, a stall is reported\nwhen an event loop iteration exceeds <em><code>1000ms</code></em>.\nIf the <a href=\"https://nginx.org/en/docs/ngx_core_module.html#timer_resolution\" target=\"_blank\"><code>timer_resolution</code></a> directive is enabled,\nthe time threshold will be ignored.</p>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "thread_pool",
@@ -15655,6 +15977,23 @@
           "description_html": "<p>Defines a cache that stores\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_certificate\" target=\"_blank\">SSL certificates</a> and\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_certificate_key\" target=\"_blank\">secret keys</a>\nspecified with <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_certificate_key_variables\" target=\"_blank\">variables</a>.</p>\n\n<p>The directive has the following parameters:</p>\n\n<ul>\n<li><p><code>max</code></p>\n\n<p>sets the maximum number of elements in the cache;\non cache overflow the least recently used (LRU) elements are removed;</p></li>\n\n<li><p><code>inactive</code></p>\n\n<p>defines a time after which an element is removed from the cache\nif it has not been accessed during this time;\nby default, it is 10 seconds;</p></li>\n\n<li><p><code>valid</code></p>\n\n<p>defines a time during which\nan element in the cache is considered valid\nand can be reused;\nby default, it is 60 seconds.\nCertificates that exceed this time will be reloaded or revalidated;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables the cache.</p></li>\n</ul>\n\n<p>Example:</p>\n\n<pre><code>ssl_certificate       $ssl_server_name.crt;\nssl_certificate_key   $ssl_server_name.key;\nssl_certificate_cache max=1000 inactive=20s valid=1m;\n</code></pre>\n"
         },
         {
+          "name": "ssl_certificate_compression",
+          "default": "off",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables TLS 1.3\n[compression](https://datatracker.ietf.org/doc/html/rfc8879)\nof server certificates.\n> The directive is supported when using OpenSSL 3.2 or higher;\n> the list of supported compression algorithms is provided by the library.",
+          "description_html": "<p>Enables TLS 1.3\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8879\" target=\"_blank\">compression</a>\nof server certificates.</p>\n\n<blockquote>\n<p>The directive is supported when using OpenSSL 3.2 or higher;\nthe list of supported compression algorithms is provided by the library.</p>\n</blockquote>\n"
+        },
+        {
           "name": "ssl_certificate_key",
           "default": "",
           "contexts": [
@@ -16867,5 +17206,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/fcef8c30af61b8d02d9e223c6daf1ab5c76d63ba"
+  "version": "https://github.com/nginx/nginx.org/commit/d670e1a9ff75d30e0142aa7bb34f152227041827"
 }
