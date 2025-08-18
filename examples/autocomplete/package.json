@@ -12,6 +12,6 @@
     "@nginx/reference-lib": "file:../../reference-lib",
     "@types/node": "^22.15.19",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   }
 }
