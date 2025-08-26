@@ -4949,10 +4949,10 @@
             "limit_except"
           ],
           "syntax_md": [
-            "*`function`* | *`module.function`* [*`buffer_type`*=*`string`* | *`buffer`*]"
+            "*`module.function`* [*`buffer_type`*=*`string`* | *`buffer`*]"
           ],
           "syntax_html": [
-            "<p><em><code>function</code></em> | <em><code>module.function</code></em> [<em><code>buffer_type</code></em>=<em><code>string</code></em> | <em><code>buffer</code></em>]</p>\n"
+            "<p><em><code>module.function</code></em> [<em><code>buffer_type</code></em>=<em><code>string</code></em> | <em><code>buffer</code></em>]</p>\n"
           ],
           "isBlock": false,
           "description_md": "Sets an njs function as a response body filter.\nThe filter function is called for each data chunk of a response body\nwith the following arguments:\n\n- `r`\n\n    the [HTTP request](https://nginx.org/en/docs/njs/reference.html#http) object\n- `data`\n\n    the incoming data chunk,\n    may be a string or Buffer\n    depending on the `buffer_type` value,\n    by default is a string.\n    Since [0.8.5](https://nginx.org/en/docs/njs/changes.html#njs0.8.5), the\n    `data` value is implicitly converted to a valid UTF-8 string\n    by default.\n    For binary data, the `buffer_type` value\n    should be set to `buffer`.\n- `flags`\n\n    an object with the following properties:\n    - `last`\n    \n        a boolean value, true if data is a last buffer.\n\nThe filter function can pass its own modified version\nof the input data chunk to the next body filter by calling\n[`r.sendBuffer()`](https://nginx.org/en/docs/njs/reference.html#r_sendbuffer).\nFor example, to transform all the lowercase letters in the response body:\n```\nfunction filter(r, data, flags) {\n    r.sendBuffer(data.toLowerCase(), flags);\n}\n```\n\nIf the filter function changes the length of the response body, the\n\"Content-Length\" response header (if present) should be cleared\nin [`js_header_filter`](https://nginx.org/en/docs/http/ngx_http_js_module.html#js_header_filter)\nto enforce chunked transfer encoding:\n```\nexample.conf:\n location /foo {\n     # proxy_pass http://localhost:8080;\n\n    js_header_filter main.clear_content_length;\n    js_body_filter   main.filter;\n }\n\nexample.js:\n function clear_content_length(r) {\n     delete r.headersOut['Content-Length'];\n }\n```\n\nTo stop filtering and pass the data chunks to the client\nwithout calling `js_body_filter`,\n[`r.done()`](https://nginx.org/en/docs/njs/reference.html#r_done)\ncan be used.\nFor example, to prepend some data to the response body:\n```\nfunction prepend(r, data, flags) {\n    r.sendBuffer(\"XXX\");\n    r.sendBuffer(data, flags);\n    r.done();\n}\n```\n\n> As the `js_body_filter` handler\n> returns its result immediately, it supports\n> only synchronous operations.\n> Thus, asynchronous operations such as\n> [r.subrequest()](https://nginx.org/en/docs/njs/reference.html#r_subrequest)\n> or\n> [setTimeout()](https://nginx.org/en/docs/njs/reference.html#settimeout)\n> are not supported.\n\n> The directive can be specified inside the\n> [if](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#if) block\n> since [0.7.7](https://nginx.org/en/docs/njs/changes.html#njs0.7.7).",
@@ -4967,10 +4967,10 @@
             "limit_except"
           ],
           "syntax_md": [
-            "*`function`* | *`module.function`*"
+            "*`module.function`*"
           ],
           "syntax_html": [
-            "<p><em><code>function</code></em> | <em><code>module.function</code></em></p>\n"
+            "<p><em><code>module.function</code></em></p>\n"
           ],
           "isBlock": false,
           "description_md": "Sets an njs function as a location content handler.\nSince [0.4.0](https://nginx.org/en/docs/njs/changes.html#njs0.4.0),\na module function can be referenced.\n\n> The directive can be specified inside the\n> [if](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#if) block\n> since [0.7.7](https://nginx.org/en/docs/njs/changes.html#njs0.7.7).",
@@ -5165,10 +5165,10 @@
             "limit_except"
           ],
           "syntax_md": [
-            "*`function`* | *`module.function`*"
+            "*`module.function`*"
           ],
           "syntax_html": [
-            "<p><em><code>function</code></em> | <em><code>module.function</code></em></p>\n"
+            "<p><em><code>module.function</code></em></p>\n"
           ],
           "isBlock": false,
           "description_md": "Sets an njs function as a response header filter.\nThe directive allows changing arbitrary header fields of a response header.\n\n> As the `js_header_filter` handler\n> returns its result immediately, it supports\n> only synchronous operations.\n> Thus, asynchronous operations such as\n> [r.subrequest()](https://nginx.org/en/docs/njs/reference.html#r_subrequest)\n> or\n> [setTimeout()](https://nginx.org/en/docs/njs/reference.html#settimeout)\n> are not supported.\n\n> The directive can be specified inside the\n> [if](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#if) block\n> since [0.7.7](https://nginx.org/en/docs/njs/changes.html#njs0.7.7).",
@@ -5233,10 +5233,10 @@
             "location"
           ],
           "syntax_md": [
-            "*`function`* | *`module.function`* [`interval`=*`time`*] [`jitter`=*`number`*] [`worker_affinity`=*`mask`*]"
+            "*`module.function`* [`interval`=*`time`*] [`jitter`=*`number`*] [`worker_affinity`=*`mask`*]"
           ],
           "syntax_html": [
-            "<p><em><code>function</code></em> | <em><code>module.function</code></em> [<code>interval</code>=<em><code>time</code></em>] [<code>jitter</code>=<em><code>number</code></em>] [<code>worker_affinity</code>=<em><code>mask</code></em>]</p>\n"
+            "<p><em><code>module.function</code></em> [<code>interval</code>=<em><code>time</code></em>] [<code>jitter</code>=<em><code>number</code></em>] [<code>worker_affinity</code>=<em><code>mask</code></em>]</p>\n"
           ],
           "isBlock": false,
           "description_md": "Specifies a content handler to run at regular interval.\nThe handler receives a\n[session object](https://nginx.org/en/docs/njs/reference.html#periodic_session)\nas its first argument,\nit also has access to global objects such as\n[ngx](https://nginx.org/en/docs/njs/reference.html#ngx).\n\nThe optional `interval` parameter\nsets the interval between two consecutive runs,\nby default, 5 seconds.\n\nThe optional `jitter` parameter sets the time within which\nthe location content handler will be randomly delayed,\nby default, there is no delay.\n\nBy default, the `js_handler` is executed on worker process 0.\nThe optional `worker_affinity` parameter\nallows specifying particular worker processes\nwhere the location content handler should be executed.\nEach worker process set is represented by a bitmask of allowed worker processes.\nThe `all` mask allows the handler to be executed\nin all worker processes.\n\nExample:\n```\nexample.conf:\n\nlocation @periodics {\n    # to be run at 1 minute intervals in worker process 0\n    js_periodic main.handler interval=60s;\n\n    # to be run at 1 minute intervals in all worker processes\n    js_periodic main.handler interval=60s worker_affinity=all;\n\n    # to be run at 1 minute intervals in worker processes 1 and 3\n    js_periodic main.handler interval=60s worker_affinity=0101;\n\n    resolver 10.0.0.1;\n    js_fetch_trusted_certificate /path/to/ISRG_Root_X1.pem;\n}\n\nexample.js:\n\nasync function handler(s) {\n    let reply = await ngx.fetch('https://nginx.org/en/docs/njs/');\n    let body = await reply.text();\n\n    ngx.log(ngx.INFO, body);\n}\n```",
@@ -5269,10 +5269,10 @@
             "location"
           ],
           "syntax_md": [
-            "*`$variable`* *`function`* | *`module.function`* [`nocache`]"
+            "*`$variable`* *`module.function`* [`nocache`]"
           ],
           "syntax_html": [
-            "<p><em><code>$variable</code></em> <em><code>function</code></em> | <em><code>module.function</code></em> [<code>nocache</code>]</p>\n"
+            "<p><em><code>$variable</code></em> <em><code>module.function</code></em> [<code>nocache</code>]</p>\n"
           ],
           "isBlock": false,
           "description_md": "Sets an njs `function`\nfor the specified `variable`.\nSince [0.4.0](https://nginx.org/en/docs/njs/changes.html#njs0.4.0),\na module function can be referenced.\n\nThe function is called when\nthe variable is referenced for the first time for a given request.\nThe exact moment depends on a\n[phase](https://nginx.org/en/docs/dev/development_guide.html#http_phases)\nat which the variable is referenced.\nThis can be used to perform some logic\nnot related to variable evaluation.\nFor example, if the variable is referenced only in the\n[`log_format`](https://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) directive,\nits handler will not be executed until the log phase.\nThis handler can be used to do some cleanup\nright before the request is freed.\n\nSince [0.8.6](https://nginx.org/en/docs/njs/changes.html#njs0.8.6),\nif an optional argument `nocache` is specified,\nthe handler is called every time it is referenced.\nDue to current limitations\nof the [rewrite](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html) module,\nwhen a `nocache` variable is referenced by the\n[set](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#set) directive\nits handler should always return a fixed-length value.\n\n> As the `js_set` handler\n> returns its result immediately, it supports\n> only synchronous operations.\n> Thus, asynchronous operations such as\n> [r.subrequest()](https://nginx.org/en/docs/njs/reference.html#r_subrequest)\n> or\n> [setTimeout()](https://nginx.org/en/docs/njs/reference.html#settimeout)\n> are not supported.\n\n> The directive can be specified on the\n> `server` and `location` level\n> since [0.7.7](https://nginx.org/en/docs/njs/changes.html#njs0.7.7).",
@@ -14558,10 +14558,10 @@
             "server"
           ],
           "syntax_md": [
-            "*`function`* | *`module.function`*"
+            "*`module.function`*"
           ],
           "syntax_html": [
-            "<p><em><code>function</code></em> | <em><code>module.function</code></em></p>\n"
+            "<p><em><code>module.function</code></em></p>\n"
           ],
           "isBlock": false,
           "description_md": "Sets an njs function which will be called at the\n[access](https://nginx.org/en/docs/stream/stream_processing.html#access_phase) phase.\nSince [0.4.0](https://nginx.org/en/docs/njs/changes.html#njs0.4.0),\na module function can be referenced.\n\nThe function is called once at the moment when the stream session reaches\nthe [access](https://nginx.org/en/docs/stream/stream_processing.html#access_phase) phase\nfor the first time.\nThe function is called with the following arguments:\n\n- `s`\n\n    the [Stream Session](https://nginx.org/en/docs/njs/reference.html#stream) object\n\nAt this phase, it is possible to perform initialization\nor register a callback with\nthe [`s.on()`](https://nginx.org/en/docs/njs/reference.html#s_on)\nmethod\nfor each incoming data chunk until one of the following methods are called:\n[`s.allow()`](https://nginx.org/en/docs/njs/reference.html#s_allow),\n[`s.decline()`](https://nginx.org/en/docs/njs/reference.html#s_decline),\n[`s.done()`](https://nginx.org/en/docs/njs/reference.html#s_done).\nAs soon as one of these methods is called, the stream session processing\nswitches to the [next phase](https://nginx.org/en/docs/stream/stream_processing.html)\nand all current\n[`s.on()`](https://nginx.org/en/docs/njs/reference.html#s_on)\ncallbacks are dropped.",
@@ -14745,10 +14745,10 @@
             "server"
           ],
           "syntax_md": [
-            "*`function`* | *`module.function`*"
+            "*`module.function`*"
           ],
           "syntax_html": [
-            "<p><em><code>function</code></em> | <em><code>module.function</code></em></p>\n"
+            "<p><em><code>module.function</code></em></p>\n"
           ],
           "isBlock": false,
           "description_md": "Sets a data filter.\nSince [0.4.0](https://nginx.org/en/docs/njs/changes.html#njs0.4.0),\na module function can be referenced.\nThe filter function is called once at the moment when the stream session reaches\nthe [content](https://nginx.org/en/docs/stream/stream_processing.html#content_phase) phase.\n\nThe filter function is called with the following arguments:\n- `s`\n\n    the [Stream Session](https://nginx.org/en/docs/njs/reference.html#stream) object\n\nAt this phase, it is possible to perform initialization\nor register a callback with\nthe [`s.on()`](https://nginx.org/en/docs/njs/reference.html#s_on)\nmethod for each incoming data chunk.\nThe\n[`s.off()`](https://nginx.org/en/docs/njs/reference.html#s_off)\nmethod may be used to unregister a callback and stop filtering.\n\n> As the `js_filter` handler\n> returns its result immediately, it supports\n> only synchronous operations.\n> Thus, asynchronous operations such as\n> [`ngx.fetch()`](https://nginx.org/en/docs/njs/reference.html#ngx_fetch)\n> or\n> [`setTimeout()`](https://nginx.org/en/docs/njs/reference.html#settimeout)\n> are not supported.",
@@ -14811,10 +14811,10 @@
             "server"
           ],
           "syntax_md": [
-            "*`function`* | *`module.function`* [`interval`=*`time`*] [`jitter`=*`number`*] [`worker_affinity`=*`mask`*]"
+            "*`module.function`* [`interval`=*`time`*] [`jitter`=*`number`*] [`worker_affinity`=*`mask`*]"
           ],
           "syntax_html": [
-            "<p><em><code>function</code></em> | <em><code>module.function</code></em> [<code>interval</code>=<em><code>time</code></em>] [<code>jitter</code>=<em><code>number</code></em>] [<code>worker_affinity</code>=<em><code>mask</code></em>]</p>\n"
+            "<p><em><code>module.function</code></em> [<code>interval</code>=<em><code>time</code></em>] [<code>jitter</code>=<em><code>number</code></em>] [<code>worker_affinity</code>=<em><code>mask</code></em>]</p>\n"
           ],
           "isBlock": false,
           "description_md": "Specifies a content handler to run at regular interval.\nThe handler receives a\n[session object](https://nginx.org/en/docs/njs/reference.html#periodic_session)\nas its first argument,\nit also has access to global objects such as\n[ngx](https://nginx.org/en/docs/njs/reference.html#ngx).\n\nThe optional `interval` parameter\nsets the interval between two consecutive runs,\nby default, 5 seconds.\n\nThe optional `jitter` parameter sets the time within which\nthe location content handler will be randomly delayed,\nby default, there is no delay.\n\nBy default, the `js_handler` is executed on worker process 0.\nThe optional `worker_affinity` parameter\nallows specifying particular worker processes\nwhere the location content handler should be executed.\nEach worker process set is represented by a bitmask of allowed worker processes.\nThe `all` mask allows the handler to be executed\nin all worker processes.\n\nExample:\n```\nexample.conf:\n\nlocation @periodics {\n    # to be run at 1 minute intervals in worker process 0\n    js_periodic main.handler interval=60s;\n\n    # to be run at 1 minute intervals in all worker processes\n    js_periodic main.handler interval=60s worker_affinity=all;\n\n    # to be run at 1 minute intervals in worker processes 1 and 3\n    js_periodic main.handler interval=60s worker_affinity=0101;\n\n    resolver 10.0.0.1;\n    js_fetch_trusted_certificate /path/to/ISRG_Root_X1.pem;\n}\n\nexample.js:\n\nasync function handler(s) {\n    let reply = await ngx.fetch('https://nginx.org/en/docs/njs/');\n    let body = await reply.text();\n\n    ngx.log(ngx.INFO, body);\n}\n```",
@@ -14845,10 +14845,10 @@
             "server"
           ],
           "syntax_md": [
-            "*`function`* | *`module.function`*"
+            "*`module.function`*"
           ],
           "syntax_html": [
-            "<p><em><code>function</code></em> | <em><code>module.function</code></em></p>\n"
+            "<p><em><code>module.function</code></em></p>\n"
           ],
           "isBlock": false,
           "description_md": "Sets an njs function which will be called at the\n[preread](https://nginx.org/en/docs/stream/stream_processing.html#preread_phase) phase.\nSince [0.4.0](https://nginx.org/en/docs/njs/changes.html#njs0.4.0),\na module function can be referenced.\n\nThe function is called once\nat the moment when the stream session reaches the\n[preread](https://nginx.org/en/docs/stream/stream_processing.html#preread_phase) phase\nfor the first time.\nThe function is called with the following arguments:\n\n- `s`\n\n    the [Stream Session](https://nginx.org/en/docs/njs/reference.html#stream) object\n\nAt this phase, it is possible to perform initialization\nor register a callback with\nthe [`s.on()`](https://nginx.org/en/docs/njs/reference.html#s_on)\nmethod\nfor each incoming data chunk until one of the following methods are called:\n[`s.allow()`](https://nginx.org/en/docs/njs/reference.html#s_allow),\n[`s.decline()`](https://nginx.org/en/docs/njs/reference.html#s_decline),\n[`s.done()`](https://nginx.org/en/docs/njs/reference.html#s_done).\nWhen one of these methods is called,\nthe stream session switches to the\n[next phase](https://nginx.org/en/docs/stream/stream_processing.html)\nand all current\n[`s.on()`](https://nginx.org/en/docs/njs/reference.html#s_on)\ncallbacks are dropped.\n\n> As the `js_preread` handler\n> returns its result immediately, it supports\n> only synchronous callbacks.\n> Thus, asynchronous callbacks such as\n> [`ngx.fetch()`](https://nginx.org/en/docs/njs/reference.html#ngx_fetch)\n> or\n> [`setTimeout()`](https://nginx.org/en/docs/njs/reference.html#settimeout)\n> are not supported.\n> Nevertheless, asynchronous operations are supported in\n> [`s.on()`](https://nginx.org/en/docs/njs/reference.html#s_on)\n> callbacks in the\n> [preread](https://nginx.org/en/docs/stream/stream_processing.html#preread_phase) phase.\n> See\n> [this example](https://github.com/nginx/njs-examples#authorizing-connections-using-ngx-fetch-as-auth-request-stream-auth-request) for more information.",
@@ -14862,10 +14862,10 @@
             "server"
           ],
           "syntax_md": [
-            "*`$variable`* *`function`* | *`module.function`* [`nocache`]"
+            "*`$variable`* *`module.function`* [`nocache`]"
           ],
           "syntax_html": [
-            "<p><em><code>$variable</code></em> <em><code>function</code></em> | <em><code>module.function</code></em> [<code>nocache</code>]</p>\n"
+            "<p><em><code>$variable</code></em> <em><code>module.function</code></em> [<code>nocache</code>]</p>\n"
           ],
           "isBlock": false,
           "description_md": "Sets an njs `function`\nfor the specified `variable`.\nSince [0.4.0](https://nginx.org/en/docs/njs/changes.html#njs0.4.0),\na module function can be referenced.\n\nThe function is called when\nthe variable is referenced for the first time for a given request.\nThe exact moment depends on a\n[phase](https://nginx.org/en/docs/stream/stream_processing.html)\nat which the variable is referenced.\nThis can be used to perform some logic\nnot related to variable evaluation.\nFor example, if the variable is referenced only in the\n[`log_format`](https://nginx.org/en/docs/stream/ngx_stream_log_module.html#log_format) directive,\nits handler will not be executed until the log phase.\nThis handler can be used to do some cleanup\nright before the request is freed.\n\nSince [0.8.6](https://nginx.org/en/docs/njs/changes.html#njs0.8.6), when\noptional argument `nocache` is provided the handler\nis called every time it is referenced.\nDue to current limitations\nof the [rewrite](https://nginx.org/en/docs/stream/ngx_stream_js_module.html) module,\nwhen a `nocache` variable is referenced by the\n[set](https://nginx.org/en/docs/stream/ngx_stream_set_module.html#set) directive\nits handler should always return a fixed-length value.\n\n> As the `js_set` handler\n> returns its result immediately, it supports\n> only synchronous callbacks.\n> Thus, asynchronous callbacks such as\n> [ngx.fetch()](https://nginx.org/en/docs/njs/reference.html#ngx_fetch)\n> or\n> [setTimeout()](https://nginx.org/en/docs/njs/reference.html#settimeout)\n> are not supported.\n\n> The directive can be specified on the\n> `server` level\n> since [0.7.7](https://nginx.org/en/docs/njs/changes.html#njs0.7.7).",
@@ -17206,5 +17206,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/d670e1a9ff75d30e0142aa7bb34f152227041827"
+  "version": "https://github.com/nginx/nginx.org/commit/691ef741892dfd42868625323e5ddb0a55411c95"
 }
