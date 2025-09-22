@@ -5157,6 +5157,78 @@
           "description_html": "<p>Sets the verification depth in the HTTPS server certificates chain\nwith <a href=\"https://nginx.org/en/docs/njs/reference.html#ngx_fetch\" target=\"_blank\">Fetch API</a>.</p>\n"
         },
         {
+          "name": "js_fetch_keepalive",
+          "default": "0",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`connections`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>connections</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Activates the cache for connections to destination servers.\nWhen the value is greater than `0`,\nenables keepalive connections for\n[Fetch API](https://nginx.org/en/docs/njs/reference.html#ngx_fetch).\n\nThe *`connections`* parameter sets the maximum number of idle\nkeepalive connections to destination servers that are preserved in the cache\nof each worker process.\nWhen this number is exceeded, the least recently used connections are closed.\n\nExample:\n```\nlocation /fetch {\n    js_fetch_keepalive 32;\n    js_fetch_trusted_certificate /path/to/ISRG_Root_X1.pem;\n    js_content main.fetch_handler;\n}\n```",
+          "description_html": "<p>Activates the cache for connections to destination servers.\nWhen the value is greater than <code>0</code>,\nenables keepalive connections for\n<a href=\"https://nginx.org/en/docs/njs/reference.html#ngx_fetch\" target=\"_blank\">Fetch API</a>.</p>\n\n<p>The <em><code>connections</code></em> parameter sets the maximum number of idle\nkeepalive connections to destination servers that are preserved in the cache\nof each worker process.\nWhen this number is exceeded, the least recently used connections are closed.</p>\n\n<p>Example:</p>\n\n<pre><code>location /fetch {\n    js_fetch_keepalive 32;\n    js_fetch_trusted_certificate /path/to/ISRG_Root_X1.pem;\n    js_content main.fetch_handler;\n}\n</code></pre>\n"
+        },
+        {
+          "name": "js_fetch_keepalive_requests",
+          "default": "1000",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`number`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>number</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the maximum number of requests that can be served through one keepalive\nconnection with [Fetch API](https://nginx.org/en/docs/njs/reference.html#ngx_fetch).\nAfter the maximum number of requests is made, the connection is closed.\n\nClosing connections periodically is necessary to free per-connection memory\nallocations.\nTherefore, using too high maximum number of requests could result in\nexcessive memory usage and not recommended.",
+          "description_html": "<p>Sets the maximum number of requests that can be served through one keepalive\nconnection with <a href=\"https://nginx.org/en/docs/njs/reference.html#ngx_fetch\" target=\"_blank\">Fetch API</a>.\nAfter the maximum number of requests is made, the connection is closed.</p>\n\n<p>Closing connections periodically is necessary to free per-connection memory\nallocations.\nTherefore, using too high maximum number of requests could result in\nexcessive memory usage and not recommended.</p>\n"
+        },
+        {
+          "name": "js_fetch_keepalive_time",
+          "default": "1h",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Limits the maximum time during which requests can be processed through one\nkeepalive connection with [Fetch API](https://nginx.org/en/docs/njs/reference.html#ngx_fetch).\nAfter this time is reached, the connection is closed following the subsequent\nrequest processing.",
+          "description_html": "<p>Limits the maximum time during which requests can be processed through one\nkeepalive connection with <a href=\"https://nginx.org/en/docs/njs/reference.html#ngx_fetch\" target=\"_blank\">Fetch API</a>.\nAfter this time is reached, the connection is closed following the subsequent\nrequest processing.</p>\n"
+        },
+        {
+          "name": "js_fetch_keepalive_timeout",
+          "default": "60s",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets a timeout during which an idle keepalive connection to a destination server\nwill stay open with [Fetch API](https://nginx.org/en/docs/njs/reference.html#ngx_fetch).",
+          "description_html": "<p>Sets a timeout during which an idle keepalive connection to a destination server\nwill stay open with <a href=\"https://nginx.org/en/docs/njs/reference.html#ngx_fetch\" target=\"_blank\">Fetch API</a>.</p>\n"
+        },
+        {
           "name": "js_header_filter",
           "default": "",
           "contexts": [
@@ -14738,6 +14810,74 @@
           "description_html": "<p>Sets the verification depth in the HTTPS server certificates chain\nwith <a href=\"https://nginx.org/en/docs/njs/reference.html#ngx_fetch\" target=\"_blank\">Fetch API</a>.</p>\n"
         },
         {
+          "name": "js_fetch_keepalive",
+          "default": "0",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "*`connections`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>connections</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Activates the cache for connections to destination servers.\nWhen the value is greater than `0`,\nenables keepalive connections for\n[Fetch API](https://nginx.org/en/docs/njs/reference.html#ngx_fetch).\n\nThe *`connections`* parameter sets the maximum number of idle\nkeepalive connections to destination servers that are preserved in the cache\nof each worker process.\nWhen this number is exceeded, the least recently used connections are closed.\n\nExample:\n```\nserver {\n    listen 12345;\n    js_fetch_keepalive 32;\n    js_fetch_trusted_certificate /path/to/ISRG_Root_X1.pem;\n    js_preread main.fetch_handler;\n}\n```",
+          "description_html": "<p>Activates the cache for connections to destination servers.\nWhen the value is greater than <code>0</code>,\nenables keepalive connections for\n<a href=\"https://nginx.org/en/docs/njs/reference.html#ngx_fetch\" target=\"_blank\">Fetch API</a>.</p>\n\n<p>The <em><code>connections</code></em> parameter sets the maximum number of idle\nkeepalive connections to destination servers that are preserved in the cache\nof each worker process.\nWhen this number is exceeded, the least recently used connections are closed.</p>\n\n<p>Example:</p>\n\n<pre><code>server {\n    listen 12345;\n    js_fetch_keepalive 32;\n    js_fetch_trusted_certificate /path/to/ISRG_Root_X1.pem;\n    js_preread main.fetch_handler;\n}\n</code></pre>\n"
+        },
+        {
+          "name": "js_fetch_keepalive_requests",
+          "default": "1000",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "*`number`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>number</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the maximum number of requests that can be served through one keepalive\nconnection with [Fetch API](https://nginx.org/en/docs/njs/reference.html#ngx_fetch).\nAfter the maximum number of requests is made, the connection is closed.\n\nClosing connections periodically is necessary to free per-connection memory\nallocations.\nTherefore, using too high maximum number of requests could result in\nexcessive memory usage and not recommended.",
+          "description_html": "<p>Sets the maximum number of requests that can be served through one keepalive\nconnection with <a href=\"https://nginx.org/en/docs/njs/reference.html#ngx_fetch\" target=\"_blank\">Fetch API</a>.\nAfter the maximum number of requests is made, the connection is closed.</p>\n\n<p>Closing connections periodically is necessary to free per-connection memory\nallocations.\nTherefore, using too high maximum number of requests could result in\nexcessive memory usage and not recommended.</p>\n"
+        },
+        {
+          "name": "js_fetch_keepalive_time",
+          "default": "1h",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Limits the maximum time during which requests can be processed through one\nkeepalive connection with [Fetch API](https://nginx.org/en/docs/njs/reference.html#ngx_fetch).\nAfter this time is reached, the connection is closed following the subsequent\nrequest processing.",
+          "description_html": "<p>Limits the maximum time during which requests can be processed through one\nkeepalive connection with <a href=\"https://nginx.org/en/docs/njs/reference.html#ngx_fetch\" target=\"_blank\">Fetch API</a>.\nAfter this time is reached, the connection is closed following the subsequent\nrequest processing.</p>\n"
+        },
+        {
+          "name": "js_fetch_keepalive_timeout",
+          "default": "60s",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets a timeout during which an idle keepalive connection to a destination server\nwill stay open with [Fetch API](https://nginx.org/en/docs/njs/reference.html#ngx_fetch).",
+          "description_html": "<p>Sets a timeout during which an idle keepalive connection to a destination server\nwill stay open with <a href=\"https://nginx.org/en/docs/njs/reference.html#ngx_fetch\" target=\"_blank\">Fetch API</a>.</p>\n"
+        },
+        {
           "name": "js_filter",
           "default": "",
           "contexts": [
@@ -17206,5 +17346,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/691ef741892dfd42868625323e5ddb0a55411c95"
+  "version": "https://github.com/nginx/nginx.org/commit/af022c460b34b24278fd29afff8dbbeff5c159db"
 }
