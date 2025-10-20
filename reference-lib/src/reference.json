@@ -77,8 +77,8 @@
             "<p><em><code>uri</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "The\n[directory URL](https://www.rfc-editor.org/rfc/rfc8555#section-7.1.1)\nof the ACME server.\nThis directive is mandatory.",
-          "description_html": "<p>The\n<a href=\"https://www.rfc-editor.org/rfc/rfc8555#section-7.1.1\" target=\"_blank\">directory URL</a>\nof the ACME server.\nThis directive is mandatory.</p>\n"
+          "description_md": "The\n[directory URL](https://datatracker.ietf.org/doc/html/rfc8555#section-7.1.1)\nof the ACME server.\nThis directive is mandatory.",
+          "description_html": "<p>The\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8555#section-7.1.1\" target=\"_blank\">directory URL</a>\nof the ACME server.\nThis directive is mandatory.</p>\n"
         },
         {
           "name": "account_key",
@@ -97,6 +97,22 @@
           "description_html": "<p>The account&rsquo;s private key used for request authentication.</p>\n\n<p>Accepted values:</p>\n\n<ul>\n<li><code>ecdsa</code>:<em><code>256</code></em>/<em><code>384</code></em>/<em><code>521</code></em>\nfor ES256, ES384, or ES512 JSON Web Signature algorithms</li>\n<li><code>rsa</code>:<em><code>2048</code></em>/<em><code>3072</code></em>/<em><code>4096</code></em>\nfor RS256.</li>\n<li>File path for an existing key, using one of the algorithms above.</li>\n</ul>\n\n<p>The generated account keys are preserved across reloads,\nbut will be lost on restart unless <a href=\"https://nginx.org/en/docs/http/ngx_http_acme_module.html#state_path\" target=\"_blank\"><code>state_path</code></a> is configured.</p>\n"
         },
         {
+          "name": "challenge",
+          "default": "http-01",
+          "contexts": [
+            "acme_issuer"
+          ],
+          "syntax_md": [
+            "*`type`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>type</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies the ACME challenge type to be used for the issuer.\n\nAccepted values:\n- `http-01` (`http`)\n- `tls-alpn-01` (`tls-alpn`)\n\n> ACME challenges are versioned.\n> If an unversioned name is specified,\n> the module automatically selects the latest implemented version.",
+          "description_html": "<p>Specifies the ACME challenge type to be used for the issuer.</p>\n\n<p>Accepted values:</p>\n\n<ul>\n<li><code>http-01</code> (<code>http</code>)</li>\n<li><code>tls-alpn-01</code> (<code>tls-alpn</code>)</li>\n</ul>\n\n<blockquote>\n<p>ACME challenges are versioned.\nIf an unversioned name is specified,\nthe module automatically selects the latest implemented version.</p>\n</blockquote>\n"
+        },
+        {
           "name": "contact",
           "default": "",
           "contexts": [
@@ -111,6 +127,22 @@
           "isBlock": false,
           "description_md": "Sets an array of URLs that the ACME server can use\nto contact the client regarding account issues.\nThe `mailto:` scheme will be used\nunless specified explicitly.",
           "description_html": "<p>Sets an array of URLs that the ACME server can use\nto contact the client regarding account issues.\nThe <code>mailto:</code> scheme will be used\nunless specified explicitly.</p>\n"
+        },
+        {
+          "name": "external_account_key",
+          "default": "",
+          "contexts": [
+            "acme_issuer"
+          ],
+          "syntax_md": [
+            "*`kid`* *`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>kid</code></em> <em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a key identifier *`kid`* and a *`file`*\nwith the MAC key for\n[ external account authorization](https://datatracker.ietf.org/doc/html/rfc8555#section-7.3.4).\n\nThe value `data`:*`key`* can be specified\ninstead of the *`file`*, which loads a key directly from\nthe configuration without using intermediate files.\n\nIn both cases, the key is expected to be encoded in\n[ base64url](https://datatracker.ietf.org/doc/html/rfc4648#section-5).",
+          "description_html": "<p>Specifies a key identifier <em><code>kid</code></em> and a <em><code>file</code></em>\nwith the MAC key for\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8555#section-7.3.4\" target=\"_blank\"> external account authorization</a>.</p>\n\n<p>The value <code>data</code>:<em><code>key</code></em> can be specified\ninstead of the <em><code>file</code></em>, which loads a key directly from\nthe configuration without using intermediate files.</p>\n\n<p>In both cases, the key is expected to be encoded in\n<a href=\"https://datatracker.ietf.org/doc/html/rfc4648#section-5\" target=\"_blank\"> base64url</a>.</p>\n"
         },
         {
           "name": "ssl_trusted_certificate",
@@ -146,19 +178,19 @@
         },
         {
           "name": "state_path",
-          "default": "",
+          "default": "acme_<issuer>",
           "contexts": [
             "acme_issuer"
           ],
           "syntax_md": [
-            "*`path`*"
+            "*`path`* | `off`"
           ],
           "syntax_html": [
-            "<p><em><code>path</code></em></p>\n"
+            "<p><em><code>path</code></em> | <code>off</code></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Defines a directory for storing the module data\nthat can be persisted across restarts.\nThis can improve the load time by skipping some requests on startup,\nand avoid hitting request rate limits on the ACME server.\n\nThe directory contains sensitive content, such as\nthe account key, issued certificates, and private keys.",
-          "description_html": "<p>Defines a directory for storing the module data\nthat can be persisted across restarts.\nThis can improve the load time by skipping some requests on startup,\nand avoid hitting request rate limits on the ACME server.</p>\n\n<p>The directory contains sensitive content, such as\nthe account key, issued certificates, and private keys.</p>\n"
+          "description_md": "Defines a directory for storing the module data\nthat can be persisted across restarts.\nThis can improve the load time by skipping some requests on startup,\nand avoid hitting request rate limits on the ACME server.\n\nThe directory contains sensitive content, such as\nthe account key, issued certificates, and private keys.\n\nThe `off` parameter (0.2.0) disables storing the account\ninformation and issued certificates on disk.\n\n> Prior to version 0.2.0, the state directory was not created by default.",
+          "description_html": "<p>Defines a directory for storing the module data\nthat can be persisted across restarts.\nThis can improve the load time by skipping some requests on startup,\nand avoid hitting request rate limits on the ACME server.</p>\n\n<p>The directory contains sensitive content, such as\nthe account key, issued certificates, and private keys.</p>\n\n<p>The <code>off</code> parameter (0.2.0) disables storing the account\ninformation and issued certificates on disk.</p>\n\n<blockquote>\n<p>Prior to version 0.2.0, the state directory was not created by default.</p>\n</blockquote>\n"
         },
         {
           "name": "accept_terms_of_service",
@@ -17346,5 +17378,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/8f7b354b3593482446c9ef7e24dc84686c5cba60"
+  "version": "https://github.com/nginx/nginx.org/commit/a42f51d66b765d47e9048b9d9646aaf1084a2b09"
 }
