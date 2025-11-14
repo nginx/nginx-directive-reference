@@ -9452,8 +9452,8 @@
             "<p><code>on</code> | <code>off</code></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Enables TLS 1.3\n[compression](https://datatracker.ietf.org/doc/html/rfc8879)\nof server certificates.\n> The directive is supported when using OpenSSL 3.2 or higher;\n> the list of supported compression algorithms is provided by the library.",
-          "description_html": "<p>Enables TLS 1.3\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8879\" target=\"_blank\">compression</a>\nof server certificates.</p>\n\n<blockquote>\n<p>The directive is supported when using OpenSSL 3.2 or higher;\nthe list of supported compression algorithms is provided by the library.</p>\n</blockquote>\n"
+          "description_md": "Enables TLS 1.3\n[compression](https://datatracker.ietf.org/doc/html/rfc8879)\nof server certificates.\n> The directive is supported when using OpenSSL 3.2 or higher;\n> the list of supported compression algorithms is provided by the library.\n\n> The directive is supported when using BoringSSL;\n> the list of supported compression algorithms includes\n> `zlib` (1.29.3).",
+          "description_html": "<p>Enables TLS 1.3\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8879\" target=\"_blank\">compression</a>\nof server certificates.</p>\n\n<blockquote>\n<p>The directive is supported when using OpenSSL 3.2 or higher;\nthe list of supported compression algorithms is provided by the library.</p>\n\n<p>The directive is supported when using BoringSSL;\nthe list of supported compression algorithms includes\n<code>zlib</code> (1.29.3).</p>\n</blockquote>\n"
         },
         {
           "name": "ssl_certificate_key",
@@ -9571,8 +9571,8 @@
             "<p><code>on</code> | <code>off</code></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Enables or disables TLS 1.3\n[early data](https://datatracker.ietf.org/doc/html/rfc8446#section-2.3).\n> Requests sent within early data are subject to\n> [replay attacks](https://datatracker.ietf.org/doc/html/rfc8470).\n> To protect against such attacks at the application layer,\n> the [$ssl_early_data](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#var_ssl_early_data) variable\n> should be used.\n\n\n```\nproxy_set_header Early-Data $ssl_early_data;\n```\n\n> The directive is supported when using OpenSSL 1.1.1 or higher (1.15.4) and\n> [BoringSSL](https://boringssl.googlesource.com/boringssl/).",
-          "description_html": "<p>Enables or disables TLS 1.3\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8446#section-2.3\" target=\"_blank\">early data</a>.</p>\n\n<blockquote>\n<p>Requests sent within early data are subject to\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8470\" target=\"_blank\">replay attacks</a>.\nTo protect against such attacks at the application layer,\nthe <a href=\"https://nginx.org/en/docs/http/ngx_http_ssl_module.html#var_ssl_early_data\" target=\"_blank\">$ssl_early_data</a> variable\nshould be used.</p>\n</blockquote>\n\n<pre><code>proxy_set_header Early-Data $ssl_early_data;\n</code></pre>\n\n<blockquote>\n<p>The directive is supported when using OpenSSL 1.1.1 or higher (1.15.4) and\n<a href=\"https://boringssl.googlesource.com/boringssl/\" target=\"_blank\">BoringSSL</a>.</p>\n</blockquote>\n"
+          "description_md": "Enables or disables TLS 1.3\n[early data](https://datatracker.ietf.org/doc/html/rfc8446#section-2.3).\n> The directive is supported when using OpenSSL 1.1.1 or higher (1.15.4) and\n> [BoringSSL](https://boringssl.googlesource.com/boringssl/).\n\n> Requests sent within early data are subject to\n> [replay attacks](https://datatracker.ietf.org/doc/html/rfc8470).\n> To protect against such attacks at the application layer,\n> the [$ssl_early_data](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#var_ssl_early_data) variable\n> should be used.\n\n```\nproxy_set_header Early-Data $ssl_early_data;\n```\n\n> OpenSSL built-in replay protection is disabled,\n> because it interferes with session resumption.\n> It can be turned back if deemed necessary.\n\n```\nssl_conf_command Options AntiReplay;\n```",
+          "description_html": "<p>Enables or disables TLS 1.3\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8446#section-2.3\" target=\"_blank\">early data</a>.</p>\n\n<blockquote>\n<p>The directive is supported when using OpenSSL 1.1.1 or higher (1.15.4) and\n<a href=\"https://boringssl.googlesource.com/boringssl/\" target=\"_blank\">BoringSSL</a>.</p>\n\n<p>Requests sent within early data are subject to\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8470\" target=\"_blank\">replay attacks</a>.\nTo protect against such attacks at the application layer,\nthe <a href=\"https://nginx.org/en/docs/http/ngx_http_ssl_module.html#var_ssl_early_data\" target=\"_blank\">$ssl_early_data</a> variable\nshould be used.</p>\n</blockquote>\n\n<pre><code>proxy_set_header Early-Data $ssl_early_data;\n</code></pre>\n\n<blockquote>\n<p>OpenSSL built-in replay protection is disabled,\nbecause it interferes with session resumption.\nIt can be turned back if deemed necessary.</p>\n</blockquote>\n\n<pre><code>ssl_conf_command Options AntiReplay;\n</code></pre>\n"
         },
         {
           "name": "ssl_ecdh_curve",
@@ -9978,8 +9978,8 @@
         },
         {
           "name": "$ssl_client_sigalg",
-          "description_md": "returns the\n[signature algorithm](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16)\nfor the client certificate for an established SSL connection (1.29.3).",
-          "description_html": "<p>returns the\n<a href=\"https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16\" target=\"_blank\">signature algorithm</a>\nfor the client certificate for an established SSL connection (1.29.3).</p>\n"
+          "description_md": "returns the\n[signature algorithm](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16)\nfor the client certificate for an established SSL connection (1.29.3).\n> The variable is supported only when using OpenSSL version 3.5 or higher.\n> With older versions, the variable value will be an empty string.\n\n> The variable is available only for new sessions.",
+          "description_html": "<p>returns the\n<a href=\"https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16\" target=\"_blank\">signature algorithm</a>\nfor the client certificate for an established SSL connection (1.29.3).</p>\n\n<blockquote>\n<p>The variable is supported only when using OpenSSL version 3.5 or higher.\nWith older versions, the variable value will be an empty string.</p>\n\n<p>The variable is available only for new sessions.</p>\n</blockquote>\n"
         },
         {
           "name": "$ssl_client_v_end",
@@ -10038,8 +10038,8 @@
         },
         {
           "name": "$ssl_sigalg",
-          "description_md": "returns the\n[signature algorithm](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16)\nfor the server certificate for an established SSL connection (1.29.3).",
-          "description_html": "<p>returns the\n<a href=\"https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16\" target=\"_blank\">signature algorithm</a>\nfor the server certificate for an established SSL connection (1.29.3).</p>\n"
+          "description_md": "returns the\n[signature algorithm](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16)\nfor the server certificate for an established SSL connection (1.29.3).\n> The variable is supported only when using OpenSSL version 3.5 or higher.\n> With older versions, the variable value will be an empty string.\n\n> The variable is available only for new sessions.",
+          "description_html": "<p>returns the\n<a href=\"https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16\" target=\"_blank\">signature algorithm</a>\nfor the server certificate for an established SSL connection (1.29.3).</p>\n\n<blockquote>\n<p>The variable is supported only when using OpenSSL version 3.5 or higher.\nWith older versions, the variable value will be an empty string.</p>\n\n<p>The variable is available only for new sessions.</p>\n</blockquote>\n"
         }
       ]
     },
@@ -13074,8 +13074,8 @@
             "<p><code>on</code> | <code>off</code></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Enables TLS 1.3\n[compression](https://datatracker.ietf.org/doc/html/rfc8879)\nof server certificates.\n> The directive is supported when using OpenSSL 3.2 or higher;\n> the list of supported compression algorithms is provided by the library.",
-          "description_html": "<p>Enables TLS 1.3\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8879\" target=\"_blank\">compression</a>\nof server certificates.</p>\n\n<blockquote>\n<p>The directive is supported when using OpenSSL 3.2 or higher;\nthe list of supported compression algorithms is provided by the library.</p>\n</blockquote>\n"
+          "description_md": "Enables TLS 1.3\n[compression](https://datatracker.ietf.org/doc/html/rfc8879)\nof server certificates.\n> The directive is supported when using OpenSSL 3.2 or higher;\n> the list of supported compression algorithms is provided by the library.\n\n> The directive is supported when using BoringSSL;\n> the list of supported compression algorithms includes\n> `zlib` (1.29.3).",
+          "description_html": "<p>Enables TLS 1.3\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8879\" target=\"_blank\">compression</a>\nof server certificates.</p>\n\n<blockquote>\n<p>The directive is supported when using OpenSSL 3.2 or higher;\nthe list of supported compression algorithms is provided by the library.</p>\n\n<p>The directive is supported when using BoringSSL;\nthe list of supported compression algorithms includes\n<code>zlib</code> (1.29.3).</p>\n</blockquote>\n"
         },
         {
           "name": "ssl_certificate_key",
@@ -16255,8 +16255,8 @@
             "<p><code>on</code> | <code>off</code></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Enables TLS 1.3\n[compression](https://datatracker.ietf.org/doc/html/rfc8879)\nof server certificates.\n> The directive is supported when using OpenSSL 3.2 or higher;\n> the list of supported compression algorithms is provided by the library.",
-          "description_html": "<p>Enables TLS 1.3\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8879\" target=\"_blank\">compression</a>\nof server certificates.</p>\n\n<blockquote>\n<p>The directive is supported when using OpenSSL 3.2 or higher;\nthe list of supported compression algorithms is provided by the library.</p>\n</blockquote>\n"
+          "description_md": "Enables TLS 1.3\n[compression](https://datatracker.ietf.org/doc/html/rfc8879)\nof server certificates.\n> The directive is supported when using OpenSSL 3.2 or higher;\n> the list of supported compression algorithms is provided by the library.\n\n> The directive is supported when using BoringSSL;\n> the list of supported compression algorithms includes\n> `zlib` (1.29.3).",
+          "description_html": "<p>Enables TLS 1.3\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8879\" target=\"_blank\">compression</a>\nof server certificates.</p>\n\n<blockquote>\n<p>The directive is supported when using OpenSSL 3.2 or higher;\nthe list of supported compression algorithms is provided by the library.</p>\n\n<p>The directive is supported when using BoringSSL;\nthe list of supported compression algorithms includes\n<code>zlib</code> (1.29.3).</p>\n</blockquote>\n"
         },
         {
           "name": "ssl_certificate_key",
@@ -16766,8 +16766,8 @@
         },
         {
           "name": "$ssl_client_sigalg",
-          "description_md": "returns the\n[signature algorithm](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16)\nfor the client certificate for an established SSL connection (1.29.3).",
-          "description_html": "<p>returns the\n<a href=\"https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16\" target=\"_blank\">signature algorithm</a>\nfor the client certificate for an established SSL connection (1.29.3).</p>\n"
+          "description_md": "returns the\n[signature algorithm](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16)\nfor the client certificate for an established SSL connection (1.29.3).\n> The variable is supported only when using OpenSSL version 3.5 or higher.\n> With older versions, the variable value will be an empty string.\n\n> The variable is available only for new sessions.",
+          "description_html": "<p>returns the\n<a href=\"https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16\" target=\"_blank\">signature algorithm</a>\nfor the client certificate for an established SSL connection (1.29.3).</p>\n\n<blockquote>\n<p>The variable is supported only when using OpenSSL version 3.5 or higher.\nWith older versions, the variable value will be an empty string.</p>\n\n<p>The variable is available only for new sessions.</p>\n</blockquote>\n"
         },
         {
           "name": "$ssl_client_v_end",
@@ -16821,8 +16821,8 @@
         },
         {
           "name": "$ssl_sigalg",
-          "description_md": "returns the\n[signature algorithm](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16)\nfor the server certificate for an established SSL connection (1.29.3).",
-          "description_html": "<p>returns the\n<a href=\"https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16\" target=\"_blank\">signature algorithm</a>\nfor the server certificate for an established SSL connection (1.29.3).</p>\n"
+          "description_md": "returns the\n[signature algorithm](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16)\nfor the server certificate for an established SSL connection (1.29.3).\n> The variable is supported only when using OpenSSL version 3.5 or higher.\n> With older versions, the variable value will be an empty string.\n\n> The variable is available only for new sessions.",
+          "description_html": "<p>returns the\n<a href=\"https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16\" target=\"_blank\">signature algorithm</a>\nfor the server certificate for an established SSL connection (1.29.3).</p>\n\n<blockquote>\n<p>The variable is supported only when using OpenSSL version 3.5 or higher.\nWith older versions, the variable value will be an empty string.</p>\n\n<p>The variable is available only for new sessions.</p>\n</blockquote>\n"
         }
       ]
     },
@@ -17481,5 +17481,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/ea784af4d7792b9117e29e257c2a325cc8265fe5"
+  "version": "https://github.com/nginx/nginx.org/commit/4ff366a9d4834c8e3a5c349318625236d39090c1"
 }
