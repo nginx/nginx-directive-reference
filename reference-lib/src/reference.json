@@ -145,6 +145,38 @@
           "description_html": "<p>Specifies a key identifier <em><code>kid</code></em> and a <em><code>file</code></em>\nwith the MAC key for\n<a href=\"https://datatracker.ietf.org/doc/html/rfc8555#section-7.3.4\" target=\"_blank\"> external account authorization</a>.</p>\n\n<p>The value <code>data</code>:<em><code>key</code></em> can be specified\ninstead of the <em><code>file</code></em>, which loads a key directly from\nthe configuration without using intermediate files.</p>\n\n<p>In both cases, the key is expected to be encoded in\n<a href=\"https://datatracker.ietf.org/doc/html/rfc4648#section-5\" target=\"_blank\"> base64url</a>.</p>\n"
         },
         {
+          "name": "preferred_chain",
+          "default": "",
+          "contexts": [
+            "acme_issuer"
+          ],
+          "syntax_md": [
+            "*`name`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>name</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies the preferred certificate chain.\n\nIf the ACME server offers multiple certificate chains,\nprefer the chain with the topmost certificate issued from the\nSubject Common Name *`name`*.\nIf there are no matches, the default chain will be used.",
+          "description_html": "<p>Specifies the preferred certificate chain.</p>\n\n<p>If the ACME server offers multiple certificate chains,\nprefer the chain with the topmost certificate issued from the\nSubject Common Name <em><code>name</code></em>.\nIf there are no matches, the default chain will be used.</p>\n"
+        },
+        {
+          "name": "profile",
+          "default": "",
+          "contexts": [
+            "acme_issuer"
+          ],
+          "syntax_md": [
+            "*`name`* [`require`]"
+          ],
+          "syntax_html": [
+            "<p><em><code>name</code></em> [<code>require</code>]</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Requests the\n[ certificate profile](https://datatracker.ietf.org/doc/html/draft-ietf-acme-profiles) *`name`* from the ACME server.\n\nThe `require` parameter will cause certificate renewals\nto fail if the server does not support the specified profile.",
+          "description_html": "<p>Requests the\n<a href=\"https://datatracker.ietf.org/doc/html/draft-ietf-acme-profiles\" target=\"_blank\"> certificate profile</a> <em><code>name</code></em> from the ACME server.</p>\n\n<p>The <code>require</code> parameter will cause certificate renewals\nto fail if the server does not support the specified profile.</p>\n"
+        },
+        {
           "name": "ssl_trusted_certificate",
           "default": "",
           "contexts": [
@@ -17481,5 +17513,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/4ff366a9d4834c8e3a5c349318625236d39090c1"
+  "version": "https://github.com/nginx/nginx.org/commit/2a1517c5cdaaf2d3fc90dc289278f7d1afffe491"
 }
