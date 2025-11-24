@@ -21,7 +21,7 @@ jobs:
     env:
       testResults: ./reference-converter/results/test.xml
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - run: make devtools-image
       - name: let the build create files
         run: chmod 777 .
@@ -44,7 +44,7 @@ jobs:
     env:
       working-directory: ./reference-converter
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-go@v6
         with:
           go-version-file: ${{ env.working-directory }}/go.mod
