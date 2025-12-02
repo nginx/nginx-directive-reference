@@ -2819,6 +2819,24 @@
       "name": "ngx_http_fastcgi_module",
       "directives": [
         {
+          "name": "fastcgi_allow_upstream",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`string`* ..."
+          ],
+          "syntax_html": [
+            "<p><em><code>string</code></em> &hellip;</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines conditions under which access to a FastCGI server\nis allowed or [denied](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#denied).\nIf all string parameters are not empty\nand not equal to “0” then the access is allowed.\nThe conditions are evaluated each time\nbefore a connection to a FastCGI server is established.\nParameter values can contain variables:\n```\ngeo $upstream_last_addr $allow {\n    volatile;\n    10.10.0.0/24        1;\n}\n\nserver {\n    listen 127.0.0.1:8080;\n\n    location / {\n        fastcgi_pass           localhost:9000;\n        fastcgi_allow_upstream $allow;\n        ...\n    }\n}\n```\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Defines conditions under which access to a FastCGI server\nis allowed or <a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#denied\" target=\"_blank\">denied</a>.\nIf all string parameters are not empty\nand not equal to “0” then the access is allowed.\nThe conditions are evaluated each time\nbefore a connection to a FastCGI server is established.\nParameter values can contain variables:</p>\n\n<pre><code>geo $upstream_last_addr $allow {\n    volatile;\n    10.10.0.0/24        1;\n}\n\nserver {\n    listen 127.0.0.1:8080;\n\n    location / {\n        fastcgi_pass           localhost:9000;\n        fastcgi_allow_upstream $allow;\n        ...\n    }\n}\n</code></pre>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
+        },
+        {
           "name": "fastcgi_bind",
           "default": "",
           "contexts": [
@@ -2835,6 +2853,24 @@
           "isBlock": false,
           "description_md": "Makes outgoing connections to a FastCGI server originate\nfrom the specified local IP address with an optional port (1.11.2).\nParameter value can contain variables (1.3.12).\nThe special value `off` (1.3.12) cancels the effect\nof the `fastcgi_bind` directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.\n\nThe `transparent` parameter (1.11.0) allows\noutgoing connections to a FastCGI server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:\n```\nfastcgi_bind $remote_addr transparent;\n```\nIn order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n[superuser](https://nginx.org/en/docs/ngx_core_module.html#user) privileges.\nOn Linux it is not required (1.13.8) as if\nthe `transparent` parameter is specified, worker processes\ninherit the `CAP_NET_RAW` capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the FastCGI server.",
           "description_html": "<p>Makes outgoing connections to a FastCGI server originate\nfrom the specified local IP address with an optional port (1.11.2).\nParameter value can contain variables (1.3.12).\nThe special value <code>off</code> (1.3.12) cancels the effect\nof the <code>fastcgi_bind</code> directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.</p>\n\n<p>The <code>transparent</code> parameter (1.11.0) allows\noutgoing connections to a FastCGI server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:</p>\n\n<pre><code>fastcgi_bind $remote_addr transparent;\n</code></pre>\n\n<p>In order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n<a href=\"https://nginx.org/en/docs/ngx_core_module.html#user\" target=\"_blank\">superuser</a> privileges.\nOn Linux it is not required (1.13.8) as if\nthe <code>transparent</code> parameter is specified, worker processes\ninherit the <code>CAP_NET_RAW</code> capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the FastCGI server.</p>\n"
+        },
+        {
+          "name": "fastcgi_bind_dynamic",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "When enabled, makes the [bind](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_bind) operation\nat each connection attempt.\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>When enabled, makes the <a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_bind\" target=\"_blank\">bind</a> operation\nat each connection attempt.</p>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "fastcgi_buffer_size",
@@ -3383,14 +3419,14 @@
             "location"
           ],
           "syntax_md": [
-            "`error` | `timeout` | `invalid_header` | `http_500` | `http_503` | `http_403` | `http_404` | `http_429` | `non_idempotent` | `off` ..."
+            "`error` | `timeout` | `denied` | `invalid_header` | `http_500` | `http_503` | `http_403` | `http_404` | `http_429` | `non_idempotent` | `off` ..."
           ],
           "syntax_html": [
-            "<p><code>error</code> | <code>timeout</code> | <code>invalid_header</code> | <code>http_500</code> | <code>http_503</code> | <code>http_403</code> | <code>http_404</code> | <code>http_429</code> | <code>non_idempotent</code> | <code>off</code> &hellip;</p>\n"
+            "<p><code>error</code> | <code>timeout</code> | <code>denied</code> | <code>invalid_header</code> | <code>http_500</code> | <code>http_503</code> | <code>http_403</code> | <code>http_404</code> | <code>http_429</code> | <code>non_idempotent</code> | <code>off</code> &hellip;</p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies in which cases a request should be passed to the next server:\n- `error`\n\n    an error occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `timeout`\n\n    a timeout has occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `invalid_header`\n\n    a server returned an empty or invalid response;\n- `http_500`\n\n    a server returned a response with the code 500;\n- `http_503`\n\n    a server returned a response with the code 503;\n- `http_403`\n\n    a server returned a response with the code 403;\n- `http_404`\n\n    a server returned a response with the code 404;\n- `http_429`\n\n    a server returned a response with the code 429 (1.11.13);\n- `non_idempotent`\n\n    normally, requests with a\n    [non-idempotent](https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2)\n    method\n    (`POST`, `LOCK`, `PATCH`)\n    are not passed to the next server\n    if a request has been sent to an upstream server (1.9.13);\n    enabling this option explicitly allows retrying such requests;\n- `off`\n\n    disables passing a request to the next server.\n\nOne should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.\n\nThe directive also defines what is considered an\n[unsuccessful attempt](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails) of communication with a server.\nThe cases of `error`, `timeout` and\n`invalid_header` are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of `http_500`, `http_503`,\nand `http_429` are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of `http_403` and `http_404`\nare never considered unsuccessful attempts.\n\nPassing a request to the next server can be limited by\n[the number of tries](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_next_upstream_tries)\nand by [time](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_next_upstream_timeout).",
-          "description_html": "<p>Specifies in which cases a request should be passed to the next server:</p>\n\n<ul>\n<li><p><code>error</code></p>\n\n<p>an error occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>timeout</code></p>\n\n<p>a timeout has occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>invalid_header</code></p>\n\n<p>a server returned an empty or invalid response;</p></li>\n\n<li><p><code>http_500</code></p>\n\n<p>a server returned a response with the code 500;</p></li>\n\n<li><p><code>http_503</code></p>\n\n<p>a server returned a response with the code 503;</p></li>\n\n<li><p><code>http_403</code></p>\n\n<p>a server returned a response with the code 403;</p></li>\n\n<li><p><code>http_404</code></p>\n\n<p>a server returned a response with the code 404;</p></li>\n\n<li><p><code>http_429</code></p>\n\n<p>a server returned a response with the code 429 (1.11.13);</p></li>\n\n<li><p><code>non_idempotent</code></p>\n\n<p>normally, requests with a\n<a href=\"https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2\" target=\"_blank\">non-idempotent</a>\nmethod\n(<code>POST</code>, <code>LOCK</code>, <code>PATCH</code>)\nare not passed to the next server\nif a request has been sent to an upstream server (1.9.13);\nenabling this option explicitly allows retrying such requests;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables passing a request to the next server.</p></li>\n</ul>\n\n<p>One should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.</p>\n\n<p>The directive also defines what is considered an\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails\" target=\"_blank\">unsuccessful attempt</a> of communication with a server.\nThe cases of <code>error</code>, <code>timeout</code> and\n<code>invalid_header</code> are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of <code>http_500</code>, <code>http_503</code>,\nand <code>http_429</code> are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of <code>http_403</code> and <code>http_404</code>\nare never considered unsuccessful attempts.</p>\n\n<p>Passing a request to the next server can be limited by\n<a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_next_upstream_tries\" target=\"_blank\">the number of tries</a>\nand by <a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_next_upstream_timeout\" target=\"_blank\">time</a>.</p>\n"
+          "description_md": "Specifies in which cases a request should be passed to the next server:\n- `error`\n\n    an error occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `timeout`\n\n    a timeout has occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `denied`\n\n    the server [denied](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_allow_upstream)\n    the connection (1.29.3);\n    \n    > This parameter is available as part of our\n    > [commercial subscription](https://nginx.com/products/).\n- `invalid_header`\n\n    a server returned an empty or invalid response;\n- `http_500`\n\n    a server returned a response with the code 500;\n- `http_503`\n\n    a server returned a response with the code 503;\n- `http_403`\n\n    a server returned a response with the code 403;\n- `http_404`\n\n    a server returned a response with the code 404;\n- `http_429`\n\n    a server returned a response with the code 429 (1.11.13);\n- `non_idempotent`\n\n    normally, requests with a\n    [non-idempotent](https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2)\n    method\n    (`POST`, `LOCK`, `PATCH`)\n    are not passed to the next server\n    if a request has been sent to an upstream server (1.9.13);\n    enabling this option explicitly allows retrying such requests;\n- `off`\n\n    disables passing a request to the next server.\n\nOne should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.\n\nThe directive also defines what is considered an\n[unsuccessful attempt](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails) of communication with a server.\nThe cases of `error`, `timeout`,\n`denied` and\n`invalid_header` are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of `http_500`, `http_503`,\nand `http_429` are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of `http_403` and `http_404`\nare never considered unsuccessful attempts.\n\nPassing a request to the next server can be limited by\n[the number of tries](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_next_upstream_tries)\nand by [time](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_next_upstream_timeout).",
+          "description_html": "<p>Specifies in which cases a request should be passed to the next server:</p>\n\n<ul>\n<li><p><code>error</code></p>\n\n<p>an error occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>timeout</code></p>\n\n<p>a timeout has occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>denied</code></p>\n\n<p>the server <a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_allow_upstream\" target=\"_blank\">denied</a>\nthe connection (1.29.3);</p>\n\n<blockquote>\n<p>This parameter is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n</li>\n\n<li><p><code>invalid_header</code></p>\n\n<p>a server returned an empty or invalid response;</p></li>\n\n<li><p><code>http_500</code></p>\n\n<p>a server returned a response with the code 500;</p></li>\n\n<li><p><code>http_503</code></p>\n\n<p>a server returned a response with the code 503;</p></li>\n\n<li><p><code>http_403</code></p>\n\n<p>a server returned a response with the code 403;</p></li>\n\n<li><p><code>http_404</code></p>\n\n<p>a server returned a response with the code 404;</p></li>\n\n<li><p><code>http_429</code></p>\n\n<p>a server returned a response with the code 429 (1.11.13);</p></li>\n\n<li><p><code>non_idempotent</code></p>\n\n<p>normally, requests with a\n<a href=\"https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2\" target=\"_blank\">non-idempotent</a>\nmethod\n(<code>POST</code>, <code>LOCK</code>, <code>PATCH</code>)\nare not passed to the next server\nif a request has been sent to an upstream server (1.9.13);\nenabling this option explicitly allows retrying such requests;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables passing a request to the next server.</p></li>\n</ul>\n\n<p>One should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.</p>\n\n<p>The directive also defines what is considered an\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails\" target=\"_blank\">unsuccessful attempt</a> of communication with a server.\nThe cases of <code>error</code>, <code>timeout</code>,\n<code>denied</code> and\n<code>invalid_header</code> are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of <code>http_500</code>, <code>http_503</code>,\nand <code>http_429</code> are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of <code>http_403</code> and <code>http_404</code>\nare never considered unsuccessful attempts.</p>\n\n<p>Passing a request to the next server can be limited by\n<a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_next_upstream_tries\" target=\"_blank\">the number of tries</a>\nand by <a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_next_upstream_timeout\" target=\"_blank\">time</a>.</p>\n"
         },
         {
           "name": "fastcgi_next_upstream_timeout",
@@ -3570,6 +3606,24 @@
           "isBlock": false,
           "description_md": "Enables or disables buffering of a client request body.\n\nWhen buffering is enabled, the entire request body is\n[read](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size)\nfrom the client before sending the request to a FastCGI server.\n\nWhen buffering is disabled, the request body is sent to the FastCGI server\nimmediately as it is received.\nIn this case, the request cannot be passed to the\n[next server](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_next_upstream)\nif nginx already started sending the request body.",
           "description_html": "<p>Enables or disables buffering of a client request body.</p>\n\n<p>When buffering is enabled, the entire request body is\n<a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size\" target=\"_blank\">read</a>\nfrom the client before sending the request to a FastCGI server.</p>\n\n<p>When buffering is disabled, the request body is sent to the FastCGI server\nimmediately as it is received.\nIn this case, the request cannot be passed to the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_next_upstream\" target=\"_blank\">next server</a>\nif nginx already started sending the request body.</p>\n"
+        },
+        {
+          "name": "fastcgi_request_dynamic",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables or disables creation of a separate request instance\nfor each FastCGI server.\nBy default, a single request is used for all FastCGI servers.\nIf the directive is set to the value “`on`”,\na separate request instance is created,\nallowing per-server request customization.\nFor example, the server-specific \"Host\" request header field\ncan be set:\n```\nproxy_request_dynamic on;\nproxy_set_header      Host $upstream_last_server_name;\n```\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Enables or disables creation of a separate request instance\nfor each FastCGI server.\nBy default, a single request is used for all FastCGI servers.\nIf the directive is set to the value “<code>on</code>”,\na separate request instance is created,\nallowing per-server request customization.\nFor example, the server-specific &ldquo;Host&rdquo; request header field\ncan be set:</p>\n\n<pre><code>proxy_request_dynamic on;\nproxy_set_header      Host $upstream_last_server_name;\n</code></pre>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "fastcgi_send_lowat",
@@ -3862,6 +3916,24 @@
       "name": "ngx_http_grpc_module",
       "directives": [
         {
+          "name": "grpc_allow_upstream",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`address`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>address</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines conditions under which access to a gRPC server\nis allowed or [denied](https://nginx.org/en/docs/http/ngx_http_grpc_module.html#denied).\nIf all string parameters are not empty\nand not equal to “0” then the access is allowed.\nThe conditions are evaluated each time\nbefore a connection to a gRPC server is established.\nParameter values can contain variables:\n```\ngeo $upstream_last_addr $allow {\n    volatile;\n    10.10.0.0/24        1;\n}\n\nserver {\n    listen 127.0.0.1:8080;\n    http2 on;\n\n    location / {\n        grpc_pass           localhost:9000;\n        grpc_allow_upstream $allow;\n        ...\n    }\n}\n```\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Defines conditions under which access to a gRPC server\nis allowed or <a href=\"https://nginx.org/en/docs/http/ngx_http_grpc_module.html#denied\" target=\"_blank\">denied</a>.\nIf all string parameters are not empty\nand not equal to “0” then the access is allowed.\nThe conditions are evaluated each time\nbefore a connection to a gRPC server is established.\nParameter values can contain variables:</p>\n\n<pre><code>geo $upstream_last_addr $allow {\n    volatile;\n    10.10.0.0/24        1;\n}\n\nserver {\n    listen 127.0.0.1:8080;\n    http2 on;\n\n    location / {\n        grpc_pass           localhost:9000;\n        grpc_allow_upstream $allow;\n        ...\n    }\n}\n</code></pre>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
+        },
+        {
           "name": "grpc_bind",
           "default": "",
           "contexts": [
@@ -3878,6 +3950,24 @@
           "isBlock": false,
           "description_md": "Makes outgoing connections to a gRPC server originate\nfrom the specified local IP address with an optional port.\nParameter value can contain variables.\nThe special value `off` cancels the effect\nof the `grpc_bind` directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.\n\nThe `transparent` parameter allows\noutgoing connections to a gRPC server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:\n```\ngrpc_bind $remote_addr transparent;\n```\nIn order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n[superuser](https://nginx.org/en/docs/ngx_core_module.html#user) privileges.\nOn Linux it is not required as if\nthe `transparent` parameter is specified, worker processes\ninherit the `CAP_NET_RAW` capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the gRPC server.",
           "description_html": "<p>Makes outgoing connections to a gRPC server originate\nfrom the specified local IP address with an optional port.\nParameter value can contain variables.\nThe special value <code>off</code> cancels the effect\nof the <code>grpc_bind</code> directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.</p>\n\n<p>The <code>transparent</code> parameter allows\noutgoing connections to a gRPC server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:</p>\n\n<pre><code>grpc_bind $remote_addr transparent;\n</code></pre>\n\n<p>In order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n<a href=\"https://nginx.org/en/docs/ngx_core_module.html#user\" target=\"_blank\">superuser</a> privileges.\nOn Linux it is not required as if\nthe <code>transparent</code> parameter is specified, worker processes\ninherit the <code>CAP_NET_RAW</code> capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the gRPC server.</p>\n"
+        },
+        {
+          "name": "grpc_bind_dynamic",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "When enabled, makes the [bind](https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_bind) operation\nat each connection attempt.\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>When enabled, makes the <a href=\"https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_bind\" target=\"_blank\">bind</a> operation\nat each connection attempt.</p>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "grpc_buffer_size",
@@ -3978,14 +4068,14 @@
             "location"
           ],
           "syntax_md": [
-            "`error` | `timeout` | `invalid_header` | `http_500` | `http_502` | `http_503` | `http_504` | `http_403` | `http_404` | `http_429` | `non_idempotent` | `off` ..."
+            "`error` | `timeout` | `denied` | `invalid_header` | `http_500` | `http_502` | `http_503` | `http_504` | `http_403` | `http_404` | `http_429` | `non_idempotent` | `off` ..."
           ],
           "syntax_html": [
-            "<p><code>error</code> | <code>timeout</code> | <code>invalid_header</code> | <code>http_500</code> | <code>http_502</code> | <code>http_503</code> | <code>http_504</code> | <code>http_403</code> | <code>http_404</code> | <code>http_429</code> | <code>non_idempotent</code> | <code>off</code> &hellip;</p>\n"
+            "<p><code>error</code> | <code>timeout</code> | <code>denied</code> | <code>invalid_header</code> | <code>http_500</code> | <code>http_502</code> | <code>http_503</code> | <code>http_504</code> | <code>http_403</code> | <code>http_404</code> | <code>http_429</code> | <code>non_idempotent</code> | <code>off</code> &hellip;</p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies in which cases a request should be passed to the next server:\n- `error`\n\n    an error occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `timeout`\n\n    a timeout has occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `invalid_header`\n\n    a server returned an empty or invalid response;\n- `http_500`\n\n    a server returned a response with the code 500;\n- `http_502`\n\n    a server returned a response with the code 502;\n- `http_503`\n\n    a server returned a response with the code 503;\n- `http_504`\n\n    a server returned a response with the code 504;\n- `http_403`\n\n    a server returned a response with the code 403;\n- `http_404`\n\n    a server returned a response with the code 404;\n- `http_429`\n\n    a server returned a response with the code 429;\n- `non_idempotent`\n\n    normally, requests with a\n    [non-idempotent](https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2)\n    method\n    (`POST`, `LOCK`, `PATCH`)\n    are not passed to the next server\n    if a request has been sent to an upstream server;\n    enabling this option explicitly allows retrying such requests;\n- `off`\n\n    disables passing a request to the next server.\n\nOne should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.\n\nThe directive also defines what is considered an\n[unsuccessful attempt](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails) of communication with a server.\nThe cases of `error`, `timeout` and\n`invalid_header` are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of `http_500`, `http_502`,\n`http_503`, `http_504`,\nand `http_429` are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of `http_403` and `http_404`\nare never considered unsuccessful attempts.\n\nPassing a request to the next server can be limited by\n[the number of tries](https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_next_upstream_tries)\nand by [time](https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_next_upstream_timeout).",
-          "description_html": "<p>Specifies in which cases a request should be passed to the next server:</p>\n\n<ul>\n<li><p><code>error</code></p>\n\n<p>an error occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>timeout</code></p>\n\n<p>a timeout has occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>invalid_header</code></p>\n\n<p>a server returned an empty or invalid response;</p></li>\n\n<li><p><code>http_500</code></p>\n\n<p>a server returned a response with the code 500;</p></li>\n\n<li><p><code>http_502</code></p>\n\n<p>a server returned a response with the code 502;</p></li>\n\n<li><p><code>http_503</code></p>\n\n<p>a server returned a response with the code 503;</p></li>\n\n<li><p><code>http_504</code></p>\n\n<p>a server returned a response with the code 504;</p></li>\n\n<li><p><code>http_403</code></p>\n\n<p>a server returned a response with the code 403;</p></li>\n\n<li><p><code>http_404</code></p>\n\n<p>a server returned a response with the code 404;</p></li>\n\n<li><p><code>http_429</code></p>\n\n<p>a server returned a response with the code 429;</p></li>\n\n<li><p><code>non_idempotent</code></p>\n\n<p>normally, requests with a\n<a href=\"https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2\" target=\"_blank\">non-idempotent</a>\nmethod\n(<code>POST</code>, <code>LOCK</code>, <code>PATCH</code>)\nare not passed to the next server\nif a request has been sent to an upstream server;\nenabling this option explicitly allows retrying such requests;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables passing a request to the next server.</p></li>\n</ul>\n\n<p>One should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.</p>\n\n<p>The directive also defines what is considered an\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails\" target=\"_blank\">unsuccessful attempt</a> of communication with a server.\nThe cases of <code>error</code>, <code>timeout</code> and\n<code>invalid_header</code> are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of <code>http_500</code>, <code>http_502</code>,\n<code>http_503</code>, <code>http_504</code>,\nand <code>http_429</code> are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of <code>http_403</code> and <code>http_404</code>\nare never considered unsuccessful attempts.</p>\n\n<p>Passing a request to the next server can be limited by\n<a href=\"https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_next_upstream_tries\" target=\"_blank\">the number of tries</a>\nand by <a href=\"https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_next_upstream_timeout\" target=\"_blank\">time</a>.</p>\n"
+          "description_md": "Specifies in which cases a request should be passed to the next server:\n- `error`\n\n    an error occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `timeout`\n\n    a timeout has occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `denied`\n\n    the server [denied](https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_allow_upstream)\n    the connection (1.29.3);\n    \n    > This parameter is available as part of our\n    > [commercial subscription](https://nginx.com/products/).\n- `invalid_header`\n\n    a server returned an empty or invalid response;\n- `http_500`\n\n    a server returned a response with the code 500;\n- `http_502`\n\n    a server returned a response with the code 502;\n- `http_503`\n\n    a server returned a response with the code 503;\n- `http_504`\n\n    a server returned a response with the code 504;\n- `http_403`\n\n    a server returned a response with the code 403;\n- `http_404`\n\n    a server returned a response with the code 404;\n- `http_429`\n\n    a server returned a response with the code 429;\n- `non_idempotent`\n\n    normally, requests with a\n    [non-idempotent](https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2)\n    method\n    (`POST`, `LOCK`, `PATCH`)\n    are not passed to the next server\n    if a request has been sent to an upstream server;\n    enabling this option explicitly allows retrying such requests;\n- `off`\n\n    disables passing a request to the next server.\n\nOne should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.\n\nThe directive also defines what is considered an\n[unsuccessful attempt](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails) of communication with a server.\nThe cases of `error`, `timeout`,\n`denied` and\n`invalid_header` are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of `http_500`, `http_502`,\n`http_503`, `http_504`,\nand `http_429` are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of `http_403` and `http_404`\nare never considered unsuccessful attempts.\n\nPassing a request to the next server can be limited by\n[the number of tries](https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_next_upstream_tries)\nand by [time](https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_next_upstream_timeout).",
+          "description_html": "<p>Specifies in which cases a request should be passed to the next server:</p>\n\n<ul>\n<li><p><code>error</code></p>\n\n<p>an error occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>timeout</code></p>\n\n<p>a timeout has occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>denied</code></p>\n\n<p>the server <a href=\"https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_allow_upstream\" target=\"_blank\">denied</a>\nthe connection (1.29.3);</p>\n\n<blockquote>\n<p>This parameter is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n</li>\n\n<li><p><code>invalid_header</code></p>\n\n<p>a server returned an empty or invalid response;</p></li>\n\n<li><p><code>http_500</code></p>\n\n<p>a server returned a response with the code 500;</p></li>\n\n<li><p><code>http_502</code></p>\n\n<p>a server returned a response with the code 502;</p></li>\n\n<li><p><code>http_503</code></p>\n\n<p>a server returned a response with the code 503;</p></li>\n\n<li><p><code>http_504</code></p>\n\n<p>a server returned a response with the code 504;</p></li>\n\n<li><p><code>http_403</code></p>\n\n<p>a server returned a response with the code 403;</p></li>\n\n<li><p><code>http_404</code></p>\n\n<p>a server returned a response with the code 404;</p></li>\n\n<li><p><code>http_429</code></p>\n\n<p>a server returned a response with the code 429;</p></li>\n\n<li><p><code>non_idempotent</code></p>\n\n<p>normally, requests with a\n<a href=\"https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2\" target=\"_blank\">non-idempotent</a>\nmethod\n(<code>POST</code>, <code>LOCK</code>, <code>PATCH</code>)\nare not passed to the next server\nif a request has been sent to an upstream server;\nenabling this option explicitly allows retrying such requests;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables passing a request to the next server.</p></li>\n</ul>\n\n<p>One should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.</p>\n\n<p>The directive also defines what is considered an\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails\" target=\"_blank\">unsuccessful attempt</a> of communication with a server.\nThe cases of <code>error</code>, <code>timeout</code>,\n<code>denied</code> and\n<code>invalid_header</code> are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of <code>http_500</code>, <code>http_502</code>,\n<code>http_503</code>, <code>http_504</code>,\nand <code>http_429</code> are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of <code>http_403</code> and <code>http_404</code>\nare never considered unsuccessful attempts.</p>\n\n<p>Passing a request to the next server can be limited by\n<a href=\"https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_next_upstream_tries\" target=\"_blank\">the number of tries</a>\nand by <a href=\"https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_next_upstream_timeout\" target=\"_blank\">time</a>.</p>\n"
         },
         {
           "name": "grpc_next_upstream_timeout",
@@ -4075,6 +4165,24 @@
           "isBlock": false,
           "description_md": "Defines a timeout for reading a response from the gRPC server.\nThe timeout is set only between two successive read operations,\nnot for the transmission of the whole response.\nIf the gRPC server does not transmit anything within this time,\nthe connection is closed.",
           "description_html": "<p>Defines a timeout for reading a response from the gRPC server.\nThe timeout is set only between two successive read operations,\nnot for the transmission of the whole response.\nIf the gRPC server does not transmit anything within this time,\nthe connection is closed.</p>\n"
+        },
+        {
+          "name": "grpc_request_dynamic",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables or disables creation of a separate request instance\nfor each gRPC server.\nBy default, a single request is used for all gRPC servers.\nIf the directive is set to the value “`on`”,\na separate request instance is created,\nallowing per-server request customization.\nFor example, the server-specific \"Host\" request header field\ncan be set:\n```\nproxy_request_dynamic on;\nproxy_set_header      Host $upstream_last_server_name;\n```\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Enables or disables creation of a separate request instance\nfor each gRPC server.\nBy default, a single request is used for all gRPC servers.\nIf the directive is set to the value “<code>on</code>”,\na separate request instance is created,\nallowing per-server request customization.\nFor example, the server-specific &ldquo;Host&rdquo; request header field\ncan be set:</p>\n\n<pre><code>proxy_request_dynamic on;\nproxy_set_header      Host $upstream_last_server_name;\n</code></pre>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "grpc_send_timeout",
@@ -5895,6 +6003,24 @@
       "name": "ngx_http_memcached_module",
       "directives": [
         {
+          "name": "memcached_allow_upstream",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`string`* ..."
+          ],
+          "syntax_html": [
+            "<p><em><code>string</code></em> &hellip;</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines conditions under which access to a memcached server\nis allowed or [denied](https://nginx.org/en/docs/http/ngx_http_memcached_module.html#denied).\nIf all string parameters are not empty\nand not equal to “0” then the access is allowed.\nThe conditions are evaluated each time\nbefore a connection to a memcached server is established.\nParameter values can contain variables:\n```\ngeo $upstream_last_addr $allow {\n    volatile;\n    10.10.0.0/24        1;\n}\n\nserver {\n    listen 127.0.0.1:8080;\n\n    location / {\n        memcached_pass           host:11211;\n        memcached_allow_upstream $allow;\n        ...\n    }\n}\n```\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Defines conditions under which access to a memcached server\nis allowed or <a href=\"https://nginx.org/en/docs/http/ngx_http_memcached_module.html#denied\" target=\"_blank\">denied</a>.\nIf all string parameters are not empty\nand not equal to “0” then the access is allowed.\nThe conditions are evaluated each time\nbefore a connection to a memcached server is established.\nParameter values can contain variables:</p>\n\n<pre><code>geo $upstream_last_addr $allow {\n    volatile;\n    10.10.0.0/24        1;\n}\n\nserver {\n    listen 127.0.0.1:8080;\n\n    location / {\n        memcached_pass           host:11211;\n        memcached_allow_upstream $allow;\n        ...\n    }\n}\n</code></pre>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
+        },
+        {
           "name": "memcached_bind",
           "default": "",
           "contexts": [
@@ -5911,6 +6037,24 @@
           "isBlock": false,
           "description_md": "Makes outgoing connections to a memcached server originate\nfrom the specified local IP address with an optional port (1.11.2).\nParameter value can contain variables (1.3.12).\nThe special value `off` (1.3.12) cancels the effect\nof the `memcached_bind` directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.\n\nThe `transparent` parameter (1.11.0) allows\noutgoing connections to a memcached server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:\n```\nmemcached_bind $remote_addr transparent;\n```\nIn order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n[superuser](https://nginx.org/en/docs/ngx_core_module.html#user) privileges.\nOn Linux it is not required (1.13.8) as if\nthe `transparent` parameter is specified, worker processes\ninherit the `CAP_NET_RAW` capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the memcached server.",
           "description_html": "<p>Makes outgoing connections to a memcached server originate\nfrom the specified local IP address with an optional port (1.11.2).\nParameter value can contain variables (1.3.12).\nThe special value <code>off</code> (1.3.12) cancels the effect\nof the <code>memcached_bind</code> directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.</p>\n\n<p>The <code>transparent</code> parameter (1.11.0) allows\noutgoing connections to a memcached server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:</p>\n\n<pre><code>memcached_bind $remote_addr transparent;\n</code></pre>\n\n<p>In order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n<a href=\"https://nginx.org/en/docs/ngx_core_module.html#user\" target=\"_blank\">superuser</a> privileges.\nOn Linux it is not required (1.13.8) as if\nthe <code>transparent</code> parameter is specified, worker processes\ninherit the <code>CAP_NET_RAW</code> capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the memcached server.</p>\n"
+        },
+        {
+          "name": "memcached_bind_dynamic",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "When enabled, makes the [bind](https://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_bind) operation\nat each connection attempt.\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>When enabled, makes the <a href=\"https://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_bind\" target=\"_blank\">bind</a> operation\nat each connection attempt.</p>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "memcached_buffer_size",
@@ -5975,14 +6119,14 @@
             "location"
           ],
           "syntax_md": [
-            "`error` | `timeout` | `invalid_response` | `not_found` | `off` ..."
+            "`error` | `timeout` | `denied` | `invalid_response` | `not_found` | `off` ..."
           ],
           "syntax_html": [
-            "<p><code>error</code> | <code>timeout</code> | <code>invalid_response</code> | <code>not_found</code> | <code>off</code> &hellip;</p>\n"
+            "<p><code>error</code> | <code>timeout</code> | <code>denied</code> | <code>invalid_response</code> | <code>not_found</code> | <code>off</code> &hellip;</p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies in which cases a request should be passed to the next server:\n- `error`\n\n    an error occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `timeout`\n\n    a timeout has occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `invalid_response`\n\n    a server returned an empty or invalid response;\n- `not_found`\n\n    a response was not found on the server;\n- `off`\n\n    disables passing a request to the next server.\n\nOne should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.\n\nThe directive also defines what is considered an\n[unsuccessful attempt](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails) of communication with a server.\nThe cases of `error`, `timeout` and\n`invalid_response` are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe case of `not_found`\nis never considered an unsuccessful attempt.\n\nPassing a request to the next server can be limited by\n[the number of tries](https://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_next_upstream_tries)\nand by [time](https://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_next_upstream_timeout).",
-          "description_html": "<p>Specifies in which cases a request should be passed to the next server:</p>\n\n<ul>\n<li><p><code>error</code></p>\n\n<p>an error occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>timeout</code></p>\n\n<p>a timeout has occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>invalid_response</code></p>\n\n<p>a server returned an empty or invalid response;</p></li>\n\n<li><p><code>not_found</code></p>\n\n<p>a response was not found on the server;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables passing a request to the next server.</p></li>\n</ul>\n\n<p>One should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.</p>\n\n<p>The directive also defines what is considered an\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails\" target=\"_blank\">unsuccessful attempt</a> of communication with a server.\nThe cases of <code>error</code>, <code>timeout</code> and\n<code>invalid_response</code> are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe case of <code>not_found</code>\nis never considered an unsuccessful attempt.</p>\n\n<p>Passing a request to the next server can be limited by\n<a href=\"https://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_next_upstream_tries\" target=\"_blank\">the number of tries</a>\nand by <a href=\"https://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_next_upstream_timeout\" target=\"_blank\">time</a>.</p>\n"
+          "description_md": "Specifies in which cases a request should be passed to the next server:\n- `error`\n\n    an error occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `timeout`\n\n    a timeout has occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `denied`\n\n    the server [denied](https://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_allow_upstream)\n    the connection (1.29.3);\n    \n    > This parameter is available as part of our\n    > [commercial subscription](https://nginx.com/products/).\n- `invalid_response`\n\n    a server returned an empty or invalid response;\n- `not_found`\n\n    a response was not found on the server;\n- `off`\n\n    disables passing a request to the next server.\n\nOne should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.\n\nThe directive also defines what is considered an\n[unsuccessful attempt](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails) of communication with a server.\nThe cases of `error`, `timeout`,\n`denied` and\n`invalid_response` are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe case of `not_found`\nis never considered an unsuccessful attempt.\n\nPassing a request to the next server can be limited by\n[the number of tries](https://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_next_upstream_tries)\nand by [time](https://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_next_upstream_timeout).",
+          "description_html": "<p>Specifies in which cases a request should be passed to the next server:</p>\n\n<ul>\n<li><p><code>error</code></p>\n\n<p>an error occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>timeout</code></p>\n\n<p>a timeout has occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>denied</code></p>\n\n<p>the server <a href=\"https://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_allow_upstream\" target=\"_blank\">denied</a>\nthe connection (1.29.3);</p>\n\n<blockquote>\n<p>This parameter is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n</li>\n\n<li><p><code>invalid_response</code></p>\n\n<p>a server returned an empty or invalid response;</p></li>\n\n<li><p><code>not_found</code></p>\n\n<p>a response was not found on the server;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables passing a request to the next server.</p></li>\n</ul>\n\n<p>One should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.</p>\n\n<p>The directive also defines what is considered an\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails\" target=\"_blank\">unsuccessful attempt</a> of communication with a server.\nThe cases of <code>error</code>, <code>timeout</code>,\n<code>denied</code> and\n<code>invalid_response</code> are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe case of <code>not_found</code>\nis never considered an unsuccessful attempt.</p>\n\n<p>Passing a request to the next server can be limited by\n<a href=\"https://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_next_upstream_tries\" target=\"_blank\">the number of tries</a>\nand by <a href=\"https://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_next_upstream_timeout\" target=\"_blank\">time</a>.</p>\n"
         },
         {
           "name": "memcached_next_upstream_timeout",
@@ -6255,6 +6399,28 @@
       ]
     },
     {
+      "id": "/en/docs/http/ngx_http_num_map_module.html",
+      "name": "ngx_http_num_map_module",
+      "directives": [
+        {
+          "name": "num_map",
+          "default": "",
+          "contexts": [
+            "http"
+          ],
+          "syntax_md": [
+            "[*`$number`*] *`$variable`* `{...}`"
+          ],
+          "syntax_html": [
+            "<p>[<em><code>$number</code></em>] <em><code>$variable</code></em> <code>{...}</code></p>\n"
+          ],
+          "isBlock": true,
+          "description_md": "Describes how the values of the specified variable depend on numeric values\nor numeric value ranges.\n\n> Since variables are evaluated only when used, the mere existence\n> of even a large number of declared “`num_map`” variables\n> does not cause any extra costs for request processing.\n\nParameters inside the `num_map` block specify a mapping\nbetween source and resulting values.\n\nSource values are specified as numbers or as numeric ranges.\n\nThe following special parameters are also supported:\n- `default`\n\n    sets the resulting value if the source value matches none\n    of the specified variants.\n    When `default` is not specified, the default\n    resulting value will be an empty string.\n- `include`\n\n    includes a file with values.\n    There can be several inclusions.\n- `volatile`\n\n    indicates that the variable is not cacheable.",
+          "description_html": "<p>Describes how the values of the specified variable depend on numeric values\nor numeric value ranges.</p>\n\n<blockquote>\n<p>Since variables are evaluated only when used, the mere existence\nof even a large number of declared “<code>num_map</code>” variables\ndoes not cause any extra costs for request processing.</p>\n</blockquote>\n\n<p>Parameters inside the <code>num_map</code> block specify a mapping\nbetween source and resulting values.</p>\n\n<p>Source values are specified as numbers or as numeric ranges.</p>\n\n<p>The following special parameters are also supported:</p>\n\n<ul>\n<li><p><code>default</code></p>\n\n<p>sets the resulting value if the source value matches none\nof the specified variants.\nWhen <code>default</code> is not specified, the default\nresulting value will be an empty string.</p></li>\n\n<li><p><code>include</code></p>\n\n<p>includes a file with values.\nThere can be several inclusions.</p></li>\n\n<li><p><code>volatile</code></p>\n\n<p>indicates that the variable is not cacheable.</p></li>\n</ul>\n"
+        }
+      ]
+    },
+    {
       "id": "/en/docs/http/ngx_http_oidc_module.html",
       "name": "ngx_http_oidc_module",
       "directives": [
@@ -6337,8 +6503,8 @@
             "<p><em><code>string</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a secret value\nused to authenticate the Relying Party with the OpenID Provider.",
-          "description_html": "<p>Specifies a secret value\nused to authenticate the Relying Party with the OpenID Provider.</p>\n"
+          "description_md": "Specifies a secret value\nused to authenticate the Relying Party with the OpenID Provider.\nThe supported\n[authentication methods](https://openid.net/specs/openid-connect-core-1_0.html#ClientAuthentication) are\n`client_secret_basic` and\n`client_secret_post` (1.29.3).\nThe method is selected based on the OpenID Provider metadata\nwith a preference to `client_secret_basic`.",
+          "description_html": "<p>Specifies a secret value\nused to authenticate the Relying Party with the OpenID Provider.\nThe supported\n<a href=\"https://openid.net/specs/openid-connect-core-1_0.html#ClientAuthentication\" target=\"_blank\">authentication methods</a> are\n<code>client_secret_basic</code> and\n<code>client_secret_post</code> (1.29.3).\nThe method is selected based on the OpenID Provider metadata\nwith a preference to <code>client_secret_basic</code>.</p>\n"
         },
         {
           "name": "config_url",
@@ -6387,6 +6553,38 @@
           "isBlock": false,
           "description_md": "Sets additional query arguments for the\n[authentication request](https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest) URL.\n```\nextra_auth_args \"display=page&prompt=login\";\n```",
           "description_html": "<p>Sets additional query arguments for the\n<a href=\"https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest\" target=\"_blank\">authentication request</a> URL.</p>\n\n<pre><code>extra_auth_args &quot;display=page&amp;prompt=login&quot;;\n</code></pre>\n"
+        },
+        {
+          "name": "frontchannel_logout_uri",
+          "default": "",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`uri`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>uri</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines the URI path for triggering\n[front-channel logout](https://openid.net/specs/openid-connect-frontchannel-1_0.html).\nFor the logout request to be associated with a user session,\nit must either include the module session cookie or provide\nboth the “`iss`” and “`sid`” arguments.\nIt is recommended to configure the OpenID Provider to set the\n“`iss`” and “`sid`” arguments\nwhen invoking this endpoint.",
+          "description_html": "<p>Defines the URI path for triggering\n<a href=\"https://openid.net/specs/openid-connect-frontchannel-1_0.html\" target=\"_blank\">front-channel logout</a>.\nFor the logout request to be associated with a user session,\nit must either include the module session cookie or provide\nboth the “<code>iss</code>” and “<code>sid</code>” arguments.\nIt is recommended to configure the OpenID Provider to set the\n“<code>iss</code>” and “<code>sid</code>” arguments\nwhen invoking this endpoint.</p>\n"
+        },
+        {
+          "name": "pkce",
+          "default": "",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Explicitly enables or disables PKCE.\nBy default, PKCE is automatically enabled\nbased on OpenID Provider metadata.",
+          "description_html": "<p>Explicitly enables or disables PKCE.\nBy default, PKCE is automatically enabled\nbased on OpenID Provider metadata.</p>\n"
         },
         {
           "name": "redirect_uri",
@@ -6648,6 +6846,24 @@
       "name": "ngx_http_proxy_module",
       "directives": [
         {
+          "name": "proxy_allow_upstream",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`string`* ..."
+          ],
+          "syntax_html": [
+            "<p><em><code>string</code></em> &hellip;</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines conditions under which access to a proxied server\nis allowed or [denied](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#denied).\nIf all string parameters are not empty\nand not equal to “0” then the access is allowed.\nThe conditions are evaluated each time\nbefore a connection to a proxied server is established.\nParameter values can contain variables:\n```\ngeo $upstream_last_addr $allow {\n    volatile;\n    10.10.0.0/24        1;\n}\n\nserver {\n    listen 127.0.0.1:8080;\n\n    location / {\n        proxy_pass           localhost:8000;\n        proxy_allow_upstream $allow;\n        ...\n    }\n}\n```\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Defines conditions under which access to a proxied server\nis allowed or <a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#denied\" target=\"_blank\">denied</a>.\nIf all string parameters are not empty\nand not equal to “0” then the access is allowed.\nThe conditions are evaluated each time\nbefore a connection to a proxied server is established.\nParameter values can contain variables:</p>\n\n<pre><code>geo $upstream_last_addr $allow {\n    volatile;\n    10.10.0.0/24        1;\n}\n\nserver {\n    listen 127.0.0.1:8080;\n\n    location / {\n        proxy_pass           localhost:8000;\n        proxy_allow_upstream $allow;\n        ...\n    }\n}\n</code></pre>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
+        },
+        {
           "name": "proxy_bind",
           "default": "",
           "contexts": [
@@ -6664,6 +6880,24 @@
           "isBlock": false,
           "description_md": "Makes outgoing connections to a proxied server originate\nfrom the specified local IP address with an optional port (1.11.2).\nParameter value can contain variables (1.3.12).\nThe special value `off` (1.3.12) cancels the effect\nof the `proxy_bind` directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.\n\nThe `transparent` parameter (1.11.0) allows\noutgoing connections to a proxied server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:\n```\nproxy_bind $remote_addr transparent;\n```\nIn order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n[superuser](https://nginx.org/en/docs/ngx_core_module.html#user) privileges.\nOn Linux it is not required (1.13.8) as if\nthe `transparent` parameter is specified, worker processes\ninherit the `CAP_NET_RAW` capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the proxied server.",
           "description_html": "<p>Makes outgoing connections to a proxied server originate\nfrom the specified local IP address with an optional port (1.11.2).\nParameter value can contain variables (1.3.12).\nThe special value <code>off</code> (1.3.12) cancels the effect\nof the <code>proxy_bind</code> directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.</p>\n\n<p>The <code>transparent</code> parameter (1.11.0) allows\noutgoing connections to a proxied server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:</p>\n\n<pre><code>proxy_bind $remote_addr transparent;\n</code></pre>\n\n<p>In order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n<a href=\"https://nginx.org/en/docs/ngx_core_module.html#user\" target=\"_blank\">superuser</a> privileges.\nOn Linux it is not required (1.13.8) as if\nthe <code>transparent</code> parameter is specified, worker processes\ninherit the <code>CAP_NET_RAW</code> capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the proxied server.</p>\n"
+        },
+        {
+          "name": "proxy_bind_dynamic",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "When enabled, makes the [bind](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_bind) operation\nat each connection attempt.\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>When enabled, makes the <a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_bind\" target=\"_blank\">bind</a> operation\nat each connection attempt.</p>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "proxy_buffer_size",
@@ -7306,14 +7540,14 @@
             "location"
           ],
           "syntax_md": [
-            "`error` | `timeout` | `invalid_header` | `http_500` | `http_502` | `http_503` | `http_504` | `http_403` | `http_404` | `http_429` | `non_idempotent` | `off` ..."
+            "`error` | `timeout` | `denied` | `invalid_header` | `http_500` | `http_502` | `http_503` | `http_504` | `http_403` | `http_404` | `http_429` | `non_idempotent` | `off` ..."
           ],
           "syntax_html": [
-            "<p><code>error</code> | <code>timeout</code> | <code>invalid_header</code> | <code>http_500</code> | <code>http_502</code> | <code>http_503</code> | <code>http_504</code> | <code>http_403</code> | <code>http_404</code> | <code>http_429</code> | <code>non_idempotent</code> | <code>off</code> &hellip;</p>\n"
+            "<p><code>error</code> | <code>timeout</code> | <code>denied</code> | <code>invalid_header</code> | <code>http_500</code> | <code>http_502</code> | <code>http_503</code> | <code>http_504</code> | <code>http_403</code> | <code>http_404</code> | <code>http_429</code> | <code>non_idempotent</code> | <code>off</code> &hellip;</p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies in which cases a request should be passed to the next server:\n- `error`\n\n    an error occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `timeout`\n\n    a timeout has occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `invalid_header`\n\n    a server returned an empty or invalid response;\n- `http_500`\n\n    a server returned a response with the code 500;\n- `http_502`\n\n    a server returned a response with the code 502;\n- `http_503`\n\n    a server returned a response with the code 503;\n- `http_504`\n\n    a server returned a response with the code 504;\n- `http_403`\n\n    a server returned a response with the code 403;\n- `http_404`\n\n    a server returned a response with the code 404;\n- `http_429`\n\n    a server returned a response with the code 429 (1.11.13);\n- `non_idempotent`\n\n    normally, requests with a\n    [non-idempotent](https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2)\n    method\n    (`POST`, `LOCK`, `PATCH`)\n    are not passed to the next server\n    if a request has been sent to an upstream server (1.9.13);\n    enabling this option explicitly allows retrying such requests;\n- `off`\n\n    disables passing a request to the next server.\n\nOne should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.\n\nThe directive also defines what is considered an\n[unsuccessful attempt](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails) of communication with a server.\nThe cases of `error`, `timeout` and\n`invalid_header` are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of `http_500`, `http_502`,\n`http_503`, `http_504`,\nand `http_429` are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of `http_403` and `http_404`\nare never considered unsuccessful attempts.\n\nPassing a request to the next server can be limited by\n[the number of tries](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_next_upstream_tries)\nand by [time](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_next_upstream_timeout).",
-          "description_html": "<p>Specifies in which cases a request should be passed to the next server:</p>\n\n<ul>\n<li><p><code>error</code></p>\n\n<p>an error occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>timeout</code></p>\n\n<p>a timeout has occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>invalid_header</code></p>\n\n<p>a server returned an empty or invalid response;</p></li>\n\n<li><p><code>http_500</code></p>\n\n<p>a server returned a response with the code 500;</p></li>\n\n<li><p><code>http_502</code></p>\n\n<p>a server returned a response with the code 502;</p></li>\n\n<li><p><code>http_503</code></p>\n\n<p>a server returned a response with the code 503;</p></li>\n\n<li><p><code>http_504</code></p>\n\n<p>a server returned a response with the code 504;</p></li>\n\n<li><p><code>http_403</code></p>\n\n<p>a server returned a response with the code 403;</p></li>\n\n<li><p><code>http_404</code></p>\n\n<p>a server returned a response with the code 404;</p></li>\n\n<li><p><code>http_429</code></p>\n\n<p>a server returned a response with the code 429 (1.11.13);</p></li>\n\n<li><p><code>non_idempotent</code></p>\n\n<p>normally, requests with a\n<a href=\"https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2\" target=\"_blank\">non-idempotent</a>\nmethod\n(<code>POST</code>, <code>LOCK</code>, <code>PATCH</code>)\nare not passed to the next server\nif a request has been sent to an upstream server (1.9.13);\nenabling this option explicitly allows retrying such requests;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables passing a request to the next server.</p></li>\n</ul>\n\n<p>One should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.</p>\n\n<p>The directive also defines what is considered an\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails\" target=\"_blank\">unsuccessful attempt</a> of communication with a server.\nThe cases of <code>error</code>, <code>timeout</code> and\n<code>invalid_header</code> are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of <code>http_500</code>, <code>http_502</code>,\n<code>http_503</code>, <code>http_504</code>,\nand <code>http_429</code> are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of <code>http_403</code> and <code>http_404</code>\nare never considered unsuccessful attempts.</p>\n\n<p>Passing a request to the next server can be limited by\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_next_upstream_tries\" target=\"_blank\">the number of tries</a>\nand by <a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_next_upstream_timeout\" target=\"_blank\">time</a>.</p>\n"
+          "description_md": "Specifies in which cases a request should be passed to the next server:\n- `error`\n\n    an error occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `timeout`\n\n    a timeout has occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `denied`\n\n    the server [denied](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_allow_upstream)\n    the connection (1.29.3);\n    \n    > This parameter is available as part of our\n    > [commercial subscription](https://nginx.com/products/).\n- `invalid_header`\n\n    a server returned an empty or invalid response;\n- `http_500`\n\n    a server returned a response with the code 500;\n- `http_502`\n\n    a server returned a response with the code 502;\n- `http_503`\n\n    a server returned a response with the code 503;\n- `http_504`\n\n    a server returned a response with the code 504;\n- `http_403`\n\n    a server returned a response with the code 403;\n- `http_404`\n\n    a server returned a response with the code 404;\n- `http_429`\n\n    a server returned a response with the code 429 (1.11.13);\n- `non_idempotent`\n\n    normally, requests with a\n    [non-idempotent](https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2)\n    method\n    (`POST`, `LOCK`, `PATCH`)\n    are not passed to the next server\n    if a request has been sent to an upstream server (1.9.13);\n    enabling this option explicitly allows retrying such requests;\n- `off`\n\n    disables passing a request to the next server.\n\nOne should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.\n\nThe directive also defines what is considered an\n[unsuccessful attempt](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails) of communication with a server.\nThe cases of `error`, `timeout`,\n`denied` and\n`invalid_header` are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of `http_500`, `http_502`,\n`http_503`, `http_504`,\nand `http_429` are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of `http_403` and `http_404`\nare never considered unsuccessful attempts.\n\nPassing a request to the next server can be limited by\n[the number of tries](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_next_upstream_tries)\nand by [time](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_next_upstream_timeout).",
+          "description_html": "<p>Specifies in which cases a request should be passed to the next server:</p>\n\n<ul>\n<li><p><code>error</code></p>\n\n<p>an error occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>timeout</code></p>\n\n<p>a timeout has occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>denied</code></p>\n\n<p>the server <a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_allow_upstream\" target=\"_blank\">denied</a>\nthe connection (1.29.3);</p>\n\n<blockquote>\n<p>This parameter is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n</li>\n\n<li><p><code>invalid_header</code></p>\n\n<p>a server returned an empty or invalid response;</p></li>\n\n<li><p><code>http_500</code></p>\n\n<p>a server returned a response with the code 500;</p></li>\n\n<li><p><code>http_502</code></p>\n\n<p>a server returned a response with the code 502;</p></li>\n\n<li><p><code>http_503</code></p>\n\n<p>a server returned a response with the code 503;</p></li>\n\n<li><p><code>http_504</code></p>\n\n<p>a server returned a response with the code 504;</p></li>\n\n<li><p><code>http_403</code></p>\n\n<p>a server returned a response with the code 403;</p></li>\n\n<li><p><code>http_404</code></p>\n\n<p>a server returned a response with the code 404;</p></li>\n\n<li><p><code>http_429</code></p>\n\n<p>a server returned a response with the code 429 (1.11.13);</p></li>\n\n<li><p><code>non_idempotent</code></p>\n\n<p>normally, requests with a\n<a href=\"https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2\" target=\"_blank\">non-idempotent</a>\nmethod\n(<code>POST</code>, <code>LOCK</code>, <code>PATCH</code>)\nare not passed to the next server\nif a request has been sent to an upstream server (1.9.13);\nenabling this option explicitly allows retrying such requests;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables passing a request to the next server.</p></li>\n</ul>\n\n<p>One should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.</p>\n\n<p>The directive also defines what is considered an\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails\" target=\"_blank\">unsuccessful attempt</a> of communication with a server.\nThe cases of <code>error</code>, <code>timeout</code>,\n<code>denied</code> and\n<code>invalid_header</code> are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of <code>http_500</code>, <code>http_502</code>,\n<code>http_503</code>, <code>http_504</code>,\nand <code>http_429</code> are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of <code>http_403</code> and <code>http_404</code>\nare never considered unsuccessful attempts.</p>\n\n<p>Passing a request to the next server can be limited by\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_next_upstream_tries\" target=\"_blank\">the number of tries</a>\nand by <a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_next_upstream_timeout\" target=\"_blank\">time</a>.</p>\n"
         },
         {
           "name": "proxy_next_upstream_timeout",
@@ -7516,6 +7750,24 @@
           "isBlock": false,
           "description_md": "Enables or disables buffering of a client request body.\n\nWhen buffering is enabled, the entire request body is\n[read](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size)\nfrom the client before sending the request to a proxied server.\n\nWhen buffering is disabled, the request body is sent to the proxied server\nimmediately as it is received.\nIn this case, the request cannot be passed to the\n[next server](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_next_upstream)\nif nginx already started sending the request body.\n\nWhen HTTP/1.1 chunked transfer encoding is used\nto send the original request body,\nthe request body will be buffered regardless of the directive value unless\nHTTP/1.1 is [enabled](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) for proxying.",
           "description_html": "<p>Enables or disables buffering of a client request body.</p>\n\n<p>When buffering is enabled, the entire request body is\n<a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size\" target=\"_blank\">read</a>\nfrom the client before sending the request to a proxied server.</p>\n\n<p>When buffering is disabled, the request body is sent to the proxied server\nimmediately as it is received.\nIn this case, the request cannot be passed to the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_next_upstream\" target=\"_blank\">next server</a>\nif nginx already started sending the request body.</p>\n\n<p>When HTTP/1.1 chunked transfer encoding is used\nto send the original request body,\nthe request body will be buffered regardless of the directive value unless\nHTTP/1.1 is <a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version\" target=\"_blank\">enabled</a> for proxying.</p>\n"
+        },
+        {
+          "name": "proxy_request_dynamic",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables or disables creation of a separate request instance\nfor each proxied server.\nBy default, a single request is used for all proxied servers.\nIf the directive is set to the value “`on`”,\na separate request instance is created,\nallowing per-server request customization.\nFor example, the server-specific \"Host\" request header field\ncan be set:\n```\nproxy_request_dynamic on;\nproxy_set_header      Host $upstream_last_server_name;\n```\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Enables or disables creation of a separate request instance\nfor each proxied server.\nBy default, a single request is used for all proxied servers.\nIf the directive is set to the value “<code>on</code>”,\na separate request instance is created,\nallowing per-server request customization.\nFor example, the server-specific &ldquo;Host&rdquo; request header field\ncan be set:</p>\n\n<pre><code>proxy_request_dynamic on;\nproxy_set_header      Host $upstream_last_server_name;\n</code></pre>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "proxy_send_lowat",
@@ -8270,6 +8522,24 @@
       "name": "ngx_http_scgi_module",
       "directives": [
         {
+          "name": "scgi_allow_upstream",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`string`* ..."
+          ],
+          "syntax_html": [
+            "<p><em><code>string</code></em> &hellip;</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines conditions under which access to an SCGI server\nis allowed or [denied](https://nginx.org/en/docs/http/ngx_http_scgi_module.html#denied).\nIf all string parameters are not empty\nand not equal to “0” then the access is allowed.\nThe conditions are evaluated each time\nbefore a connection to an SCGI server is established.\nParameter values can contain variables:\n```\ngeo $upstream_last_addr $allow {\n    volatile;\n    10.10.0.0/24        1;\n}\n\nserver {\n    listen 127.0.0.1:8080;\n\n    location / {\n        scgi_pass           localhost:9000;\n        scgi_allow_upstream $allow;\n        ...\n    }\n}\n```\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Defines conditions under which access to an SCGI server\nis allowed or <a href=\"https://nginx.org/en/docs/http/ngx_http_scgi_module.html#denied\" target=\"_blank\">denied</a>.\nIf all string parameters are not empty\nand not equal to “0” then the access is allowed.\nThe conditions are evaluated each time\nbefore a connection to an SCGI server is established.\nParameter values can contain variables:</p>\n\n<pre><code>geo $upstream_last_addr $allow {\n    volatile;\n    10.10.0.0/24        1;\n}\n\nserver {\n    listen 127.0.0.1:8080;\n\n    location / {\n        scgi_pass           localhost:9000;\n        scgi_allow_upstream $allow;\n        ...\n    }\n}\n</code></pre>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
+        },
+        {
           "name": "scgi_bind",
           "default": "",
           "contexts": [
@@ -8286,6 +8556,24 @@
           "isBlock": false,
           "description_md": "Makes outgoing connections to an SCGI server originate\nfrom the specified local IP address with an optional port (1.11.2).\nParameter value can contain variables (1.3.12).\nThe special value `off` (1.3.12) cancels the effect\nof the `scgi_bind` directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.\n\nThe `transparent` parameter (1.11.0) allows\noutgoing connections to an SCGI server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:\n```\nscgi_bind $remote_addr transparent;\n```\nIn order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n[superuser](https://nginx.org/en/docs/ngx_core_module.html#user) privileges.\nOn Linux it is not required (1.13.8) as if\nthe `transparent` parameter is specified, worker processes\ninherit the `CAP_NET_RAW` capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the SCGI server.",
           "description_html": "<p>Makes outgoing connections to an SCGI server originate\nfrom the specified local IP address with an optional port (1.11.2).\nParameter value can contain variables (1.3.12).\nThe special value <code>off</code> (1.3.12) cancels the effect\nof the <code>scgi_bind</code> directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.</p>\n\n<p>The <code>transparent</code> parameter (1.11.0) allows\noutgoing connections to an SCGI server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:</p>\n\n<pre><code>scgi_bind $remote_addr transparent;\n</code></pre>\n\n<p>In order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n<a href=\"https://nginx.org/en/docs/ngx_core_module.html#user\" target=\"_blank\">superuser</a> privileges.\nOn Linux it is not required (1.13.8) as if\nthe <code>transparent</code> parameter is specified, worker processes\ninherit the <code>CAP_NET_RAW</code> capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the SCGI server.</p>\n"
+        },
+        {
+          "name": "scgi_bind_dynamic",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "When enabled, makes the [bind](https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_bind) operation\nat each connection attempt.\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>When enabled, makes the <a href=\"https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_bind\" target=\"_blank\">bind</a> operation\nat each connection attempt.</p>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "scgi_buffer_size",
@@ -8780,14 +9068,14 @@
             "location"
           ],
           "syntax_md": [
-            "`error` | `timeout` | `invalid_header` | `http_500` | `http_503` | `http_403` | `http_404` | `http_429` | `non_idempotent` | `off` ..."
+            "`error` | `timeout` | `denied` | `invalid_header` | `http_500` | `http_503` | `http_403` | `http_404` | `http_429` | `non_idempotent` | `off` ..."
           ],
           "syntax_html": [
-            "<p><code>error</code> | <code>timeout</code> | <code>invalid_header</code> | <code>http_500</code> | <code>http_503</code> | <code>http_403</code> | <code>http_404</code> | <code>http_429</code> | <code>non_idempotent</code> | <code>off</code> &hellip;</p>\n"
+            "<p><code>error</code> | <code>timeout</code> | <code>denied</code> | <code>invalid_header</code> | <code>http_500</code> | <code>http_503</code> | <code>http_403</code> | <code>http_404</code> | <code>http_429</code> | <code>non_idempotent</code> | <code>off</code> &hellip;</p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies in which cases a request should be passed to the next server:\n- `error`\n\n    an error occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `timeout`\n\n    a timeout has occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `invalid_header`\n\n    a server returned an empty or invalid response;\n- `http_500`\n\n    a server returned a response with the code 500;\n- `http_503`\n\n    a server returned a response with the code 503;\n- `http_403`\n\n    a server returned a response with the code 403;\n- `http_404`\n\n    a server returned a response with the code 404;\n- `http_429`\n\n    a server returned a response with the code 429 (1.11.13);\n- `non_idempotent`\n\n    normally, requests with a\n    [non-idempotent](https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2)\n    method\n    (`POST`, `LOCK`, `PATCH`)\n    are not passed to the next server\n    if a request has been sent to an upstream server (1.9.13);\n    enabling this option explicitly allows retrying such requests;\n- `off`\n\n    disables passing a request to the next server.\n\nOne should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.\n\nThe directive also defines what is considered an\n[unsuccessful attempt](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails) of communication with a server.\nThe cases of `error`, `timeout` and\n`invalid_header` are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of `http_500`, `http_503`,\nand `http_429` are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of `http_403` and `http_404`\nare never considered unsuccessful attempts.\n\nPassing a request to the next server can be limited by\n[the number of tries](https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_next_upstream_tries)\nand by [time](https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_next_upstream_timeout).",
-          "description_html": "<p>Specifies in which cases a request should be passed to the next server:</p>\n\n<ul>\n<li><p><code>error</code></p>\n\n<p>an error occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>timeout</code></p>\n\n<p>a timeout has occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>invalid_header</code></p>\n\n<p>a server returned an empty or invalid response;</p></li>\n\n<li><p><code>http_500</code></p>\n\n<p>a server returned a response with the code 500;</p></li>\n\n<li><p><code>http_503</code></p>\n\n<p>a server returned a response with the code 503;</p></li>\n\n<li><p><code>http_403</code></p>\n\n<p>a server returned a response with the code 403;</p></li>\n\n<li><p><code>http_404</code></p>\n\n<p>a server returned a response with the code 404;</p></li>\n\n<li><p><code>http_429</code></p>\n\n<p>a server returned a response with the code 429 (1.11.13);</p></li>\n\n<li><p><code>non_idempotent</code></p>\n\n<p>normally, requests with a\n<a href=\"https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2\" target=\"_blank\">non-idempotent</a>\nmethod\n(<code>POST</code>, <code>LOCK</code>, <code>PATCH</code>)\nare not passed to the next server\nif a request has been sent to an upstream server (1.9.13);\nenabling this option explicitly allows retrying such requests;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables passing a request to the next server.</p></li>\n</ul>\n\n<p>One should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.</p>\n\n<p>The directive also defines what is considered an\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails\" target=\"_blank\">unsuccessful attempt</a> of communication with a server.\nThe cases of <code>error</code>, <code>timeout</code> and\n<code>invalid_header</code> are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of <code>http_500</code>, <code>http_503</code>,\nand <code>http_429</code> are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of <code>http_403</code> and <code>http_404</code>\nare never considered unsuccessful attempts.</p>\n\n<p>Passing a request to the next server can be limited by\n<a href=\"https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_next_upstream_tries\" target=\"_blank\">the number of tries</a>\nand by <a href=\"https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_next_upstream_timeout\" target=\"_blank\">time</a>.</p>\n"
+          "description_md": "Specifies in which cases a request should be passed to the next server:\n- `error`\n\n    an error occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `timeout`\n\n    a timeout has occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `denied`\n\n    the server [denied](https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_allow_upstream)\n    the connection (1.29.3);\n    \n    > This parameter is available as part of our\n    > [commercial subscription](https://nginx.com/products/).\n- `invalid_header`\n\n    a server returned an empty or invalid response;\n- `http_500`\n\n    a server returned a response with the code 500;\n- `http_503`\n\n    a server returned a response with the code 503;\n- `http_403`\n\n    a server returned a response with the code 403;\n- `http_404`\n\n    a server returned a response with the code 404;\n- `http_429`\n\n    a server returned a response with the code 429 (1.11.13);\n- `non_idempotent`\n\n    normally, requests with a\n    [non-idempotent](https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2)\n    method\n    (`POST`, `LOCK`, `PATCH`)\n    are not passed to the next server\n    if a request has been sent to an upstream server (1.9.13);\n    enabling this option explicitly allows retrying such requests;\n- `off`\n\n    disables passing a request to the next server.\n\nOne should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.\n\nThe directive also defines what is considered an\n[unsuccessful attempt](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails) of communication with a server.\nThe cases of `error`, `timeout`,\n`denied` and\n`invalid_header` are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of `http_500`, `http_503`,\nand `http_429` are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of `http_403` and `http_404`\nare never considered unsuccessful attempts.\n\nPassing a request to the next server can be limited by\n[the number of tries](https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_next_upstream_tries)\nand by [time](https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_next_upstream_timeout).",
+          "description_html": "<p>Specifies in which cases a request should be passed to the next server:</p>\n\n<ul>\n<li><p><code>error</code></p>\n\n<p>an error occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>timeout</code></p>\n\n<p>a timeout has occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>denied</code></p>\n\n<p>the server <a href=\"https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_allow_upstream\" target=\"_blank\">denied</a>\nthe connection (1.29.3);</p>\n\n<blockquote>\n<p>This parameter is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n</li>\n\n<li><p><code>invalid_header</code></p>\n\n<p>a server returned an empty or invalid response;</p></li>\n\n<li><p><code>http_500</code></p>\n\n<p>a server returned a response with the code 500;</p></li>\n\n<li><p><code>http_503</code></p>\n\n<p>a server returned a response with the code 503;</p></li>\n\n<li><p><code>http_403</code></p>\n\n<p>a server returned a response with the code 403;</p></li>\n\n<li><p><code>http_404</code></p>\n\n<p>a server returned a response with the code 404;</p></li>\n\n<li><p><code>http_429</code></p>\n\n<p>a server returned a response with the code 429 (1.11.13);</p></li>\n\n<li><p><code>non_idempotent</code></p>\n\n<p>normally, requests with a\n<a href=\"https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2\" target=\"_blank\">non-idempotent</a>\nmethod\n(<code>POST</code>, <code>LOCK</code>, <code>PATCH</code>)\nare not passed to the next server\nif a request has been sent to an upstream server (1.9.13);\nenabling this option explicitly allows retrying such requests;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables passing a request to the next server.</p></li>\n</ul>\n\n<p>One should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.</p>\n\n<p>The directive also defines what is considered an\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails\" target=\"_blank\">unsuccessful attempt</a> of communication with a server.\nThe cases of <code>error</code>, <code>timeout</code>,\n<code>denied</code> and\n<code>invalid_header</code> are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of <code>http_500</code>, <code>http_503</code>,\nand <code>http_429</code> are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of <code>http_403</code> and <code>http_404</code>\nare never considered unsuccessful attempts.</p>\n\n<p>Passing a request to the next server can be limited by\n<a href=\"https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_next_upstream_tries\" target=\"_blank\">the number of tries</a>\nand by <a href=\"https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_next_upstream_timeout\" target=\"_blank\">time</a>.</p>\n"
         },
         {
           "name": "scgi_next_upstream_timeout",
@@ -8967,6 +9255,24 @@
           "isBlock": false,
           "description_md": "Enables or disables buffering of a client request body.\n\nWhen buffering is enabled, the entire request body is\n[read](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size)\nfrom the client before sending the request to an SCGI server.\n\nWhen buffering is disabled, the request body is sent to the SCGI server\nimmediately as it is received.\nIn this case, the request cannot be passed to the\n[next server](https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_next_upstream)\nif nginx already started sending the request body.\n\nWhen HTTP/1.1 chunked transfer encoding is used\nto send the original request body,\nthe request body will be buffered regardless of the directive value.",
           "description_html": "<p>Enables or disables buffering of a client request body.</p>\n\n<p>When buffering is enabled, the entire request body is\n<a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size\" target=\"_blank\">read</a>\nfrom the client before sending the request to an SCGI server.</p>\n\n<p>When buffering is disabled, the request body is sent to the SCGI server\nimmediately as it is received.\nIn this case, the request cannot be passed to the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_next_upstream\" target=\"_blank\">next server</a>\nif nginx already started sending the request body.</p>\n\n<p>When HTTP/1.1 chunked transfer encoding is used\nto send the original request body,\nthe request body will be buffered regardless of the directive value.</p>\n"
+        },
+        {
+          "name": "scgi_request_dynamic",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables or disables creation of a separate request instance\nfor each SCGI server.\nBy default, a single request is used for all SCGI servers.\nIf the directive is set to the value “`on`”,\na separate request instance is created,\nallowing per-server request customization.\nFor example, the server-specific \"Host\" request header field\ncan be set:\n```\nproxy_request_dynamic on;\nproxy_set_header      Host $upstream_last_server_name;\n```\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Enables or disables creation of a separate request instance\nfor each SCGI server.\nBy default, a single request is used for all SCGI servers.\nIf the directive is set to the value “<code>on</code>”,\na separate request instance is created,\nallowing per-server request customization.\nFor example, the server-specific &ldquo;Host&rdquo; request header field\ncan be set:</p>\n\n<pre><code>proxy_request_dynamic on;\nproxy_set_header      Host $upstream_last_server_name;\n</code></pre>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "scgi_send_timeout",
@@ -10257,6 +10563,246 @@
       ]
     },
     {
+      "id": "/en/docs/http/ngx_http_tunnel_module.html",
+      "name": "ngx_http_tunnel_module",
+      "directives": [
+        {
+          "name": "tunnel_allow_upstream",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`string`* ..."
+          ],
+          "syntax_html": [
+            "<p><em><code>string</code></em> &hellip;</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines conditions under which access to the backend server\nis allowed or [denied](https://nginx.org/en/docs/http/ngx_http_tunnel_module.html#denied).\nIf all string parameters are not empty\nand not equal to “0” then the access is allowed.\nThe conditions are evaluated each time\nbefore a connection to a backend server is established.\nParameter values can contain variables:\n```\ngeo $upstream_last_addr $allow {\n    volatile;\n    10.10.0.0/24        1;\n}\n\nserver {\n    listen 127.0.0.1:8080;\n\n    tunnel_pass;\n    tunnel_allow_upstream $allow;\n}\n```",
+          "description_html": "<p>Defines conditions under which access to the backend server\nis allowed or <a href=\"https://nginx.org/en/docs/http/ngx_http_tunnel_module.html#denied\" target=\"_blank\">denied</a>.\nIf all string parameters are not empty\nand not equal to “0” then the access is allowed.\nThe conditions are evaluated each time\nbefore a connection to a backend server is established.\nParameter values can contain variables:</p>\n\n<pre><code>geo $upstream_last_addr $allow {\n    volatile;\n    10.10.0.0/24        1;\n}\n\nserver {\n    listen 127.0.0.1:8080;\n\n    tunnel_pass;\n    tunnel_allow_upstream $allow;\n}\n</code></pre>\n"
+        },
+        {
+          "name": "tunnel_bind",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`address`* | `off`"
+          ],
+          "syntax_html": [
+            "<p><em><code>address</code></em> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Makes outgoing connections to a backend server originate\nfrom the specified local IP address with an optional port.\nParameter value can contain variables.\nThe special value `off` cancels the effect\nof the `tunnel_bind` directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.",
+          "description_html": "<p>Makes outgoing connections to a backend server originate\nfrom the specified local IP address with an optional port.\nParameter value can contain variables.\nThe special value <code>off</code> cancels the effect\nof the <code>tunnel_bind</code> directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.</p>\n"
+        },
+        {
+          "name": "tunnel_bind_dynamic",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "When enabled, makes the [`tunnel_bind`](https://nginx.org/en/docs/http/ngx_http_tunnel_module.html#tunnel_bind) operation\nat each connection attempt:\n```\ngeo $upstream_last_addr $bind_addr {\n    volatile;\n    10.0.0.0/24    10.0.0.1;\n    192.168.0.0/24  192.168.0.1;\n}\n\ntunnel_bind         $bind_addr;\ntunnel_bind_dynamic on;\n```",
+          "description_html": "<p>When enabled, makes the <a href=\"https://nginx.org/en/docs/http/ngx_http_tunnel_module.html#tunnel_bind\" target=\"_blank\"><code>tunnel_bind</code></a> operation\nat each connection attempt:</p>\n\n<pre><code>geo $upstream_last_addr $bind_addr {\n    volatile;\n    10.0.0.0/24    10.0.0.1;\n    192.168.0.0/24  192.168.0.1;\n}\n\ntunnel_bind         $bind_addr;\ntunnel_bind_dynamic on;\n</code></pre>\n"
+        },
+        {
+          "name": "tunnel_buffer_size",
+          "default": "16k",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the *`size`* of the buffer used for reading data\nfrom the backend server.\nAlso sets the *`size`* of the buffer used for reading data\nfrom the client.",
+          "description_html": "<p>Sets the <em><code>size</code></em> of the buffer used for reading data\nfrom the backend server.\nAlso sets the <em><code>size</code></em> of the buffer used for reading data\nfrom the client.</p>\n"
+        },
+        {
+          "name": "tunnel_connect_timeout",
+          "default": "60s",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines a timeout for establishing a connection with a backend server.\nIt should be noted that this timeout cannot usually exceed 75 seconds.",
+          "description_html": "<p>Defines a timeout for establishing a connection with a backend server.\nIt should be noted that this timeout cannot usually exceed 75 seconds.</p>\n"
+        },
+        {
+          "name": "tunnel_next_upstream",
+          "default": "error timeout",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`error` | `timeout` | `denied` | `off` ..."
+          ],
+          "syntax_html": [
+            "<p><code>error</code> | <code>timeout</code> | <code>denied</code> | <code>off</code> &hellip;</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies in which cases a request should be passed to the next server:\n- `error`\n\n    an error occurred while establishing a connection with the\n    server or reading data from the server;\n- `timeout`\n\n    a timeout has occurred while establishing a connection with the\n    server, passing a request to it, or reading data from the server;\n- `denied`\n\n    the server [denied](https://nginx.org/en/docs/http/ngx_http_tunnel_module.html#tunnel_allow_upstream)\n    the connection;\n- `off`\n\n    disables passing a request to the next server.\n\nOne should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.\n\nThe directive also defines what is considered an\n[unsuccessful attempt](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails) of communication with a server.\nThe cases of `error`, `timeout`,\nand `denied`\nare always considered unsuccessful attempts,\neven if they are not specified in the directive.\n\nPassing a request to the next server can be limited by\n[the number of tries](https://nginx.org/en/docs/http/ngx_http_tunnel_module.html#tunnel_next_upstream_tries)\nand by [time](https://nginx.org/en/docs/http/ngx_http_tunnel_module.html#tunnel_next_upstream_timeout).",
+          "description_html": "<p>Specifies in which cases a request should be passed to the next server:</p>\n\n<ul>\n<li><p><code>error</code></p>\n\n<p>an error occurred while establishing a connection with the\nserver or reading data from the server;</p></li>\n\n<li><p><code>timeout</code></p>\n\n<p>a timeout has occurred while establishing a connection with the\nserver, passing a request to it, or reading data from the server;</p></li>\n\n<li><p><code>denied</code></p>\n\n<p>the server <a href=\"https://nginx.org/en/docs/http/ngx_http_tunnel_module.html#tunnel_allow_upstream\" target=\"_blank\">denied</a>\nthe connection;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables passing a request to the next server.</p></li>\n</ul>\n\n<p>One should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.</p>\n\n<p>The directive also defines what is considered an\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails\" target=\"_blank\">unsuccessful attempt</a> of communication with a server.\nThe cases of <code>error</code>, <code>timeout</code>,\nand <code>denied</code>\nare always considered unsuccessful attempts,\neven if they are not specified in the directive.</p>\n\n<p>Passing a request to the next server can be limited by\n<a href=\"https://nginx.org/en/docs/http/ngx_http_tunnel_module.html#tunnel_next_upstream_tries\" target=\"_blank\">the number of tries</a>\nand by <a href=\"https://nginx.org/en/docs/http/ngx_http_tunnel_module.html#tunnel_next_upstream_timeout\" target=\"_blank\">time</a>.</p>\n"
+        },
+        {
+          "name": "tunnel_next_upstream_timeout",
+          "default": "0",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Limits the time during which a request can be passed to the\n[next server](https://nginx.org/en/docs/http/ngx_http_tunnel_module.html#tunnel_next_upstream).\nThe `0` value turns off this limitation.",
+          "description_html": "<p>Limits the time during which a request can be passed to the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_tunnel_module.html#tunnel_next_upstream\" target=\"_blank\">next server</a>.\nThe <code>0</code> value turns off this limitation.</p>\n"
+        },
+        {
+          "name": "tunnel_next_upstream_tries",
+          "default": "0",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`number`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>number</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Limits the number of possible tries for passing a request to the\n[next server](https://nginx.org/en/docs/http/ngx_http_tunnel_module.html#tunnel_next_upstream).\nThe `0` value turns off this limitation.",
+          "description_html": "<p>Limits the number of possible tries for passing a request to the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_tunnel_module.html#tunnel_next_upstream\" target=\"_blank\">next server</a>.\nThe <code>0</code> value turns off this limitation.</p>\n"
+        },
+        {
+          "name": "tunnel_pass",
+          "default": "",
+          "contexts": [
+            "server",
+            "location",
+            "if in location"
+          ],
+          "syntax_md": [
+            "[*`address`*]"
+          ],
+          "syntax_html": [
+            "<p>[<em><code>address</code></em>]</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables handling of CONNECT requests and sets the address of a backend server.\nBy default, the `address` is\n*`$host:$request_port`* and is taken from the client request.\nIn most cases, `tunnel_pass` does not require\nconfiguring any arguments.\n\nThe address can be specified as a domain name or IP address,\nand a port:\n```\ntunnel_pass localhost:9000;\n```\nor as a UNIX-domain socket path:\n```\ntunnel_pass unix:/tmp/backend.socket;\n```\n\nIf a domain name resolves to several addresses, all of them will be\nused in a round-robin fashion.\nIn addition, an address can be specified as a\n[server group](https://nginx.org/en/docs/http/ngx_http_upstream_module.html).\n\nParameter value can contain variables.\nIn this case, if an address is specified as a domain name,\nthe name is searched among the described\n[server groups](https://nginx.org/en/docs/http/ngx_http_upstream_module.html),\nand, if not found, is determined using a\n[`resolver`](https://nginx.org/en/docs/http/ngx_http_core_module.html#resolver).",
+          "description_html": "<p>Enables handling of CONNECT requests and sets the address of a backend server.\nBy default, the <code>address</code> is\n<em><code>$host:$request_port</code></em> and is taken from the client request.\nIn most cases, <code>tunnel_pass</code> does not require\nconfiguring any arguments.</p>\n\n<p>The address can be specified as a domain name or IP address,\nand a port:</p>\n\n<pre><code>tunnel_pass localhost:9000;\n</code></pre>\n\n<p>or as a UNIX-domain socket path:</p>\n\n<pre><code>tunnel_pass unix:/tmp/backend.socket;\n</code></pre>\n\n<p>If a domain name resolves to several addresses, all of them will be\nused in a round-robin fashion.\nIn addition, an address can be specified as a\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html\" target=\"_blank\">server group</a>.</p>\n\n<p>Parameter value can contain variables.\nIn this case, if an address is specified as a domain name,\nthe name is searched among the described\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html\" target=\"_blank\">server groups</a>,\nand, if not found, is determined using a\n<a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#resolver\" target=\"_blank\"><code>resolver</code></a>.</p>\n"
+        },
+        {
+          "name": "tunnel_read_timeout",
+          "default": "60s",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the timeout between two successive read or write operations\non client or backend server connections. \nIf no data is transmitted within this time, the connection is closed.",
+          "description_html": "<p>Sets the timeout between two successive read or write operations\non client or backend server connections.\nIf no data is transmitted within this time, the connection is closed.</p>\n"
+        },
+        {
+          "name": "tunnel_send_lowat",
+          "default": "0",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "If the directive is set to a non-zero value, nginx will try to\nminimize the number\nof send operations on outgoing connections to a backend server by using either\n`NOTE_LOWAT` flag of the\n[`kqueue`](https://nginx.org/en/docs/events.html#kqueue) method,\nor the `SO_SNDLOWAT` socket option,\nwith the specified *`size`*.\n\nThis directive is ignored on Linux, Solaris, and Windows.",
+          "description_html": "<p>If the directive is set to a non-zero value, nginx will try to\nminimize the number\nof send operations on outgoing connections to a backend server by using either\n<code>NOTE_LOWAT</code> flag of the\n<a href=\"https://nginx.org/en/docs/events.html#kqueue\" target=\"_blank\"><code>kqueue</code></a> method,\nor the <code>SO_SNDLOWAT</code> socket option,\nwith the specified <em><code>size</code></em>.</p>\n\n<p>This directive is ignored on Linux, Solaris, and Windows.</p>\n"
+        },
+        {
+          "name": "tunnel_send_timeout",
+          "default": "60s",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets a timeout for transmitting a request to the backend server.\nThe timeout is set only between two successive write operations,\nnot for the transmission of the whole request.\nIf the backend server does not receive anything within this time,\nthe connection is closed.",
+          "description_html": "<p>Sets a timeout for transmitting a request to the backend server.\nThe timeout is set only between two successive write operations,\nnot for the transmission of the whole request.\nIf the backend server does not receive anything within this time,\nthe connection is closed.</p>\n"
+        },
+        {
+          "name": "tunnel_socket_keepalive",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Configures the “TCP keepalive” behavior\nfor outgoing connections to a backend server.\nBy default, the operating system’s settings are in effect for the socket.\nIf the directive is set to the value “`on`”, the\n`SO_KEEPALIVE` socket option is turned on for the socket.",
+          "description_html": "<p>Configures the “TCP keepalive” behavior\nfor outgoing connections to a backend server.\nBy default, the operating system’s settings are in effect for the socket.\nIf the directive is set to the value “<code>on</code>”, the\n<code>SO_KEEPALIVE</code> socket option is turned on for the socket.</p>\n"
+        }
+      ]
+    },
+    {
       "id": "/en/docs/http/ngx_http_upstream_conf_module.html",
       "name": "ngx_http_upstream_conf_module",
       "directives": [
@@ -10671,6 +11217,11 @@
           "description_html": "<p>keep server response header fields.\nFor example, the &ldquo;Server&rdquo; response header field\nis available through the <code>$upstream_http_server</code> variable.\nThe rules of converting header field names to variable names are the same\nas for the variables that start with the\n“<a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#var_http_\" target=\"_blank\">$http_</a>” prefix.\nOnly the header fields from the response of the last server are saved.</p>\n"
         },
         {
+          "name": "$upstream_last_addr",
+          "description_md": "keeps the IP address or the path to the UNIX-domain socket\nof the last selected upstream server (1.29.3).\n\n\n> This variable is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>keeps the IP address or the path to the UNIX-domain socket\nof the last selected upstream server (1.29.3).</p>\n\n<blockquote>\n<p>This variable is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
+        },
+        {
           "name": "$upstream_last_server_name",
           "description_md": "keeps the name of last selected upstream server (1.25.3);\nallows passing it\n[through SNI](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_server_name):\n```\nproxy_ssl_server_name on;\nproxy_ssl_name        $upstream_last_server_name;\n```\n\n\n> This variable is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
           "description_html": "<p>keeps the name of last selected upstream server (1.25.3);\nallows passing it\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_server_name\" target=\"_blank\">through SNI</a>:</p>\n\n<pre><code>proxy_ssl_server_name on;\nproxy_ssl_name        $upstream_last_server_name;\n</code></pre>\n\n<blockquote>\n<p>This variable is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
@@ -10892,6 +11443,24 @@
       "name": "ngx_http_uwsgi_module",
       "directives": [
         {
+          "name": "uwsgi_allow_upstream",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`string`* ..."
+          ],
+          "syntax_html": [
+            "<p><em><code>string</code></em> &hellip;</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines conditions under which access to a uwsgi server\nis allowed or [denied](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#denied).\nIf all string parameters are not empty\nand not equal to “0” then the access is allowed.\nThe conditions are evaluated each time\nbefore a connection to a uwsgi server is established.\nParameter values can contain variables:\n```\ngeo $upstream_last_addr $allow {\n    volatile;\n    10.10.0.0/24        1;\n}\n\nserver {\n    listen 127.0.0.1:8080;\n\n    location / {\n        uwsgi_pass           localhost:9000;\n        uwsgi_allow_upstream $allow;\n        ...\n    }\n}\n```\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Defines conditions under which access to a uwsgi server\nis allowed or <a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#denied\" target=\"_blank\">denied</a>.\nIf all string parameters are not empty\nand not equal to “0” then the access is allowed.\nThe conditions are evaluated each time\nbefore a connection to a uwsgi server is established.\nParameter values can contain variables:</p>\n\n<pre><code>geo $upstream_last_addr $allow {\n    volatile;\n    10.10.0.0/24        1;\n}\n\nserver {\n    listen 127.0.0.1:8080;\n\n    location / {\n        uwsgi_pass           localhost:9000;\n        uwsgi_allow_upstream $allow;\n        ...\n    }\n}\n</code></pre>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
+        },
+        {
           "name": "uwsgi_bind",
           "default": "",
           "contexts": [
@@ -10908,6 +11477,24 @@
           "isBlock": false,
           "description_md": "Makes outgoing connections to a uwsgi server originate\nfrom the specified local IP address with an optional port (1.11.2).\nParameter value can contain variables (1.3.12).\nThe special value `off` (1.3.12) cancels the effect\nof the `uwsgi_bind` directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.\n\nThe `transparent` parameter (1.11.0) allows\noutgoing connections to a uwsgi server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:\n```\nuwsgi_bind $remote_addr transparent;\n```\nIn order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n[superuser](https://nginx.org/en/docs/ngx_core_module.html#user) privileges.\nOn Linux it is not required (1.13.8) as if\nthe `transparent` parameter is specified, worker processes\ninherit the `CAP_NET_RAW` capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the uwsgi server.",
           "description_html": "<p>Makes outgoing connections to a uwsgi server originate\nfrom the specified local IP address with an optional port (1.11.2).\nParameter value can contain variables (1.3.12).\nThe special value <code>off</code> (1.3.12) cancels the effect\nof the <code>uwsgi_bind</code> directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.</p>\n\n<p>The <code>transparent</code> parameter (1.11.0) allows\noutgoing connections to a uwsgi server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:</p>\n\n<pre><code>uwsgi_bind $remote_addr transparent;\n</code></pre>\n\n<p>In order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n<a href=\"https://nginx.org/en/docs/ngx_core_module.html#user\" target=\"_blank\">superuser</a> privileges.\nOn Linux it is not required (1.13.8) as if\nthe <code>transparent</code> parameter is specified, worker processes\ninherit the <code>CAP_NET_RAW</code> capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the uwsgi server.</p>\n"
+        },
+        {
+          "name": "uwsgi_bind_dynamic",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "When enabled, makes the [bind](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_bind) operation\nat each connection attempt.\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>When enabled, makes the <a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_bind\" target=\"_blank\">bind</a> operation\nat each connection attempt.</p>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "uwsgi_buffer_size",
@@ -11438,14 +12025,14 @@
             "location"
           ],
           "syntax_md": [
-            "`error` | `timeout` | `invalid_header` | `http_500` | `http_503` | `http_403` | `http_404` | `http_429` | `non_idempotent` | `off` ..."
+            "`error` | `timeout` | `denied` | `invalid_header` | `http_500` | `http_503` | `http_403` | `http_404` | `http_429` | `non_idempotent` | `off` ..."
           ],
           "syntax_html": [
-            "<p><code>error</code> | <code>timeout</code> | <code>invalid_header</code> | <code>http_500</code> | <code>http_503</code> | <code>http_403</code> | <code>http_404</code> | <code>http_429</code> | <code>non_idempotent</code> | <code>off</code> &hellip;</p>\n"
+            "<p><code>error</code> | <code>timeout</code> | <code>denied</code> | <code>invalid_header</code> | <code>http_500</code> | <code>http_503</code> | <code>http_403</code> | <code>http_404</code> | <code>http_429</code> | <code>non_idempotent</code> | <code>off</code> &hellip;</p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies in which cases a request should be passed to the next server:\n- `error`\n\n    an error occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `timeout`\n\n    a timeout has occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `invalid_header`\n\n    a server returned an empty or invalid response;\n- `http_500`\n\n    a server returned a response with the code 500;\n- `http_503`\n\n    a server returned a response with the code 503;\n- `http_403`\n\n    a server returned a response with the code 403;\n- `http_404`\n\n    a server returned a response with the code 404;\n- `http_429`\n\n    a server returned a response with the code 429 (1.11.13);\n- `non_idempotent`\n\n    normally, requests with a\n    [non-idempotent](https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2)\n    method\n    (`POST`, `LOCK`, `PATCH`)\n    are not passed to the next server\n    if a request has been sent to an upstream server (1.9.13);\n    enabling this option explicitly allows retrying such requests;\n- `off`\n\n    disables passing a request to the next server.\n\nOne should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.\n\nThe directive also defines what is considered an\n[unsuccessful attempt](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails) of communication with a server.\nThe cases of `error`, `timeout` and\n`invalid_header` are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of `http_500`, `http_503`,\nand `http_429` are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of `http_403` and `http_404`\nare never considered unsuccessful attempts.\n\nPassing a request to the next server can be limited by\n[the number of tries](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_next_upstream_tries)\nand by [time](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_next_upstream_timeout).",
-          "description_html": "<p>Specifies in which cases a request should be passed to the next server:</p>\n\n<ul>\n<li><p><code>error</code></p>\n\n<p>an error occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>timeout</code></p>\n\n<p>a timeout has occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>invalid_header</code></p>\n\n<p>a server returned an empty or invalid response;</p></li>\n\n<li><p><code>http_500</code></p>\n\n<p>a server returned a response with the code 500;</p></li>\n\n<li><p><code>http_503</code></p>\n\n<p>a server returned a response with the code 503;</p></li>\n\n<li><p><code>http_403</code></p>\n\n<p>a server returned a response with the code 403;</p></li>\n\n<li><p><code>http_404</code></p>\n\n<p>a server returned a response with the code 404;</p></li>\n\n<li><p><code>http_429</code></p>\n\n<p>a server returned a response with the code 429 (1.11.13);</p></li>\n\n<li><p><code>non_idempotent</code></p>\n\n<p>normally, requests with a\n<a href=\"https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2\" target=\"_blank\">non-idempotent</a>\nmethod\n(<code>POST</code>, <code>LOCK</code>, <code>PATCH</code>)\nare not passed to the next server\nif a request has been sent to an upstream server (1.9.13);\nenabling this option explicitly allows retrying such requests;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables passing a request to the next server.</p></li>\n</ul>\n\n<p>One should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.</p>\n\n<p>The directive also defines what is considered an\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails\" target=\"_blank\">unsuccessful attempt</a> of communication with a server.\nThe cases of <code>error</code>, <code>timeout</code> and\n<code>invalid_header</code> are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of <code>http_500</code>, <code>http_503</code>,\nand <code>http_429</code> are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of <code>http_403</code> and <code>http_404</code>\nare never considered unsuccessful attempts.</p>\n\n<p>Passing a request to the next server can be limited by\n<a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_next_upstream_tries\" target=\"_blank\">the number of tries</a>\nand by <a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_next_upstream_timeout\" target=\"_blank\">time</a>.</p>\n"
+          "description_md": "Specifies in which cases a request should be passed to the next server:\n- `error`\n\n    an error occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `timeout`\n\n    a timeout has occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `denied`\n\n    the server [denied](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_allow_upstream)\n    the connection (1.29.3);\n    \n    > This parameter is available as part of our\n    > [commercial subscription](https://nginx.com/products/).\n- `invalid_header`\n\n    a server returned an empty or invalid response;\n- `http_500`\n\n    a server returned a response with the code 500;\n- `http_503`\n\n    a server returned a response with the code 503;\n- `http_403`\n\n    a server returned a response with the code 403;\n- `http_404`\n\n    a server returned a response with the code 404;\n- `http_429`\n\n    a server returned a response with the code 429 (1.11.13);\n- `non_idempotent`\n\n    normally, requests with a\n    [non-idempotent](https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2)\n    method\n    (`POST`, `LOCK`, `PATCH`)\n    are not passed to the next server\n    if a request has been sent to an upstream server (1.9.13);\n    enabling this option explicitly allows retrying such requests;\n- `off`\n\n    disables passing a request to the next server.\n\nOne should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.\n\nThe directive also defines what is considered an\n[unsuccessful attempt](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails) of communication with a server.\nThe cases of `error`, `timeout`,\n`denied` and\n`invalid_header` are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of `http_500`, `http_503`,\nand `http_429` are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of `http_403` and `http_404`\nare never considered unsuccessful attempts.\n\nPassing a request to the next server can be limited by\n[the number of tries](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_next_upstream_tries)\nand by [time](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_next_upstream_timeout).",
+          "description_html": "<p>Specifies in which cases a request should be passed to the next server:</p>\n\n<ul>\n<li><p><code>error</code></p>\n\n<p>an error occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>timeout</code></p>\n\n<p>a timeout has occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>denied</code></p>\n\n<p>the server <a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_allow_upstream\" target=\"_blank\">denied</a>\nthe connection (1.29.3);</p>\n\n<blockquote>\n<p>This parameter is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n</li>\n\n<li><p><code>invalid_header</code></p>\n\n<p>a server returned an empty or invalid response;</p></li>\n\n<li><p><code>http_500</code></p>\n\n<p>a server returned a response with the code 500;</p></li>\n\n<li><p><code>http_503</code></p>\n\n<p>a server returned a response with the code 503;</p></li>\n\n<li><p><code>http_403</code></p>\n\n<p>a server returned a response with the code 403;</p></li>\n\n<li><p><code>http_404</code></p>\n\n<p>a server returned a response with the code 404;</p></li>\n\n<li><p><code>http_429</code></p>\n\n<p>a server returned a response with the code 429 (1.11.13);</p></li>\n\n<li><p><code>non_idempotent</code></p>\n\n<p>normally, requests with a\n<a href=\"https://datatracker.ietf.org/doc/html/rfc7231#section-4.2.2\" target=\"_blank\">non-idempotent</a>\nmethod\n(<code>POST</code>, <code>LOCK</code>, <code>PATCH</code>)\nare not passed to the next server\nif a request has been sent to an upstream server (1.9.13);\nenabling this option explicitly allows retrying such requests;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables passing a request to the next server.</p></li>\n</ul>\n\n<p>One should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.</p>\n\n<p>The directive also defines what is considered an\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails\" target=\"_blank\">unsuccessful attempt</a> of communication with a server.\nThe cases of <code>error</code>, <code>timeout</code>,\n<code>denied</code> and\n<code>invalid_header</code> are always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe cases of <code>http_500</code>, <code>http_503</code>,\nand <code>http_429</code> are\nconsidered unsuccessful attempts only if they are specified in the directive.\nThe cases of <code>http_403</code> and <code>http_404</code>\nare never considered unsuccessful attempts.</p>\n\n<p>Passing a request to the next server can be limited by\n<a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_next_upstream_tries\" target=\"_blank\">the number of tries</a>\nand by <a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_next_upstream_timeout\" target=\"_blank\">time</a>.</p>\n"
         },
         {
           "name": "uwsgi_next_upstream_timeout",
@@ -11625,6 +12212,24 @@
           "isBlock": false,
           "description_md": "Enables or disables buffering of a client request body.\n\nWhen buffering is enabled, the entire request body is\n[read](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size)\nfrom the client before sending the request to a uwsgi server.\n\nWhen buffering is disabled, the request body is sent to the uwsgi server\nimmediately as it is received.\nIn this case, the request cannot be passed to the\n[next server](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_next_upstream)\nif nginx already started sending the request body.\n\nWhen HTTP/1.1 chunked transfer encoding is used\nto send the original request body,\nthe request body will be buffered regardless of the directive value.",
           "description_html": "<p>Enables or disables buffering of a client request body.</p>\n\n<p>When buffering is enabled, the entire request body is\n<a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size\" target=\"_blank\">read</a>\nfrom the client before sending the request to a uwsgi server.</p>\n\n<p>When buffering is disabled, the request body is sent to the uwsgi server\nimmediately as it is received.\nIn this case, the request cannot be passed to the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_next_upstream\" target=\"_blank\">next server</a>\nif nginx already started sending the request body.</p>\n\n<p>When HTTP/1.1 chunked transfer encoding is used\nto send the original request body,\nthe request body will be buffered regardless of the directive value.</p>\n"
+        },
+        {
+          "name": "uwsgi_request_dynamic",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables or disables creation of a separate request instance\nfor each uwsgi server.\nBy default, a single request is used for all uwsgi servers.\nIf the directive is set to the value “`on`”,\na separate request instance is created,\nallowing per-server request customization.\nFor example, the server-specific \"Host\" request header field\ncan be set:\n```\nproxy_request_dynamic on;\nproxy_set_header      Host $upstream_last_server_name;\n```\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>Enables or disables creation of a separate request instance\nfor each uwsgi server.\nBy default, a single request is used for all uwsgi servers.\nIf the directive is set to the value “<code>on</code>”,\na separate request instance is created,\nallowing per-server request customization.\nFor example, the server-specific &ldquo;Host&rdquo; request header field\ncan be set:</p>\n\n<pre><code>proxy_request_dynamic on;\nproxy_set_header      Host $upstream_last_server_name;\n</code></pre>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "uwsgi_send_timeout",
@@ -15543,6 +16148,28 @@
       ]
     },
     {
+      "id": "/en/docs/stream/ngx_stream_num_map_module.html",
+      "name": "ngx_stream_num_map_module",
+      "directives": [
+        {
+          "name": "num_map",
+          "default": "",
+          "contexts": [
+            "stream"
+          ],
+          "syntax_md": [
+            "[*`$number`*] *`$variable`* `{...}`"
+          ],
+          "syntax_html": [
+            "<p>[<em><code>$number</code></em>] <em><code>$variable</code></em> <code>{...}</code></p>\n"
+          ],
+          "isBlock": true,
+          "description_md": "Describes how the values of the specified variable depend on numeric values\nor numeric value ranges.\n\n> Since variables are evaluated only when used, the mere existence\n> of even a large number of declared “`num_map`” variables\n> does not cause any extra costs for connection processing.\n\nParameters inside the `num_map` block specify a mapping\nbetween source and resulting values.\n\nSource values are specified as numbers or as numeric ranges.\n\nThe following special parameters are also supported:\n- `default`\n\n    sets the resulting value if the source value matches none\n    of the specified variants.\n    When `default` is not specified, the default\n    resulting value will be an empty string.\n- `include`\n\n    includes a file with values.\n    There can be several inclusions.\n- `volatile`\n\n    indicates that the variable is not cacheable.",
+          "description_html": "<p>Describes how the values of the specified variable depend on numeric values\nor numeric value ranges.</p>\n\n<blockquote>\n<p>Since variables are evaluated only when used, the mere existence\nof even a large number of declared “<code>num_map</code>” variables\ndoes not cause any extra costs for connection processing.</p>\n</blockquote>\n\n<p>Parameters inside the <code>num_map</code> block specify a mapping\nbetween source and resulting values.</p>\n\n<p>Source values are specified as numbers or as numeric ranges.</p>\n\n<p>The following special parameters are also supported:</p>\n\n<ul>\n<li><p><code>default</code></p>\n\n<p>sets the resulting value if the source value matches none\nof the specified variants.\nWhen <code>default</code> is not specified, the default\nresulting value will be an empty string.</p></li>\n\n<li><p><code>include</code></p>\n\n<p>includes a file with values.\nThere can be several inclusions.</p></li>\n\n<li><p><code>volatile</code></p>\n\n<p>indicates that the variable is not cacheable.</p></li>\n</ul>\n"
+        }
+      ]
+    },
+    {
       "id": "/en/docs/stream/ngx_stream_pass_module.html",
       "name": "ngx_stream_pass_module",
       "directives": [
@@ -15584,6 +16211,23 @@
           "isBlock": false,
           "description_md": "Makes outgoing connections to a proxied server originate\nfrom the specified local IP *`address`*.\nParameter value can contain variables (1.11.2).\nThe special value `off` cancels the effect\nof the `proxy_bind` directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address.\n\nThe `transparent` parameter (1.11.0) allows\noutgoing connections to a proxied server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:\n```\nproxy_bind $remote_addr transparent;\n```\nIn order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n[superuser](https://nginx.org/en/docs/ngx_core_module.html#user) privileges.\nOn Linux it is not required (1.13.8) as if\nthe `transparent` parameter is specified, worker processes\ninherit the `CAP_NET_RAW` capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the proxied server.",
           "description_html": "<p>Makes outgoing connections to a proxied server originate\nfrom the specified local IP <em><code>address</code></em>.\nParameter value can contain variables (1.11.2).\nThe special value <code>off</code> cancels the effect\nof the <code>proxy_bind</code> directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address.</p>\n\n<p>The <code>transparent</code> parameter (1.11.0) allows\noutgoing connections to a proxied server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:</p>\n\n<pre><code>proxy_bind $remote_addr transparent;\n</code></pre>\n\n<p>In order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n<a href=\"https://nginx.org/en/docs/ngx_core_module.html#user\" target=\"_blank\">superuser</a> privileges.\nOn Linux it is not required (1.13.8) as if\nthe <code>transparent</code> parameter is specified, worker processes\ninherit the <code>CAP_NET_RAW</code> capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the proxied server.</p>\n"
+        },
+        {
+          "name": "proxy_bind_dynamic",
+          "default": "off",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "When enabled, makes the [bind](https://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_bind) operation\nat each connection attempt.\n\n> This directive is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>When enabled, makes the <a href=\"https://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_bind\" target=\"_blank\">bind</a> operation\nat each connection attempt.</p>\n\n<blockquote>\n<p>This directive is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
         },
         {
           "name": "proxy_buffer_size",
@@ -17145,6 +17789,11 @@
           "description_html": "<p>time to receive the first byte of data (1.11.4);\nthe time is kept in seconds with millisecond resolution.\nTimes of several connections\nare separated by commas like addresses in the\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#var_upstream_addr\" target=\"_blank\">$upstream_addr</a> variable.</p>\n"
         },
         {
+          "name": "$upstream_last_addr",
+          "description_md": "keeps the IP address or the path to the UNIX-domain socket\nof the last selected upstream server (1.29.3).\n\n\n> This variable is available as part of our\n> [commercial subscription](https://nginx.com/products/).",
+          "description_html": "<p>keeps the IP address or the path to the UNIX-domain socket\nof the last selected upstream server (1.29.3).</p>\n\n<blockquote>\n<p>This variable is available as part of our\n<a href=\"https://nginx.com/products/\" target=\"_blank\">commercial subscription</a>.</p>\n</blockquote>\n"
+        },
+        {
           "name": "$upstream_session_time",
           "description_md": "session duration in seconds with millisecond resolution (1.11.4).\nTimes of several connections\nare separated by commas like addresses in the\n[$upstream_addr](https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#var_upstream_addr) variable.",
           "description_html": "<p>session duration in seconds with millisecond resolution (1.11.4).\nTimes of several connections\nare separated by commas like addresses in the\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#var_upstream_addr\" target=\"_blank\">$upstream_addr</a> variable.</p>\n"
@@ -17513,5 +18162,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/2a1517c5cdaaf2d3fc90dc289278f7d1afffe491"
+  "version": "https://github.com/nginx/nginx.org/commit/d90d0b7854816078daf804d188ee160e9edbf536"
 }
