@@ -51,7 +51,7 @@ jobs:
           cache: false
       - name: use the same version of GOLANGCI_LINT_VERSION as devtools
         run: make devtools-versions >> "$GITHUB_ENV"
-      - uses: golangci/golangci-lint-action@v6
+      - uses: golangci/golangci-lint-action@v9
         with:
           working-directory: ${{ env.working-directory }}
           version: v${{ env.GOLANGCI_LINT_VERSION }}
