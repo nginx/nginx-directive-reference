@@ -38,7 +38,7 @@ jobs:
       working-directory: ./reference-lib
 
     - name: create pull request if reference.json changed
-      uses: peter-evans/create-pull-request@v7
+      uses: peter-evans/create-pull-request@v8
       if: steps.diff.outputs.reference_change
       with:
         commit-message: update reference.json
