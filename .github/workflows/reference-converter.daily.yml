@@ -32,6 +32,8 @@ jobs:
         fi
 
     - uses: actions/setup-node@v6
+      with:
+        node-version: 24
     - name: update npm package version
       if: steps.diff.outputs.reference_change
       run: npm version patch --no-git-tag-version

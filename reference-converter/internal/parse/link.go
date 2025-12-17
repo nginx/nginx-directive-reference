@@ -35,7 +35,7 @@ func (l *link) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 		title = p.Name
 	}
 
-	title = strings.Replace(title, "\n", " ", -1)
+	title = strings.ReplaceAll(title, "\n", " ")
 
 	href := attrs["url"]
 	if href == "" {

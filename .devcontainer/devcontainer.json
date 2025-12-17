@@ -4,7 +4,7 @@
   "build": {
     "dockerfile": "../tools/devtools/Dockerfile",
     "args": {
-      "BASE_IMG": "mcr.microsoft.com/devcontainers/typescript-node:18-bullseye"
+      "BASE_IMG": "mcr.microsoft.com/devcontainers/typescript-node:24-trixie"
     }
   },
   "postCreateCommand": "sudo find . -name node_modules -exec chown node:node {} \\;",
