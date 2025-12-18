@@ -2,10 +2,10 @@ name: builds the example ref-browser usage of reference-lib
 on:
   push:
     branches: ['main']
-    paths: ['examples/ref-browser/**', 'reference-lib/**']
+    paths: ['examples/ref-browser/**', '.github/workflows/examples-ref-browser.yml', 'reference-lib/**']
   pull_request:
     branches: ['main']
-    paths: ['examples/ref-browser/**', 'reference-lib/**']
+    paths: ['examples/ref-browser/**', '.github/workflows/examples-ref-browser.yml', 'reference-lib/**']
 
 defaults:
   run:
@@ -18,6 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v6
+        with:
+          node-version: 24
       - name: build the reference-lib
         working-directory: ./reference-lib
         run: |

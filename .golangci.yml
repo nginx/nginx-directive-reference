@@ -1,5 +1,6 @@
+version: "2"
 linters:
-  # add non-default linters https://golangci-lint.run/usage/linters/#disabled-by-default
+  # add non-default linters https://golangci-lint.run/docs/linters/
   enable:
     - bodyclose
     - errorlint

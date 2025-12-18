@@ -47,7 +47,7 @@ func openURL(ctx context.Context, url string, client http.Client) ([]byte, error
 	if err != nil {
 		return nil, fmt.Errorf("unable to download %s: %w", url, err)
 	}
-	defer res.Body.Close()
+	defer res.Body.Close() //nolint:errcheck // nothing to do about it
 
 	if res.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("unable to download %s: %s", url, res.Status)

@@ -74,7 +74,7 @@ func runConverter() error {
 		slog.ErrorContext(ctx, "failed to open dst", slog.Any("error", err))
 		return err
 	}
-	defer dst.Close()
+	defer dst.Close() //nolint:errcheck // nothing to do about it
 	if err := ref.Write(ctx, dst); err != nil {
 		slog.ErrorContext(ctx, "failed to save", slog.Any("error", err))
 		return err

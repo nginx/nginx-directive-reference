@@ -59,7 +59,7 @@ func openURL(ctx context.Context, url string, client http.Client) ([]File, error
 	if err != nil {
 		return nil, fmt.Errorf("unabled to download %s: %w", url, err)
 	}
-	defer res.Body.Close()
+	defer res.Body.Close() //nolint:errcheck // nothing to do about it
 	if res.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("unabled to download %s: %s", url, res.Status)
 	}
@@ -71,7 +71,7 @@ func openFile(ctx context.Context, path string) ([]File, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close()
+	defer f.Close() //nolint:errcheck // nothing to do about it
 	return open(ctx, f, slog.With(slog.String("path", path)))
 }
 
@@ -81,7 +81,7 @@ func open(ctx context.Context, raw io.Reader, log *slog.Logger) ([]File, error) 
 	if err != nil {
 		return nil, err
 	}
-	defer gz.Close()
+	defer gz.Close() //nolint:errcheck // nothing to do about it
 
 	tr := tar.NewReader(gz)
 
