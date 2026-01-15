@@ -5519,6 +5519,22 @@
           "description_html": "<p>Specifies a file that implements location and variable handlers in njs:</p>\n\n<pre><code>nginx.conf:\njs_include http.js;\nlocation   /version {\n    js_content version;\n}\n\nhttp.js:\nfunction version(r) {\n    r.return(200, njs.version);\n}\n</code></pre>\n\n<p>The directive was made obsolete in version\n<a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.4.0\" target=\"_blank\">0.4.0</a>\nand was removed in version\n<a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.7.1\" target=\"_blank\">0.7.1</a>.\nThe <a href=\"https://nginx.org/en/docs/http/ngx_http_js_module.html#js_import\" target=\"_blank\"><code>js_import</code></a> directive should be used instead.</p>\n"
         },
         {
+          "name": "js_load_http_native_module",
+          "default": "",
+          "contexts": [
+            "main"
+          ],
+          "syntax_md": [
+            "*`path`* [`as` *`name`*]"
+          ],
+          "syntax_html": [
+            "<p><em><code>path</code></em> [<code>as</code> <em><code>name</code></em>]</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Loads a [native module](https://nginx.org/en/docs/njs/native_modules.html)\n(shared library) for use in HTTP JavaScript code.\nThe directive is\n[QuickJS](https://nginx.org/en/docs/njs/engine.html#quickjs_engine)-only\nand is not available when using the njs built-in JavaScript engine.\n\nThe *`path`* parameter\nspecifies the absolute path to the shared library file.\nThe optional `as` *`name`* parameter\nprovides an alias name for importing the module in JavaScript code.\nIf not specified, the module can be imported using its filename.\n\nExample:\n```\njs_load_http_native_module /path/to/mylib.so;\njs_load_http_native_module /path/to/other.so as myalias;\n\nhttp {\n    js_import main.js;\n    # ... rest of http configuration\n}\n```\nIn JavaScript code:\n```\n// Import by filename\nimport * as mylib from 'mylib.so';\n\n// Import by alias\nimport * as myalias from 'myalias';\n\n// Use exported functions\nlet result = mylib.add(5, 10);\n```\n\n> For security reasons, this directive is only allowed\n> in the `main` configuration context.\n> Native modules run with full process privileges;\n> use absolute paths and ensure proper code review.",
+          "description_html": "<p>Loads a <a href=\"https://nginx.org/en/docs/njs/native_modules.html\" target=\"_blank\">native module</a>\n(shared library) for use in HTTP JavaScript code.\nThe directive is\n<a href=\"https://nginx.org/en/docs/njs/engine.html#quickjs_engine\" target=\"_blank\">QuickJS</a>-only\nand is not available when using the njs built-in JavaScript engine.</p>\n\n<p>The <em><code>path</code></em> parameter\nspecifies the absolute path to the shared library file.\nThe optional <code>as</code> <em><code>name</code></em> parameter\nprovides an alias name for importing the module in JavaScript code.\nIf not specified, the module can be imported using its filename.</p>\n\n<p>Example:</p>\n\n<pre><code>js_load_http_native_module /path/to/mylib.so;\njs_load_http_native_module /path/to/other.so as myalias;\n\nhttp {\n    js_import main.js;\n    # ... rest of http configuration\n}\n</code></pre>\n\n<p>In JavaScript code:</p>\n\n<pre><code>// Import by filename\nimport * as mylib from 'mylib.so';\n\n// Import by alias\nimport * as myalias from 'myalias';\n\n// Use exported functions\nlet result = mylib.add(5, 10);\n</code></pre>\n\n<blockquote>\n<p>For security reasons, this directive is only allowed\nin the <code>main</code> configuration context.\nNative modules run with full process privileges;\nuse absolute paths and ensure proper code review.</p>\n</blockquote>\n"
+        },
+        {
           "name": "js_path",
           "default": "",
           "contexts": [
@@ -15717,6 +15733,22 @@
           "description_html": "<p>Specifies a file that implements server and variable handlers in njs:</p>\n\n<pre><code>nginx.conf:\njs_include stream.js;\njs_set     $js_addr address;\nserver {\n    listen 127.0.0.1:12345;\n    return $js_addr;\n}\n\nstream.js:\nfunction address(s) {\n    return s.remoteAddress;\n}\n</code></pre>\n\n<p>The directive was made obsolete in version\n<a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.4.0\" target=\"_blank\">0.4.0</a>\nand was removed in version\n<a href=\"https://nginx.org/en/docs/njs/changes.html#njs0.7.1\" target=\"_blank\">0.7.1</a>.\nThe <a href=\"https://nginx.org/en/docs/stream/ngx_stream_js_module.html#js_import\" target=\"_blank\"><code>js_import</code></a> directive should be used instead.</p>\n"
         },
         {
+          "name": "js_load_stream_native_module",
+          "default": "",
+          "contexts": [
+            "main"
+          ],
+          "syntax_md": [
+            "*`path`* [`as` *`name`*]"
+          ],
+          "syntax_html": [
+            "<p><em><code>path</code></em> [<code>as</code> <em><code>name</code></em>]</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Loads a [native module](https://nginx.org/en/docs/njs/native_modules.html)\n(shared library) for use in Stream JavaScript code.\nThe directive is\n[QuickJS](https://nginx.org/en/docs/njs/engine.html#quickjs_engine)-only\nand is not available when using the njs built-in JavaScript engine.\n\nThe *`path`* parameter\nspecifies the absolute path to the shared library file.\nThe optional `as` *`name`* parameter\nprovides an alias name for importing the module in JavaScript code.\nIf not specified, the module can be imported using its filename.\n\nExample:\n```\njs_load_stream_native_module /path/to/mylib.so;\njs_load_stream_native_module /path/to/other.so as myalias;\n\nstream {\n    js_import main.js;\n    # ... rest of stream configuration\n}\n```\nIn JavaScript code:\n```\n// Import by filename\nimport * as mylib from 'mylib.so';\n\n// Import by alias\nimport * as myalias from 'myalias';\n\n// Use exported functions\nlet result = mylib.add(5, 10);\n```\n\n> For security reasons, this directive is only allowed\n> in the `main` configuration context.\n> Native modules run with full process privileges;\n> use absolute paths and ensure proper code review.",
+          "description_html": "<p>Loads a <a href=\"https://nginx.org/en/docs/njs/native_modules.html\" target=\"_blank\">native module</a>\n(shared library) for use in Stream JavaScript code.\nThe directive is\n<a href=\"https://nginx.org/en/docs/njs/engine.html#quickjs_engine\" target=\"_blank\">QuickJS</a>-only\nand is not available when using the njs built-in JavaScript engine.</p>\n\n<p>The <em><code>path</code></em> parameter\nspecifies the absolute path to the shared library file.\nThe optional <code>as</code> <em><code>name</code></em> parameter\nprovides an alias name for importing the module in JavaScript code.\nIf not specified, the module can be imported using its filename.</p>\n\n<p>Example:</p>\n\n<pre><code>js_load_stream_native_module /path/to/mylib.so;\njs_load_stream_native_module /path/to/other.so as myalias;\n\nstream {\n    js_import main.js;\n    # ... rest of stream configuration\n}\n</code></pre>\n\n<p>In JavaScript code:</p>\n\n<pre><code>// Import by filename\nimport * as mylib from 'mylib.so';\n\n// Import by alias\nimport * as myalias from 'myalias';\n\n// Use exported functions\nlet result = mylib.add(5, 10);\n</code></pre>\n\n<blockquote>\n<p>For security reasons, this directive is only allowed\nin the <code>main</code> configuration context.\nNative modules run with full process privileges;\nuse absolute paths and ensure proper code review.</p>\n</blockquote>\n"
+        },
+        {
           "name": "js_path",
           "default": "",
           "contexts": [
@@ -18216,5 +18248,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/cc7bceb22509727fe8eb25c6def1b01e33671fb7"
+  "version": "https://github.com/nginx/nginx.org/commit/ff3d35c074a5d8eb4edfd531c9d6ba14af4008e4"
 }
