@@ -3484,7 +3484,7 @@
         },
         {
           "name": "fastcgi_param",
-          "default": "",
+          "default": "HTTP_HOST $host$is_request_port$request_port",
           "contexts": [
             "http",
             "server",
@@ -9149,7 +9149,7 @@
         },
         {
           "name": "scgi_param",
-          "default": "",
+          "default": "HTTP_HOST $host$is_request_port$request_port",
           "contexts": [
             "http",
             "server",
@@ -12133,7 +12133,7 @@
         },
         {
           "name": "uwsgi_param",
-          "default": "",
+          "default": "HTTP_HOST $host$is_request_port$request_port",
           "contexts": [
             "http",
             "server",
@@ -18248,5 +18248,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/ff3d35c074a5d8eb4edfd531c9d6ba14af4008e4"
+  "version": "https://github.com/nginx/nginx.org/commit/7f06d39f3df46b26844dc4bf43eb2b27d97a0ef9"
 }
