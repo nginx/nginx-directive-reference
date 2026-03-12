@@ -2887,8 +2887,8 @@
             "<p><em><code>size</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Sets the *`size`* of the buffer used for reading the first part\nof the response received from the FastCGI server.\nThis part usually contains a small response header.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.",
-          "description_html": "<p>Sets the <em><code>size</code></em> of the buffer used for reading the first part\nof the response received from the FastCGI server.\nThis part usually contains a small response header.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.</p>\n"
+          "description_md": "Sets the *`size`* of the buffer used for reading the first part\nof the response received from the FastCGI server.\nThis part usually contains a small response header;\nif it exceeds the buffer size, the response is considered\n[invalid](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#invalid_header).\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.",
+          "description_html": "<p>Sets the <em><code>size</code></em> of the buffer used for reading the first part\nof the response received from the FastCGI server.\nThis part usually contains a small response header;\nif it exceeds the buffer size, the response is considered\n<a href=\"https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#invalid_header\" target=\"_blank\">invalid</a>.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.</p>\n"
         },
         {
           "name": "fastcgi_buffering",
@@ -3984,8 +3984,8 @@
             "<p><em><code>size</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Sets the *`size`* of the buffer used for reading the response\nreceived from the gRPC server.\nThe response is passed to the client synchronously, as soon as it is received.",
-          "description_html": "<p>Sets the <em><code>size</code></em> of the buffer used for reading the response\nreceived from the gRPC server.\nThe response is passed to the client synchronously, as soon as it is received.</p>\n"
+          "description_md": "Sets the *`size`* of the buffer used for reading the response\nreceived from the gRPC server.\nThe first part of the response usually contains a small header;\nif it exceeds the buffer size, the response is considered\n[invalid](https://nginx.org/en/docs/http/ngx_http_grpc_module.html#invalid_header).\nThe response is passed to the client synchronously, as soon as it is received.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.",
+          "description_html": "<p>Sets the <em><code>size</code></em> of the buffer used for reading the response\nreceived from the gRPC server.\nThe first part of the response usually contains a small header;\nif it exceeds the buffer size, the response is considered\n<a href=\"https://nginx.org/en/docs/http/ngx_http_grpc_module.html#invalid_header\" target=\"_blank\">invalid</a>.\nThe response is passed to the client synchronously, as soon as it is received.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.</p>\n"
         },
         {
           "name": "grpc_connect_timeout",
@@ -6930,8 +6930,8 @@
             "<p><em><code>size</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Sets the *`size`* of the buffer used for reading the first part\nof the response received from the proxied server.\nThis part usually contains a small response header.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.",
-          "description_html": "<p>Sets the <em><code>size</code></em> of the buffer used for reading the first part\nof the response received from the proxied server.\nThis part usually contains a small response header.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.</p>\n"
+          "description_md": "Sets the *`size`* of the buffer used for reading the first part\nof the response received from the proxied server.\nThis part usually contains a small response header;\nif it exceeds the buffer size, the response is considered\n[invalid](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#invalid_header).\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.",
+          "description_html": "<p>Sets the <em><code>size</code></em> of the buffer used for reading the first part\nof the response received from the proxied server.\nThis part usually contains a small response header;\nif it exceeds the buffer size, the response is considered\n<a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#invalid_header\" target=\"_blank\">invalid</a>.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.</p>\n"
         },
         {
           "name": "proxy_buffering",
@@ -7436,8 +7436,8 @@
             "<p><code>1.0</code> | <code>1.1</code> | <code>2</code></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Sets the HTTP protocol version for proxying.\nBy default, version 1.0 is used.\nVersion 1.1 or 2 (1.29.4) is recommended for use with\n[`keepalive`](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive)\nconnections and\n[NTLM authentication](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#ntlm).",
-          "description_html": "<p>Sets the HTTP protocol version for proxying.\nBy default, version 1.0 is used.\nVersion 1.1 or 2 (1.29.4) is recommended for use with\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive\" target=\"_blank\"><code>keepalive</code></a>\nconnections and\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#ntlm\" target=\"_blank\">NTLM authentication</a>.</p>\n"
+          "description_md": "Sets the HTTP protocol version for proxying.\nBy default, version 1.0 is used.\nVersion 1.1 or 2 (1.29.4) is recommended for use with\n[`keepalive`](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive)\nconnections and\n[NTLM authentication](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#ntlm).\n> The version 2 requires the\n> [ngx_http_v2_module](https://nginx.org/en/docs/http/ngx_http_v2_module.html) module.",
+          "description_html": "<p>Sets the HTTP protocol version for proxying.\nBy default, version 1.0 is used.\nVersion 1.1 or 2 (1.29.4) is recommended for use with\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive\" target=\"_blank\"><code>keepalive</code></a>\nconnections and\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#ntlm\" target=\"_blank\">NTLM authentication</a>.</p>\n\n<blockquote>\n<p>The version 2 requires the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_v2_module.html\" target=\"_blank\">ngx_http_v2_module</a> module.</p>\n</blockquote>\n"
         },
         {
           "name": "proxy_ignore_client_abort",
@@ -8606,8 +8606,8 @@
             "<p><em><code>size</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Sets the *`size`* of the buffer used for reading the first part\nof the response received from the SCGI server.\nThis part usually contains a small response header.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.",
-          "description_html": "<p>Sets the <em><code>size</code></em> of the buffer used for reading the first part\nof the response received from the SCGI server.\nThis part usually contains a small response header.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.</p>\n"
+          "description_md": "Sets the *`size`* of the buffer used for reading the first part\nof the response received from the SCGI server.\nThis part usually contains a small response header;\nif it exceeds the buffer size, the response is considered\n[invalid](https://nginx.org/en/docs/http/ngx_http_scgi_module.html#invalid_header).\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.",
+          "description_html": "<p>Sets the <em><code>size</code></em> of the buffer used for reading the first part\nof the response received from the SCGI server.\nThis part usually contains a small response header;\nif it exceeds the buffer size, the response is considered\n<a href=\"https://nginx.org/en/docs/http/ngx_http_scgi_module.html#invalid_header\" target=\"_blank\">invalid</a>.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.</p>\n"
         },
         {
           "name": "scgi_buffering",
@@ -11538,8 +11538,8 @@
             "<p><em><code>size</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Sets the *`size`* of the buffer used for reading the first part\nof the response received from the uwsgi server.\nThis part usually contains a small response header.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.",
-          "description_html": "<p>Sets the <em><code>size</code></em> of the buffer used for reading the first part\nof the response received from the uwsgi server.\nThis part usually contains a small response header.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.</p>\n"
+          "description_md": "Sets the *`size`* of the buffer used for reading the first part\nof the response received from the uwsgi server.\nThis part usually contains a small response header;\nif it exceeds the buffer size, the response is considered\n[invalid](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#invalid_header).\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.",
+          "description_html": "<p>Sets the <em><code>size</code></em> of the buffer used for reading the first part\nof the response received from the uwsgi server.\nThis part usually contains a small response header;\nif it exceeds the buffer size, the response is considered\n<a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#invalid_header\" target=\"_blank\">invalid</a>.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.</p>\n"
         },
         {
           "name": "uwsgi_buffering",
@@ -18232,5 +18232,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/67ff1f07ee4edfd621e50ade95c9547a93c06fe2"
+  "version": "https://github.com/nginx/nginx.org/commit/ecc4244a661b086e52e662b695183313bfff8ba1"
 }
