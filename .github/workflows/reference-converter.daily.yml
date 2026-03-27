@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
     - run: make devtools-image
     - name: let the build create files
       run: chmod 777 .
@@ -31,7 +31,7 @@ jobs:
           mv ./reference.json ../reference-lib/src/reference.json
         fi
 
-    - uses: actions/setup-node@v6
+    - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
       with:
         node-version: 24
     - name: update npm package version
@@ -40,7 +40,7 @@ jobs:
       working-directory: ./reference-lib
 
     - name: create pull request if reference.json changed
-      uses: peter-evans/create-pull-request@v8
+      uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8
       if: steps.diff.outputs.reference_change
       with:
         commit-message: update reference.json

@@ -21,19 +21,19 @@ jobs:
     env:
       testResults: ./reference-converter/results/test.xml
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - run: make devtools-image
       - name: let the build create files
         run: chmod 777 .
       - run: make build
       - run: make test
       - name: archive test artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         with:
           name: test-report
           path: ${{ env.testResults }}
       - name: Test Report
-        uses: dorny/test-reporter@v2
+        uses: dorny/test-reporter@df6247429542221bc30d46a036ee47af1102c451 # v2
         if: success() || failure()
         with:
           name: Test Report
@@ -44,14 +44,14 @@ jobs:
     env:
       working-directory: ./reference-converter
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-go@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6
         with:
           go-version-file: ${{ env.working-directory }}/go.mod
           cache: false
       - name: use the same version of GOLANGCI_LINT_VERSION as devtools
         run: make devtools-versions >> "$GITHUB_ENV"
-      - uses: golangci/golangci-lint-action@v9
+      - uses: golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9
         with:
           working-directory: ${{ env.working-directory }}
           version: v${{ env.GOLANGCI_LINT_VERSION }}
