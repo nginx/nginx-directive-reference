@@ -4362,8 +4362,8 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_ssl_verify)\nthe certificate of the gRPC SSL server.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the gRPC SSL server.</p>\n"
+          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_ssl_verify)\nthe certificate of the gRPC SSL server.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the gRPC SSL server.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.</p>\n"
         },
         {
           "name": "grpc_ssl_key_log",
@@ -6744,8 +6744,8 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to verify\nthe certificates of the OpenID Provider endpoints.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to verify\nthe certificates of the OpenID Provider endpoints.</p>\n"
+          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to verify\nthe certificates of the OpenID Provider endpoints.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to verify\nthe certificates of the OpenID Provider endpoints.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.</p>\n"
         },
         {
           "name": "ssl_trusted_certificate",
@@ -7999,8 +7999,8 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_verify)\nthe certificate of the proxied HTTPS server.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the proxied HTTPS server.</p>\n"
+          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_verify)\nthe certificate of the proxied HTTPS server.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the proxied HTTPS server.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.</p>\n"
         },
         {
           "name": "proxy_ssl_key_log",
@@ -9908,8 +9908,8 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_verify_client)\nclient certificates.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_verify_client\" target=\"_blank\">verify</a>\nclient certificates.</p>\n"
+          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_verify_client)\nclient certificates.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_verify_client\" target=\"_blank\">verify</a>\nclient certificates.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.</p>\n"
         },
         {
           "name": "ssl_dhparam",
@@ -12418,8 +12418,8 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_ssl_verify)\nthe certificate of the secured uwsgi server.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the secured uwsgi server.</p>\n"
+          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_ssl_verify)\nthe certificate of the secured uwsgi server.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the secured uwsgi server.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.</p>\n"
         },
         {
           "name": "uwsgi_ssl_key_log",
@@ -13840,8 +13840,8 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/mail/ngx_mail_ssl_module.html#ssl_verify_client)\nclient certificates.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/mail/ngx_mail_ssl_module.html#ssl_verify_client\" target=\"_blank\">verify</a>\nclient certificates.</p>\n"
+          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/mail/ngx_mail_ssl_module.html#ssl_verify_client)\nclient certificates.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/mail/ngx_mail_ssl_module.html#ssl_verify_client\" target=\"_blank\">verify</a>\nclient certificates.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.</p>\n"
         },
         {
           "name": "ssl_dhparam",
@@ -14726,8 +14726,8 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify)\nthe certificate of the usage reporting endpoint.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the usage reporting endpoint.</p>\n"
+          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify)\nthe certificate of the usage reporting endpoint.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/ngx_mgmt_module.html#ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the usage reporting endpoint.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.</p>\n"
         },
         {
           "name": "ssl_trusted_certificate",
@@ -16627,8 +16627,8 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_verify)\nthe certificate of the proxied server.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the proxied server.</p>\n"
+          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_verify)\nthe certificate of the proxied server.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the proxied server.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.</p>\n"
         },
         {
           "name": "proxy_ssl_key_log",
@@ -17076,8 +17076,8 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_verify_client)\nclient certificates.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_verify_client\" target=\"_blank\">verify</a>\nclient certificates.</p>\n"
+          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_verify_client)\nclient certificates.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_verify_client\" target=\"_blank\">verify</a>\nclient certificates.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.</p>\n"
         },
         {
           "name": "ssl_dhparam",
@@ -18107,8 +18107,8 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/stream/ngx_stream_zone_sync_module.html#zone_sync_ssl_verify)\nthe certificate of another cluster server.",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/stream/ngx_stream_zone_sync_module.html#zone_sync_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of another cluster server.</p>\n"
+          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/stream/ngx_stream_zone_sync_module.html#zone_sync_ssl_verify)\nthe certificate of another cluster server.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/stream/ngx_stream_zone_sync_module.html#zone_sync_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of another cluster server.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.</p>\n"
         },
         {
           "name": "zone_sync_ssl_name",
@@ -18249,5 +18249,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/1daab5147d8405493b417da37bfa659b5b127b93"
+  "version": "https://github.com/nginx/nginx.org/commit/69264aa6792f3ebc74643bab4c1adf1307d00ae0"
 }
