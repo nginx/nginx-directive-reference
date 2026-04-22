@@ -113,6 +113,22 @@
           "description_html": "<p>Specifies the ACME challenge type to be used for the issuer.</p>\n\n<p>Accepted values:</p>\n\n<ul>\n<li><code>http-01</code> (<code>http</code>)</li>\n<li><code>tls-alpn-01</code> (<code>tls-alpn</code>)</li>\n</ul>\n\n<blockquote>\n<p>ACME challenges are versioned.\nIf an unversioned name is specified,\nthe module automatically selects the latest implemented version.</p>\n</blockquote>\n"
         },
         {
+          "name": "common_name_in_csr",
+          "default": "off",
+          "contexts": [
+            "acme_issuer"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "If enabled, sets the Subject Common Name in the certificate request\nto the first DNS name or the first IP address provided.\n\n> Enabling this option may result in rejected certificate requests.\n\n> Prior to version 0.4.0, the Subject Common Name was always set.",
+          "description_html": "<p>If enabled, sets the Subject Common Name in the certificate request\nto the first DNS name or the first IP address provided.</p>\n\n<blockquote>\n<p>Enabling this option may result in rejected certificate requests.</p>\n\n<p>Prior to version 0.4.0, the Subject Common Name was always set.</p>\n</blockquote>\n"
+        },
+        {
           "name": "contact",
           "default": "",
           "contexts": [
@@ -1296,8 +1312,8 @@
             "<p><em><code>string</code></em> &hellip;</p>\n"
           ],
           "isBlock": false,
-          "description_md": "Defines conditions under which\nthe 103 (Early Hints) response\nwill be passed to a client.\nIf at least one value of the string parameters is not empty and is not\nequal to “0” then the response will be passed:\n```\nmap $http_sec_fetch_mode $early_hints {\n    navigate $http2$http3;\n}\n\nserver {\n    ...\n    location / {\n        early_hints $early_hints;\n        proxy_pass http://example.com;\n    }\n}\n```",
-          "description_html": "<p>Defines conditions under which\nthe 103 (Early Hints) response\nwill be passed to a client.\nIf at least one value of the string parameters is not empty and is not\nequal to “0” then the response will be passed:</p>\n\n<pre><code>map $http_sec_fetch_mode $early_hints {\n    navigate $http2$http3;\n}\n\nserver {\n    ...\n    location / {\n        early_hints $early_hints;\n        proxy_pass http://example.com;\n    }\n}\n</code></pre>\n"
+          "description_md": "Defines conditions under which\nthe 103 (Early Hints) response\nwill be passed to a client.\nIf at least one value of the string parameters is not empty and is not\nequal to “0” then the response will be passed:\n```\nmap $http_sec_fetch_mode $early_hints {\n    navigate $http2$http3;\n}\n\nserver {\n    ...\n    location / {\n        early_hints $early_hints;\n        proxy_pass http://example.com;\n    }\n}\n```\n\n> 103 (Early Hints) responses received from\n> an upstream server are passed to a client as is, without interpretation.",
+          "description_html": "<p>Defines conditions under which\nthe 103 (Early Hints) response\nwill be passed to a client.\nIf at least one value of the string parameters is not empty and is not\nequal to “0” then the response will be passed:</p>\n\n<pre><code>map $http_sec_fetch_mode $early_hints {\n    navigate $http2$http3;\n}\n\nserver {\n    ...\n    location / {\n        early_hints $early_hints;\n        proxy_pass http://example.com;\n    }\n}\n</code></pre>\n\n<blockquote>\n<p>103 (Early Hints) responses received from\nan upstream server are passed to a client as is, without interpretation.</p>\n</blockquote>\n"
         },
         {
           "name": "error_page",
@@ -16527,6 +16543,23 @@
           "description_html": "<p>Enables the SSL/TLS protocol for connections to a proxied server.</p>\n"
         },
         {
+          "name": "proxy_ssl_alpn",
+          "default": "",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "*`protocol`* ..."
+          ],
+          "syntax_html": [
+            "<p><em><code>protocol</code></em> &hellip;</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies the list of protocols to advertise via the\n[ALPN](https://datatracker.ietf.org/doc/html/rfc7301)\nextension when establishing a connection with the proxied server.\nFor example:\n```\nproxy_ssl_alpn h2 http/1.1;\n```\n\nParameter value can contain variables:\n```\nproxy_ssl_alpn $ssl_alpn_protocol;\n```",
+          "description_html": "<p>Specifies the list of protocols to advertise via the\n<a href=\"https://datatracker.ietf.org/doc/html/rfc7301\" target=\"_blank\">ALPN</a>\nextension when establishing a connection with the proxied server.\nFor example:</p>\n\n<pre><code>proxy_ssl_alpn h2 http/1.1;\n</code></pre>\n\n<p>Parameter value can contain variables:</p>\n\n<pre><code>proxy_ssl_alpn $ssl_alpn_protocol;\n</code></pre>\n"
+        },
+        {
           "name": "proxy_ssl_certificate",
           "default": "",
           "contexts": [
@@ -18249,5 +18282,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/e6fc4e9b87c7e0a1d19edb990debc02f149d74c3"
+  "version": "https://github.com/nginx/nginx.org/commit/8f2da0ef8bfda59176ce68e1f2ac94e27a5ce12a"
 }
