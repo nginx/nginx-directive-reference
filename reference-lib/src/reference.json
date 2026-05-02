@@ -20,8 +20,8 @@
             "<p><em><code>address</code></em> | <em><code>CIDR</code></em> | <code>unix:</code> | <code>all</code></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Allows access for the specified network or address.\nIf the special value `unix:` is specified (1.5.1),\nallows access for all UNIX-domain sockets.",
-          "description_html": "<p>Allows access for the specified network or address.\nIf the special value <code>unix:</code> is specified (1.5.1),\nallows access for all UNIX-domain sockets.</p>\n"
+          "description_md": "Allows access for the specified network or address.\nIf the special value `unix:` is specified (1.5.1),\nallows access for all UNIX-domain sockets.\n\nSeveral `allow` directives can be specified on the same level.\nThese directives are inherited from the previous configuration level\nif and only if there are no `allow` and\n`deny` directives defined on the current level.",
+          "description_html": "<p>Allows access for the specified network or address.\nIf the special value <code>unix:</code> is specified (1.5.1),\nallows access for all UNIX-domain sockets.</p>\n\n<p>Several <code>allow</code> directives can be specified on the same level.\nThese directives are inherited from the previous configuration level\nif and only if there are no <code>allow</code> and\n<code>deny</code> directives defined on the current level.</p>\n"
         },
         {
           "name": "deny",
@@ -39,8 +39,8 @@
             "<p><em><code>address</code></em> | <em><code>CIDR</code></em> | <code>unix:</code> | <code>all</code></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Denies access for the specified network or address.\nIf the special value `unix:` is specified (1.5.1),\ndenies access for all UNIX-domain sockets.",
-          "description_html": "<p>Denies access for the specified network or address.\nIf the special value <code>unix:</code> is specified (1.5.1),\ndenies access for all UNIX-domain sockets.</p>\n"
+          "description_md": "Denies access for the specified network or address.\nIf the special value `unix:` is specified (1.5.1),\ndenies access for all UNIX-domain sockets.\n\nSeveral `deny` directives can be specified on the same level.\nThese directives are inherited from the previous configuration level\nif and only if there are no `allow` and\n`deny` directives defined on the current level.",
+          "description_html": "<p>Denies access for the specified network or address.\nIf the special value <code>unix:</code> is specified (1.5.1),\ndenies access for all UNIX-domain sockets.</p>\n\n<p>Several <code>deny</code> directives can be specified on the same level.\nThese directives are inherited from the previous configuration level\nif and only if there are no <code>allow</code> and\n<code>deny</code> directives defined on the current level.</p>\n"
         }
       ]
     },
@@ -18282,5 +18282,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/8f2da0ef8bfda59176ce68e1f2ac94e27a5ce12a"
+  "version": "https://github.com/nginx/nginx.org/commit/6a58437a2913713404d4e4f92a28d3a45f2676b6"
 }
