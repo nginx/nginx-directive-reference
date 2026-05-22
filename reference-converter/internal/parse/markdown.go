@@ -188,7 +188,7 @@ func (n *note) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 		if len(line) == 0 {
 			continue
 		}
-		sb.WriteString(fmt.Sprintf("> %s\n", line))
+		fmt.Fprintf(&sb, "> %s\n", line)
 	}
 	*n = note{content: sb.String()}
 	return nil

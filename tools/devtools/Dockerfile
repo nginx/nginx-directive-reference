@@ -1,4 +1,4 @@
-ARG GO_VERSION=1.25
+ARG GO_VERSION=1.26
 ARG NODE_VERSION=24
 ARG BASE_IMG=docker.io/library/node:${NODE_VERSION}-trixie
 
@@ -6,12 +6,12 @@ FROM docker.io/library/golang:${GO_VERSION}-trixie AS golang
 ARG GO_JUNIT_REPORT_VERSION=latest
 ARG GOPLS_VERSION=latest
 ARG DELVE_VERSION=latest
-ARG GOLANGCI_LINT_VERSION=2.7.2
+ARG GOLANGCI_LINT_VERSION=2.12.2
 
 RUN go install github.com/jstemmer/go-junit-report/v2@${GO_JUNIT_REPORT_VERSION} \
     && go install -v golang.org/x/tools/gopls@${GOPLS_VERSION} \
     && go install github.com/go-delve/delve/cmd/dlv@${DELVE_VERSION} \
-    && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v${GOLANGCI_LINT_VERSION}
+    && curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin v${GOLANGCI_LINT_VERSION}
 
 FROM $BASE_IMG
 
