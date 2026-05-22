@@ -1,0 +1,31 @@
+name: Tag when we merge a new reference-lib/package.json version
+
+on:
+  push:
+    branches: ['main']
+    paths: ['reference-lib/**']
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    working-directory: ./reference-lib
+    shell: bash
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - name: Tag release if version not yet tagged
+        run: |
+          VERSION=v$(node -p 'require("./package.json").version')
+          if git ls-remote --exit-code --tags origin "refs/tags/$VERSION" >/dev/null 2>&1; then
+            echo "Tag $VERSION already exists, skipping"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git tag -a "$VERSION" -m "Release $VERSION"
+          git push origin "$VERSION"
