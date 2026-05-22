@@ -105,7 +105,7 @@ func testArticleFile(path, name string) tarball.File {
 
 	return tarball.File{
 		Name:     path,
-		Contents: []byte(fmt.Sprintf(tmpl, link, name)),
+		Contents: fmt.Appendf(nil, tmpl, link, name),
 	}
 }
 
