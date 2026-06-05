@@ -57,7 +57,6 @@ func TestLink_ToMarkdown(t *testing.T) {
 		},
 	}
 	for name, tc := range testcases {
-		tc := tc
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			files := append(pages, testModuleFile(t, withContent(tc.XML)))

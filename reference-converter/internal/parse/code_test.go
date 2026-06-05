@@ -23,7 +23,6 @@ func TestCodeBlocks(t *testing.T) {
 		"value":   {XML: `<value>val</value>`, want: "*`val`*"},
 	}
 	for name, tc := range testcases {
-		tc := tc
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 
@@ -32,7 +31,7 @@ func TestCodeBlocks(t *testing.T) {
 			}
 
 			var d doc
-			err := xml.Unmarshal([]byte(fmt.Sprintf("<doc><para>%s</para></doc>", tc.XML)), &d)
+			err := xml.Unmarshal(fmt.Appendf(nil, "<doc><para>%s</para></doc>", tc.XML), &d)
 			require.NoError(t, err)
 
 			got := d.Got.ToMarkdown()

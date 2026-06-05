@@ -184,11 +184,11 @@ func (n *note) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	}
 	// add a '>' prefix to each line
 	var sb strings.Builder
-	for _, line := range strings.Split(content, "\n") {
+	for line := range strings.SplitSeq(content, "\n") {
 		if len(line) == 0 {
 			continue
 		}
-		sb.WriteString(fmt.Sprintf("> %s\n", line))
+		fmt.Fprintf(&sb, "> %s\n", line)
 	}
 	*n = note{content: sb.String()}
 	return nil

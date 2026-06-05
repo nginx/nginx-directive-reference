@@ -83,7 +83,6 @@ func TestParse(t *testing.T) {
 		},
 	}
 	for name, tc := range testcases {
-		tc := tc
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			f := readTestFile(t, tc.filename)
