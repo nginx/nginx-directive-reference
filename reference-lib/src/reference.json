@@ -3736,6 +3736,42 @@
           "description_html": "<p>Configures the “TCP keepalive” behavior\nfor outgoing connections to a FastCGI server.\nBy default, the operating system’s settings are in effect for the socket.\nIf the directive is set to the value “<code>on</code>”, the\n<code>SO_KEEPALIVE</code> socket option is turned on for the socket.</p>\n"
         },
         {
+          "name": "fastcgi_socket_rcvbuf",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the receive buffer size\n(the `SO_RCVBUF` option)\nfor outgoing connections to a FastCGI server.\nThe special value `0` cancels the effect\nof the `fastcgi_socket_rcvbuf` directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.",
+          "description_html": "<p>Sets the receive buffer size\n(the <code>SO_RCVBUF</code> option)\nfor outgoing connections to a FastCGI server.\nThe special value <code>0</code> cancels the effect\nof the <code>fastcgi_socket_rcvbuf</code> directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.</p>\n"
+        },
+        {
+          "name": "fastcgi_socket_sndbuf",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the send buffer size\n(the `SO_SNDBUF` option)\nfor outgoing connections to a FastCGI server.\nThe special value `0` cancels the effect\nof the `fastcgi_socket_sndbuf` directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.",
+          "description_html": "<p>Sets the send buffer size\n(the <code>SO_SNDBUF</code> option)\nfor outgoing connections to a FastCGI server.\nThe special value <code>0</code> cancels the effect\nof the <code>fastcgi_socket_sndbuf</code> directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.</p>\n"
+        },
+        {
           "name": "fastcgi_split_path_info",
           "default": "",
           "contexts": [
@@ -4293,6 +4329,42 @@
           "isBlock": false,
           "description_md": "Configures the “TCP keepalive” behavior\nfor outgoing connections to a gRPC server.\nBy default, the operating system’s settings are in effect for the socket.\nIf the directive is set to the value “`on`”, the\n`SO_KEEPALIVE` socket option is turned on for the socket.",
           "description_html": "<p>Configures the “TCP keepalive” behavior\nfor outgoing connections to a gRPC server.\nBy default, the operating system’s settings are in effect for the socket.\nIf the directive is set to the value “<code>on</code>”, the\n<code>SO_KEEPALIVE</code> socket option is turned on for the socket.</p>\n"
+        },
+        {
+          "name": "grpc_socket_rcvbuf",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the receive buffer size\n(the `SO_RCVBUF` option)\nfor outgoing connections to a gRPC server.\nThe special value `0` cancels the effect\nof the `grpc_socket_rcvbuf` directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.",
+          "description_html": "<p>Sets the receive buffer size\n(the <code>SO_RCVBUF</code> option)\nfor outgoing connections to a gRPC server.\nThe special value <code>0</code> cancels the effect\nof the <code>grpc_socket_rcvbuf</code> directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.</p>\n"
+        },
+        {
+          "name": "grpc_socket_sndbuf",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the send buffer size\n(the `SO_SNDBUF` option)\nfor outgoing connections to a gRPC server.\nThe special value `0` cancels the effect\nof the `grpc_socket_sndbuf` directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.",
+          "description_html": "<p>Sets the send buffer size\n(the <code>SO_SNDBUF</code> option)\nfor outgoing connections to a gRPC server.\nThe special value <code>0</code> cancels the effect\nof the <code>grpc_socket_sndbuf</code> directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.</p>\n"
         },
         {
           "name": "grpc_ssl_certificate",
@@ -7950,6 +8022,42 @@
           "description_html": "<p>Configures the “TCP keepalive” behavior\nfor outgoing connections to a proxied server.\nBy default, the operating system’s settings are in effect for the socket.\nIf the directive is set to the value “<code>on</code>”, the\n<code>SO_KEEPALIVE</code> socket option is turned on for the socket.</p>\n"
         },
         {
+          "name": "proxy_socket_rcvbuf",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the receive buffer size\n(the `SO_RCVBUF` option)\nfor outgoing connections to a proxied server.\nThe special value `0` cancels the effect\nof the `proxy_socket_rcvbuf` directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.",
+          "description_html": "<p>Sets the receive buffer size\n(the <code>SO_RCVBUF</code> option)\nfor outgoing connections to a proxied server.\nThe special value <code>0</code> cancels the effect\nof the <code>proxy_socket_rcvbuf</code> directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.</p>\n"
+        },
+        {
+          "name": "proxy_socket_sndbuf",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the send buffer size\n(the `SO_SNDBUF` option)\nfor outgoing connections to a proxied server.\nThe special value `0` cancels the effect\nof the `proxy_socket_sndbuf` directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.",
+          "description_html": "<p>Sets the send buffer size\n(the <code>SO_SNDBUF</code> option)\nfor outgoing connections to a proxied server.\nThe special value <code>0</code> cancels the effect\nof the <code>proxy_socket_sndbuf</code> directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.</p>\n"
+        },
+        {
           "name": "proxy_ssl_certificate",
           "default": "",
           "contexts": [
@@ -9401,6 +9509,42 @@
           "description_html": "<p>Configures the “TCP keepalive” behavior\nfor outgoing connections to an SCGI server.\nBy default, the operating system’s settings are in effect for the socket.\nIf the directive is set to the value “<code>on</code>”, the\n<code>SO_KEEPALIVE</code> socket option is turned on for the socket.</p>\n"
         },
         {
+          "name": "scgi_socket_rcvbuf",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the receive buffer size\n(the `SO_RCVBUF` option)\nfor outgoing connections to an SCGI server.\nThe special value `0` cancels the effect\nof the `scgi_socket_rcvbuf` directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.",
+          "description_html": "<p>Sets the receive buffer size\n(the <code>SO_RCVBUF</code> option)\nfor outgoing connections to an SCGI server.\nThe special value <code>0</code> cancels the effect\nof the <code>scgi_socket_rcvbuf</code> directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.</p>\n"
+        },
+        {
+          "name": "scgi_socket_sndbuf",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the send buffer size\n(the `SO_SNDBUF` option)\nfor outgoing connections to an SCGI server.\nThe special value `0` cancels the effect\nof the `scgi_socket_sndbuf` directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.",
+          "description_html": "<p>Sets the send buffer size\n(the <code>SO_SNDBUF</code> option)\nfor outgoing connections to an SCGI server.\nThe special value <code>0</code> cancels the effect\nof the <code>scgi_socket_sndbuf</code> directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.</p>\n"
+        },
+        {
           "name": "scgi_store",
           "default": "off",
           "contexts": [
@@ -10495,6 +10639,11 @@
           "name": "$ssl_sigalg",
           "description_md": "returns the\n[signature algorithm](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16)\nfor the server certificate for an established SSL connection (1.29.3).\n> The variable is supported only when using OpenSSL version 3.5 or higher.\n> With older versions, the variable value will be an empty string.\n\n> The variable is available only for new sessions.",
           "description_html": "<p>returns the\n<a href=\"https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16\" target=\"_blank\">signature algorithm</a>\nfor the server certificate for an established SSL connection (1.29.3).</p>\n\n<blockquote>\n<p>The variable is supported only when using OpenSSL version 3.5 or higher.\nWith older versions, the variable value will be an empty string.</p>\n\n<p>The variable is available only for new sessions.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "$ssl_sigalgs",
+          "description_md": "returns the list of\n[signature algorithms](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16)\nsupported by the client (1.31.2).\nKnown values are listed by names, unknown are shown in hexadecimal,\nfor example:\n```\n0xfe00:rsa_pkcs1_sha256:rsa_pss_rsae_sha256:ecdsa_secp256r1_sha256\n```\n> The variable is fully supported only when using OpenSSL version 4.0 or higher.\n> For OpenSSL versions 1.0.2+, the values are always shown in hexadecimal.\n> With older versions, the variable value will be an empty string.\n\n> The variable is available only for new sessions.",
+          "description_html": "<p>returns the list of\n<a href=\"https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16\" target=\"_blank\">signature algorithms</a>\nsupported by the client (1.31.2).\nKnown values are listed by names, unknown are shown in hexadecimal,\nfor example:</p>\n\n<pre><code>0xfe00:rsa_pkcs1_sha256:rsa_pss_rsae_sha256:ecdsa_secp256r1_sha256\n</code></pre>\n\n<blockquote>\n<p>The variable is fully supported only when using OpenSSL version 4.0 or higher.\nFor OpenSSL versions 1.0.2+, the values are always shown in hexadecimal.\nWith older versions, the variable value will be an empty string.</p>\n\n<p>The variable is available only for new sessions.</p>\n</blockquote>\n"
         }
       ]
     },
@@ -10916,6 +11065,42 @@
           "isBlock": false,
           "description_md": "Configures the “TCP keepalive” behavior\nfor outgoing connections to a backend server.\nBy default, the operating system’s settings are in effect for the socket.\nIf the directive is set to the value “`on`”, the\n`SO_KEEPALIVE` socket option is turned on for the socket.",
           "description_html": "<p>Configures the “TCP keepalive” behavior\nfor outgoing connections to a backend server.\nBy default, the operating system’s settings are in effect for the socket.\nIf the directive is set to the value “<code>on</code>”, the\n<code>SO_KEEPALIVE</code> socket option is turned on for the socket.</p>\n"
+        },
+        {
+          "name": "tunnel_socket_rcvbuf",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the receive buffer size\n(the `SO_RCVBUF` option)\nfor outgoing connections to a backend server.\nThe special value `0` cancels the effect\nof the `tunnel_socket_rcvbuf` directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.",
+          "description_html": "<p>Sets the receive buffer size\n(the <code>SO_RCVBUF</code> option)\nfor outgoing connections to a backend server.\nThe special value <code>0</code> cancels the effect\nof the <code>tunnel_socket_rcvbuf</code> directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.</p>\n"
+        },
+        {
+          "name": "tunnel_socket_sndbuf",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the send buffer size\n(the `SO_SNDBUF` option)\nfor outgoing connections to a backend server.\nThe special value `0` cancels the effect\nof the `tunnel_socket_sndbuf` directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.",
+          "description_html": "<p>Sets the send buffer size\n(the <code>SO_SNDBUF</code> option)\nfor outgoing connections to a backend server.\nThe special value <code>0</code> cancels the effect\nof the <code>tunnel_socket_sndbuf</code> directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.</p>\n"
         }
       ]
     },
@@ -12369,6 +12554,42 @@
           "description_html": "<p>Configures the “TCP keepalive” behavior\nfor outgoing connections to a uwsgi server.\nBy default, the operating system’s settings are in effect for the socket.\nIf the directive is set to the value “<code>on</code>”, the\n<code>SO_KEEPALIVE</code> socket option is turned on for the socket.</p>\n"
         },
         {
+          "name": "uwsgi_socket_rcvbuf",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the receive buffer size\n(the `SO_RCVBUF` option)\nfor outgoing connections to a uwsgi server.\nThe special value `0` cancels the effect\nof the `uwsgi_socket_rcvbuf` directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.",
+          "description_html": "<p>Sets the receive buffer size\n(the <code>SO_RCVBUF</code> option)\nfor outgoing connections to a uwsgi server.\nThe special value <code>0</code> cancels the effect\nof the <code>uwsgi_socket_rcvbuf</code> directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.</p>\n"
+        },
+        {
+          "name": "uwsgi_socket_sndbuf",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the send buffer size\n(the `SO_SNDBUF` option)\nfor outgoing connections to a uwsgi server.\nThe special value `0` cancels the effect\nof the `uwsgi_socket_sndbuf` directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.",
+          "description_html": "<p>Sets the send buffer size\n(the <code>SO_SNDBUF</code> option)\nfor outgoing connections to a uwsgi server.\nThe special value <code>0</code> cancels the effect\nof the <code>uwsgi_socket_sndbuf</code> directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.</p>\n"
+        },
+        {
           "name": "uwsgi_ssl_certificate",
           "default": "",
           "contexts": [
@@ -13136,6 +13357,24 @@
           "isBlock": false,
           "description_md": "Specifies the DTD file that declares character entities.\nThis file is compiled at the configuration stage.\nFor technical reasons, the module is unable to use the\nexternal subset declared in the processed XML, so it is\nignored and a specially defined file is used instead.\nThis file should not describe the XML structure.\nIt is enough to declare just the required character entities, for example:\n```\n<!ENTITY nbsp \"&#xa0;\">\n```",
           "description_html": "<p>Specifies the DTD file that declares character entities.\nThis file is compiled at the configuration stage.\nFor technical reasons, the module is unable to use the\nexternal subset declared in the processed XML, so it is\nignored and a specially defined file is used instead.\nThis file should not describe the XML structure.\nIt is enough to declare just the required character entities, for example:</p>\n\n<pre><code>&lt;!ENTITY nbsp &quot;&amp;#xa0;&quot;&gt;\n</code></pre>\n"
+        },
+        {
+          "name": "xml_external_entities",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables or disables loading of external entities declared in the\ninternal DTD subset of the processed XML.\nOnly loading of file-based external entities is supported.\n> To prevent reading arbitrary local files accessible to the worker\n> process, it is recommended to enable external entities only when the\n> processed XML is trusted.",
+          "description_html": "<p>Enables or disables loading of external entities declared in the\ninternal DTD subset of the processed XML.\nOnly loading of file-based external entities is supported.</p>\n\n<blockquote>\n<p>To prevent reading arbitrary local files accessible to the worker\nprocess, it is recommended to enable external entities only when the\nprocessed XML is trusted.</p>\n</blockquote>\n"
         },
         {
           "name": "xslt_last_modified",
@@ -16572,6 +16811,40 @@
           "description_html": "<p>Configures the “TCP keepalive” behavior\nfor outgoing connections to a proxied server.\nBy default, the operating system’s settings are in effect for the socket.\nIf the directive is set to the value “<code>on</code>”, the\n<code>SO_KEEPALIVE</code> socket option is turned on for the socket.</p>\n"
         },
         {
+          "name": "proxy_socket_rcvbuf",
+          "default": "",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the receive buffer size\n(the `SO_RCVBUF` option)\nfor outgoing connections to a proxied server.\nThe special value `0` cancels the effect\nof the `proxy_socket_rcvbuf` directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.",
+          "description_html": "<p>Sets the receive buffer size\n(the <code>SO_RCVBUF</code> option)\nfor outgoing connections to a proxied server.\nThe special value <code>0</code> cancels the effect\nof the <code>proxy_socket_rcvbuf</code> directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.</p>\n"
+        },
+        {
+          "name": "proxy_socket_sndbuf",
+          "default": "",
+          "contexts": [
+            "stream",
+            "server"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the send buffer size\n(the `SO_SNDBUF` option)\nfor outgoing connections to a proxied server.\nThe special value `0` cancels the effect\nof the `proxy_socket_sndbuf` directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.",
+          "description_html": "<p>Sets the send buffer size\n(the <code>SO_SNDBUF</code> option)\nfor outgoing connections to a proxied server.\nThe special value <code>0</code> cancels the effect\nof the <code>proxy_socket_sndbuf</code> directive\ninherited from the previous configuration level, which allows\nkeeping the operating system’s settings in effect for the socket.</p>\n"
+        },
+        {
           "name": "proxy_ssl",
           "default": "off",
           "contexts": [
@@ -17665,6 +17938,11 @@
           "name": "$ssl_sigalg",
           "description_md": "returns the\n[signature algorithm](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16)\nfor the server certificate for an established SSL connection (1.29.3).\n> The variable is supported only when using OpenSSL version 3.5 or higher.\n> With older versions, the variable value will be an empty string.\n\n> The variable is available only for new sessions.",
           "description_html": "<p>returns the\n<a href=\"https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16\" target=\"_blank\">signature algorithm</a>\nfor the server certificate for an established SSL connection (1.29.3).</p>\n\n<blockquote>\n<p>The variable is supported only when using OpenSSL version 3.5 or higher.\nWith older versions, the variable value will be an empty string.</p>\n\n<p>The variable is available only for new sessions.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "$ssl_sigalgs",
+          "description_md": "returns the list of\n[signature algorithms](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16)\nsupported by the client (1.31.2).\nKnown values are listed by names, unknown are shown in hexadecimal,\nfor example:\n```\n0xfe00:rsa_pkcs1_sha256:rsa_pss_rsae_sha256:ecdsa_secp256r1_sha256\n```\n> The variable is fully supported only when using OpenSSL version 4.0 or higher.\n> For OpenSSL versions 1.0.2+, the values are always shown in hexadecimal.\n> With older versions, the variable value will be an empty string.\n\n> The variable is available only for new sessions.",
+          "description_html": "<p>returns the list of\n<a href=\"https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-16\" target=\"_blank\">signature algorithms</a>\nsupported by the client (1.31.2).\nKnown values are listed by names, unknown are shown in hexadecimal,\nfor example:</p>\n\n<pre><code>0xfe00:rsa_pkcs1_sha256:rsa_pss_rsae_sha256:ecdsa_secp256r1_sha256\n</code></pre>\n\n<blockquote>\n<p>The variable is fully supported only when using OpenSSL version 4.0 or higher.\nFor OpenSSL versions 1.0.2+, the values are always shown in hexadecimal.\nWith older versions, the variable value will be an empty string.</p>\n\n<p>The variable is available only for new sessions.</p>\n</blockquote>\n"
         }
       ]
     },
@@ -18328,5 +18606,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/9ec40995aac587bca2a01ea0c54ec869060a42fc"
+  "version": "https://github.com/nginx/nginx.org/commit/983cbcf8d01853535e2aecca981c8f130f8cc55a"
 }
