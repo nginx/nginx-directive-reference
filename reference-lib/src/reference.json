@@ -10177,8 +10177,8 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with encrypted ClientHello configuration\n(`ECHConfig`) in the\n[PEM](https://datatracker.ietf.org/doc/draft-farrell-tls-pemesni/)\nformat used to enable TLS 1.3\n[ECH](https://datatracker.ietf.org/doc/html/draft-ietf-tls-esni)\nin shared mode.\n\n> The directive is currently supported only when using OpenSSL\n> [ECH feature branch](https://github.com/openssl/openssl/tree/feature/ech).",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with encrypted ClientHello configuration\n(<code>ECHConfig</code>) in the\n<a href=\"https://datatracker.ietf.org/doc/draft-farrell-tls-pemesni/\" target=\"_blank\">PEM</a>\nformat used to enable TLS 1.3\n<a href=\"https://datatracker.ietf.org/doc/html/draft-ietf-tls-esni\" target=\"_blank\">ECH</a>\nin shared mode.</p>\n\n<blockquote>\n<p>The directive is currently supported only when using OpenSSL\n<a href=\"https://github.com/openssl/openssl/tree/feature/ech\" target=\"_blank\">ECH feature branch</a>.</p>\n</blockquote>\n"
+          "description_md": "Specifies a *`file`* with encrypted ClientHello configuration\n(`ECHConfig`) in the\n[PEM](https://datatracker.ietf.org/doc/draft-farrell-tls-pemesni/)\nformat used to enable TLS 1.3\n[ECH](https://datatracker.ietf.org/doc/html/draft-ietf-tls-esni)\nin shared mode.\n\n> The directive is supported when using OpenSSL 4.0 or higher.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with encrypted ClientHello configuration\n(<code>ECHConfig</code>) in the\n<a href=\"https://datatracker.ietf.org/doc/draft-farrell-tls-pemesni/\" target=\"_blank\">PEM</a>\nformat used to enable TLS 1.3\n<a href=\"https://datatracker.ietf.org/doc/html/draft-ietf-tls-esni\" target=\"_blank\">ECH</a>\nin shared mode.</p>\n\n<blockquote>\n<p>The directive is supported when using OpenSSL 4.0 or higher.</p>\n</blockquote>\n"
         },
         {
           "name": "ssl_key_log",
@@ -10612,8 +10612,8 @@
         },
         {
           "name": "$ssl_ech_status",
-          "description_md": "returns the result of TLS 1.3 [ECH](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_ech_file) processing:\n“`FAILED`”,\n“`BACKEND`”,\n“`GREASE`”,\n“`SUCCESS`”, or\n“`NOT_TRIED`” (1.29.4);\n> The variable is currently supported only when using OpenSSL\n> [ECH feature branch](https://github.com/openssl/openssl/tree/feature/ech)\n> and is therefore subject to change.\n> The variable value will otherwise be an empty string.",
-          "description_html": "<p>returns the result of TLS 1.3 <a href=\"https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_ech_file\" target=\"_blank\">ECH</a> processing:\n“<code>FAILED</code>”,\n“<code>BACKEND</code>”,\n“<code>GREASE</code>”,\n“<code>SUCCESS</code>”, or\n“<code>NOT_TRIED</code>” (1.29.4);</p>\n\n<blockquote>\n<p>The variable is currently supported only when using OpenSSL\n<a href=\"https://github.com/openssl/openssl/tree/feature/ech\" target=\"_blank\">ECH feature branch</a>\nand is therefore subject to change.\nThe variable value will otherwise be an empty string.</p>\n</blockquote>\n"
+          "description_md": "returns the result of TLS 1.3 [ECH](https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_ech_file) processing:\n“`FAILED`”,\n“`BACKEND`”,\n“`GREASE`”,\n“`SUCCESS`”, or\n“`NOT_TRIED`” (1.29.4);\n> The variable is supported only when using OpenSSL version 4.0 or higher.\n> With older versions, the variable value will be an empty string.",
+          "description_html": "<p>returns the result of TLS 1.3 <a href=\"https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_ech_file\" target=\"_blank\">ECH</a> processing:\n“<code>FAILED</code>”,\n“<code>BACKEND</code>”,\n“<code>GREASE</code>”,\n“<code>SUCCESS</code>”, or\n“<code>NOT_TRIED</code>” (1.29.4);</p>\n\n<blockquote>\n<p>The variable is supported only when using OpenSSL version 4.0 or higher.\nWith older versions, the variable value will be an empty string.</p>\n</blockquote>\n"
         },
         {
           "name": "$ssl_protocol",
@@ -17479,8 +17479,8 @@
             "<p><em><code>file</code></em></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Specifies a *`file`* with encrypted ClientHello configuration\n(`ECHConfig`) in the\n[PEM](https://datatracker.ietf.org/doc/draft-farrell-tls-pemesni/)\nformat used to enable TLS 1.3\n[ECH](https://datatracker.ietf.org/doc/html/draft-ietf-tls-esni)\nin shared mode.\n\n> The directive is currently supported only when using OpenSSL\n> [ECH feature branch](https://github.com/openssl/openssl/tree/feature/ech).",
-          "description_html": "<p>Specifies a <em><code>file</code></em> with encrypted ClientHello configuration\n(<code>ECHConfig</code>) in the\n<a href=\"https://datatracker.ietf.org/doc/draft-farrell-tls-pemesni/\" target=\"_blank\">PEM</a>\nformat used to enable TLS 1.3\n<a href=\"https://datatracker.ietf.org/doc/html/draft-ietf-tls-esni\" target=\"_blank\">ECH</a>\nin shared mode.</p>\n\n<blockquote>\n<p>The directive is currently supported only when using OpenSSL\n<a href=\"https://github.com/openssl/openssl/tree/feature/ech\" target=\"_blank\">ECH feature branch</a>.</p>\n</blockquote>\n"
+          "description_md": "Specifies a *`file`* with encrypted ClientHello configuration\n(`ECHConfig`) in the\n[PEM](https://datatracker.ietf.org/doc/draft-farrell-tls-pemesni/)\nformat used to enable TLS 1.3\n[ECH](https://datatracker.ietf.org/doc/html/draft-ietf-tls-esni)\nin shared mode.\n\n> The directive is supported when using OpenSSL 4.0 or higher.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with encrypted ClientHello configuration\n(<code>ECHConfig</code>) in the\n<a href=\"https://datatracker.ietf.org/doc/draft-farrell-tls-pemesni/\" target=\"_blank\">PEM</a>\nformat used to enable TLS 1.3\n<a href=\"https://datatracker.ietf.org/doc/html/draft-ietf-tls-esni\" target=\"_blank\">ECH</a>\nin shared mode.</p>\n\n<blockquote>\n<p>The directive is supported when using OpenSSL 4.0 or higher.</p>\n</blockquote>\n"
         },
         {
           "name": "ssl_handshake_timeout",
@@ -17911,8 +17911,8 @@
         },
         {
           "name": "$ssl_ech_status",
-          "description_md": "returns the result of TLS 1.3 [ECH](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_ech_file) processing:\n“`FAILED`”,\n“`BACKEND`”,\n“`GREASE`”,\n“`SUCCESS`”, or\n“`NOT_TRIED`” (1.29.4);\n> The variable is currently supported only when using OpenSSL\n> [ECH feature branch](https://github.com/openssl/openssl/tree/feature/ech)\n> and is therefore subject to change.\n> The variable value will otherwise be an empty string.",
-          "description_html": "<p>returns the result of TLS 1.3 <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_ech_file\" target=\"_blank\">ECH</a> processing:\n“<code>FAILED</code>”,\n“<code>BACKEND</code>”,\n“<code>GREASE</code>”,\n“<code>SUCCESS</code>”, or\n“<code>NOT_TRIED</code>” (1.29.4);</p>\n\n<blockquote>\n<p>The variable is currently supported only when using OpenSSL\n<a href=\"https://github.com/openssl/openssl/tree/feature/ech\" target=\"_blank\">ECH feature branch</a>\nand is therefore subject to change.\nThe variable value will otherwise be an empty string.</p>\n</blockquote>\n"
+          "description_md": "returns the result of TLS 1.3 [ECH](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_ech_file) processing:\n“`FAILED`”,\n“`BACKEND`”,\n“`GREASE`”,\n“`SUCCESS`”, or\n“`NOT_TRIED`” (1.29.4);\n> The variable is supported only when using OpenSSL version 4.0 or higher.\n> With older versions, the variable value will be an empty string.",
+          "description_html": "<p>returns the result of TLS 1.3 <a href=\"https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_ech_file\" target=\"_blank\">ECH</a> processing:\n“<code>FAILED</code>”,\n“<code>BACKEND</code>”,\n“<code>GREASE</code>”,\n“<code>SUCCESS</code>”, or\n“<code>NOT_TRIED</code>” (1.29.4);</p>\n\n<blockquote>\n<p>The variable is supported only when using OpenSSL version 4.0 or higher.\nWith older versions, the variable value will be an empty string.</p>\n</blockquote>\n"
         },
         {
           "name": "$ssl_protocol",
@@ -18606,5 +18606,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/983cbcf8d01853535e2aecca981c8f130f8cc55a"
+  "version": "https://github.com/nginx/nginx.org/commit/15e79206feaf2d5efb75837699ca73837c18320d"
 }
