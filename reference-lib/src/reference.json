@@ -13840,14 +13840,14 @@
             "server"
           ],
           "syntax_md": [
-            "`on` | `off`"
+            "`on` | `off` | `v2`"
           ],
           "syntax_html": [
-            "<p><code>on</code> | <code>off</code></p>\n"
+            "<p><code>on</code> | <code>off</code> | <code>v2</code></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Enables the\n[PROXY protocol](http://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) for connections to a backend.",
-          "description_html": "<p>Enables the\n<a href=\"http://www.haproxy.org/download/1.8/doc/proxy-protocol.txt\" target=\"_blank\">PROXY protocol</a> for connections to a backend.</p>\n"
+          "description_md": "Enables the\n[PROXY protocol](http://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) for connections to a backend.\nThe `on` parameter enables\nversion 1 of the PROXY protocol (text format).\nThe `v2` parameter (1.31.4) enables\nversion 2 of the PROXY protocol (binary format).",
+          "description_html": "<p>Enables the\n<a href=\"http://www.haproxy.org/download/1.8/doc/proxy-protocol.txt\" target=\"_blank\">PROXY protocol</a> for connections to a backend.\nThe <code>on</code> parameter enables\nversion 1 of the PROXY protocol (text format).\nThe <code>v2</code> parameter (1.31.4) enables\nversion 2 of the PROXY protocol (binary format).</p>\n"
         },
         {
           "name": "proxy_smtp_auth",
@@ -16733,14 +16733,14 @@
             "server"
           ],
           "syntax_md": [
-            "`on` | `off`"
+            "`on` | `off` | `v2`"
           ],
           "syntax_html": [
-            "<p><code>on</code> | <code>off</code></p>\n"
+            "<p><code>on</code> | <code>off</code> | <code>v2</code></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Enables the\n[PROXY protocol](http://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) for connections to a proxied server.",
-          "description_html": "<p>Enables the\n<a href=\"http://www.haproxy.org/download/1.8/doc/proxy-protocol.txt\" target=\"_blank\">PROXY protocol</a> for connections to a proxied server.</p>\n"
+          "description_md": "Enables the\n[PROXY protocol](http://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) for connections to a proxied server.\nThe `on` parameter enables\nversion 1 of the PROXY protocol (text format).\nThe `v2` parameter (1.31.4) enables\nversion 2 of the PROXY protocol (binary format).",
+          "description_html": "<p>Enables the\n<a href=\"http://www.haproxy.org/download/1.8/doc/proxy-protocol.txt\" target=\"_blank\">PROXY protocol</a> for connections to a proxied server.\nThe <code>on</code> parameter enables\nversion 1 of the PROXY protocol (text format).\nThe <code>v2</code> parameter (1.31.4) enables\nversion 2 of the PROXY protocol (binary format).</p>\n"
         },
         {
           "name": "proxy_requests",
@@ -18606,5 +18606,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/213a91650b94471534a0bb006338f884fa4ebae6"
+  "version": "https://github.com/nginx/nginx.org/commit/6d4ca3fd06377e6c0754e384075ed943d08fb622"
 }
