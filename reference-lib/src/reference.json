@@ -2828,6 +2828,585 @@
       ]
     },
     {
+      "id": "/en/docs/http/ngx_http_db_module.html",
+      "name": "ngx_http_db_module",
+      "directives": [
+        {
+          "name": "db_auth",
+          "default": "",
+          "contexts": [
+            "location",
+            "if in location"
+          ],
+          "syntax_md": [
+            "*`string`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>string</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies the password string\nused to authenticate connections to a database server.\nAn empty value disables authentication.\nAuthentication with a separate username and password arguments\nis not supported.\n```\nlocation /db/ {\n    db_pass redis_backend;\n    db_auth secret;\n    db_get  $arg_key;\n}\n```\n\nFor the Redis backend, the password is passed as a single argument\nto the `AUTH` command.\n\nThe directive is inherited from the previous configuration level\nif and only if there are no `db_auth` directives\ndefined on the current level.\n\nTo protect the password, enable SSL/TLS connections to the database server\nusing the [`db_ssl`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl) directive.",
+          "description_html": "<p>Specifies the password string\nused to authenticate connections to a database server.\nAn empty value disables authentication.\nAuthentication with a separate username and password arguments\nis not supported.</p>\n\n<pre><code>location /db/ {\n    db_pass redis_backend;\n    db_auth secret;\n    db_get  $arg_key;\n}\n</code></pre>\n\n<p>For the Redis backend, the password is passed as a single argument\nto the <code>AUTH</code> command.</p>\n\n<p>The directive is inherited from the previous configuration level\nif and only if there are no <code>db_auth</code> directives\ndefined on the current level.</p>\n\n<p>To protect the password, enable SSL/TLS connections to the database server\nusing the <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl\" target=\"_blank\"><code>db_ssl</code></a> directive.</p>\n"
+        },
+        {
+          "name": "db_bind",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`address`* [`transparent`] | `off`"
+          ],
+          "syntax_html": [
+            "<p><em><code>address</code></em> [<code>transparent</code>] | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Makes outgoing connections to a database server originate\nfrom the specified local IP address with an optional port.\nParameter value can contain variables.\nThe special value `off` cancels the effect\nof the `db_bind` directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.\nExample:\n```\ndb_bind $server_addr;\n```\n\nThe `transparent` parameter allows\noutgoing connections to a database server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:\n```\ndb_bind $remote_addr transparent;\n```\nIn order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n[superuser](https://nginx.org/en/docs/ngx_core_module.html#user) privileges.\nOn Linux it is not required as if\nthe `transparent` parameter is specified, worker processes\ninherit the `CAP_NET_RAW` capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the database server.",
+          "description_html": "<p>Makes outgoing connections to a database server originate\nfrom the specified local IP address with an optional port.\nParameter value can contain variables.\nThe special value <code>off</code> cancels the effect\nof the <code>db_bind</code> directive\ninherited from the previous configuration level, which allows the\nsystem to auto-assign the local IP address and port.\nExample:</p>\n\n<pre><code>db_bind $server_addr;\n</code></pre>\n\n<p>The <code>transparent</code> parameter allows\noutgoing connections to a database server originate\nfrom a non-local IP address,\nfor example, from a real IP address of a client:</p>\n\n<pre><code>db_bind $remote_addr transparent;\n</code></pre>\n\n<p>In order for this parameter to work,\nit is usually necessary to run nginx worker processes with the\n<a href=\"https://nginx.org/en/docs/ngx_core_module.html#user\" target=\"_blank\">superuser</a> privileges.\nOn Linux it is not required as if\nthe <code>transparent</code> parameter is specified, worker processes\ninherit the <code>CAP_NET_RAW</code> capability from the master process.\nIt is also necessary to configure kernel routing table\nto intercept network traffic from the database server.</p>\n"
+        },
+        {
+          "name": "db_buffer_size",
+          "default": "4k|8k",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`size`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>size</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the size of the buffer used for reading the database response.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.\n\nThe buffer is also used when parsing database protocol replies.\nA protocol reply header that does not fit in the buffer\ncannot be processed successfully.\n\nDatabase response bodies are processed without upstream response buffering.",
+          "description_html": "<p>Sets the size of the buffer used for reading the database response.\nBy default, the buffer size is equal to one memory page.\nThis is either 4K or 8K, depending on a platform.\nIt can be made smaller, however.</p>\n\n<p>The buffer is also used when parsing database protocol replies.\nA protocol reply header that does not fit in the buffer\ncannot be processed successfully.</p>\n\n<p>Database response bodies are processed without upstream response buffering.</p>\n"
+        },
+        {
+          "name": "db_cache",
+          "default": "",
+          "contexts": [
+            "location",
+            "if in location"
+          ],
+          "syntax_md": [
+            "*`zone`* [`timeout`=*`time`*] [`max_size`=*`size`*] [`not_found`=`on`|`off`|*`time`*]"
+          ],
+          "syntax_html": [
+            "<p><em><code>zone</code></em> [<code>timeout</code>=<em><code>time</code></em>] [<code>max_size</code>=<em><code>size</code></em>] [<code>not_found</code>=<code>on</code>|<code>off</code>|<em><code>time</code></em>]</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables caching of database lookup results in a shared memory zone\ndefined by the\n[`keyval_zone`](https://nginx.org/en/docs/http/ngx_http_keyval_module.html#keyval_zone) directive.\nThe cache key is the value of the [`db_get`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_get) directive,\nevaluated for the current request.\nIf a cached result is found,\nit is returned without connecting to the database server.\n\nThe [`db_pass`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_pass) directive must be specified\nin the same configuration context.\n\nThe following parameters are supported:\n- `timeout`=*`time`*\n\n    sets the lifetime of cached values.\n    The parameter defaults to `0`.\n    A nonzero effective timeout should be configured using this parameter\n    or the zone's `timeout` parameter.\n    With an effective timeout of zero, entries may be removed\n    by unrelated writes to the zone.\n- `max_size`=*`size`*\n\n    sets the maximum value size eligible for caching.\n    By default, the size is `64k`.\n    Values exceeding this limit are returned to the client but are not cached.\n- `not_found`=`off` | `on` | `time`\n\n    Enables or disables caching of `not found` results.\n    By default, such results are not cached.\n    The value `on` uses the same timeout as for database values.\n    A time value specifies a separate lifetime\n    for `not found` results.\n\nFor example:\n```\nhttp {\n    keyval_zone zone=db_cache:10m timeout=1m;\n\n    upstream redis_backend {\n        db_type redis;\n        server  127.0.0.1:6379;\n    }\n\n    server {\n        location /db/ {\n            db_pass redis_backend;\n            db_get  $arg_key;\n\n            db_cache db_cache timeout=30s max_size=128k not_found=5s;\n        }\n    }\n}\n```\n\nThe evaluated [`db_get`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_get) value is used as the cache key.\nA cached value is returned without contacting the database.\nA cached missing-key result returns\n404 (Not Found)\nif missing-key caching is enabled in the current location.\nOtherwise, the database is queried.\n\nA zero-length value is a successful result and is distinct\nfrom a missing key.\nOnly complete, valid successful responses are cached,\ntogether with missing-key results when enabled.\nFailed, malformed, or incomplete responses are not cached.\n\nLocations sharing a zone must have identical\n[`db_pass`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_pass), [`db_name`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_name),\nand [`db_auth`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_auth) settings.\nA cache zone must not also be used for ordinary keyval data.\nMissing-key caching cannot be combined with the\n`not_found` parameter of\n[`db_next_upstream`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_next_upstream).\n\nA cache lookup error returns\n500 (Internal Server Error).\nFailure to insert a result into the cache does not affect the response.\n\nThe directive is inherited from the previous configuration level\nunless overridden.\n\n> The module does not provide cache invalidation or purge.\n> Database changes may remain invisible until cached entries expire\n> or are evicted.\n> Concurrent cache misses are not combined into a single database request.",
+          "description_html": "<p>Enables caching of database lookup results in a shared memory zone\ndefined by the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_keyval_module.html#keyval_zone\" target=\"_blank\"><code>keyval_zone</code></a> directive.\nThe cache key is the value of the <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_get\" target=\"_blank\"><code>db_get</code></a> directive,\nevaluated for the current request.\nIf a cached result is found,\nit is returned without connecting to the database server.</p>\n\n<p>The <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_pass\" target=\"_blank\"><code>db_pass</code></a> directive must be specified\nin the same configuration context.</p>\n\n<p>The following parameters are supported:</p>\n\n<ul>\n<li><p><code>timeout</code>=<em><code>time</code></em></p>\n\n<p>sets the lifetime of cached values.\nThe parameter defaults to <code>0</code>.\nA nonzero effective timeout should be configured using this parameter\nor the zone&rsquo;s <code>timeout</code> parameter.\nWith an effective timeout of zero, entries may be removed\nby unrelated writes to the zone.</p></li>\n\n<li><p><code>max_size</code>=<em><code>size</code></em></p>\n\n<p>sets the maximum value size eligible for caching.\nBy default, the size is <code>64k</code>.\nValues exceeding this limit are returned to the client but are not cached.</p></li>\n\n<li><p><code>not_found</code>=<code>off</code> | <code>on</code> | <code>time</code></p>\n\n<p>Enables or disables caching of <code>not found</code> results.\nBy default, such results are not cached.\nThe value <code>on</code> uses the same timeout as for database values.\nA time value specifies a separate lifetime\nfor <code>not found</code> results.</p></li>\n</ul>\n\n<p>For example:</p>\n\n<pre><code>http {\n    keyval_zone zone=db_cache:10m timeout=1m;\n\n    upstream redis_backend {\n        db_type redis;\n        server  127.0.0.1:6379;\n    }\n\n    server {\n        location /db/ {\n            db_pass redis_backend;\n            db_get  $arg_key;\n\n            db_cache db_cache timeout=30s max_size=128k not_found=5s;\n        }\n    }\n}\n</code></pre>\n\n<p>The evaluated <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_get\" target=\"_blank\"><code>db_get</code></a> value is used as the cache key.\nA cached value is returned without contacting the database.\nA cached missing-key result returns\n404 (Not Found)\nif missing-key caching is enabled in the current location.\nOtherwise, the database is queried.</p>\n\n<p>A zero-length value is a successful result and is distinct\nfrom a missing key.\nOnly complete, valid successful responses are cached,\ntogether with missing-key results when enabled.\nFailed, malformed, or incomplete responses are not cached.</p>\n\n<p>Locations sharing a zone must have identical\n<a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_pass\" target=\"_blank\"><code>db_pass</code></a>, <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_name\" target=\"_blank\"><code>db_name</code></a>,\nand <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_auth\" target=\"_blank\"><code>db_auth</code></a> settings.\nA cache zone must not also be used for ordinary keyval data.\nMissing-key caching cannot be combined with the\n<code>not_found</code> parameter of\n<a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_next_upstream\" target=\"_blank\"><code>db_next_upstream</code></a>.</p>\n\n<p>A cache lookup error returns\n500 (Internal Server Error).\nFailure to insert a result into the cache does not affect the response.</p>\n\n<p>The directive is inherited from the previous configuration level\nunless overridden.</p>\n\n<blockquote>\n<p>The module does not provide cache invalidation or purge.\nDatabase changes may remain invisible until cached entries expire\nor are evicted.\nConcurrent cache misses are not combined into a single database request.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "db_connect_timeout",
+          "default": "60s",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines a timeout for establishing a connection with a database server.\nIt should be noted that this timeout cannot usually exceed 75 seconds.",
+          "description_html": "<p>Defines a timeout for establishing a connection with a database server.\nIt should be noted that this timeout cannot usually exceed 75 seconds.</p>\n"
+        },
+        {
+          "name": "db_get",
+          "default": "",
+          "contexts": [
+            "location",
+            "if in location"
+          ],
+          "syntax_md": [
+            "*`key`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>key</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies the key to retrieve from the database.\nThe key can contain text, variables, and their combination.\nAn empty key is not allowed.\n\nFor the Redis backend, the key is passed to the `GET` command.\nA successful lookup returns the value as the response body.\n```\nupstream redis_backend {\n    db_type redis;\n    server  127.0.0.1:6379;\n}\n\nserver {\n    location /db/ {\n        db_pass redis_backend;\n        db_get  \"user:$arg_id\";\n    }\n}\n```\n\nIf caching is [enabled](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_cache),\nthe evaluated key is also used as the cache key.",
+          "description_html": "<p>Specifies the key to retrieve from the database.\nThe key can contain text, variables, and their combination.\nAn empty key is not allowed.</p>\n\n<p>For the Redis backend, the key is passed to the <code>GET</code> command.\nA successful lookup returns the value as the response body.</p>\n\n<pre><code>upstream redis_backend {\n    db_type redis;\n    server  127.0.0.1:6379;\n}\n\nserver {\n    location /db/ {\n        db_pass redis_backend;\n        db_get  &quot;user:$arg_id&quot;;\n    }\n}\n</code></pre>\n\n<p>If caching is <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_cache\" target=\"_blank\">enabled</a>,\nthe evaluated key is also used as the cache key.</p>\n"
+        },
+        {
+          "name": "db_name",
+          "default": "",
+          "contexts": [
+            "location",
+            "if in location"
+          ],
+          "syntax_md": [
+            "*`string`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>string</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the database to use for lookup requests.\n\nFor the Redis backend, the parameter specifies the database index\npassed to the `SELECT` command. \nIf the directive is not specified or its value is empty,\ndatabase `0` is used:\n```\nlocation /db/ {\n    db_pass redis_backend;\n    db_name 3;\n    db_get  $arg_key;\n}\n```",
+          "description_html": "<p>Sets the database to use for lookup requests.</p>\n\n<p>For the Redis backend, the parameter specifies the database index\npassed to the <code>SELECT</code> command.\nIf the directive is not specified or its value is empty,\ndatabase <code>0</code> is used:</p>\n\n<pre><code>location /db/ {\n    db_pass redis_backend;\n    db_name 3;\n    db_get  $arg_key;\n}\n</code></pre>\n"
+        },
+        {
+          "name": "db_next_upstream",
+          "default": "error timeout",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`error` | `timeout` | `invalid_response` | `not_found` `off` ...",
+            "`off`"
+          ],
+          "syntax_html": [
+            "<p><code>error</code> | <code>timeout</code> | <code>invalid_response</code> | <code>not_found</code> <code>off</code> &hellip;</p>\n",
+            "<p><code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies the conditions under which a request can be passed\nto the next database server:\n- `error`\n\n    an error occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `timeout`\n\n    a timeout has occurred while establishing a connection with the\n    server, passing a request to it, or reading the response header;\n- `invalid_response`\n\n    server returned an invalid response.\n    For the Redis backend, this also includes Redis error replies, such as\n    authentication failures or key-value mismatch errors;\n- `not_found`\n\n    the requested key was not found.\n    For the Redis backend, this corresponds to a nil reply\n    to the `GET` command;\n    \n    > The  parameter cannot be used when caching of\n    > `not_found` results is enabled with the\n    > [`db_cache`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_cache) directive.\n- `off`\n\n    disables passing a request to the next server.\n\nOne should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.\n\nThe directive also defines what is considered an\n[unsuccessful attempt](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails) of communication with a server.\nThe cases of `error` and `timeout`,\nare always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe case of `invalid_response` is\nconsidered an unsuccessful attempt only if it is specified in the directive.\nThe case of `not_found`\nis never considered an unsuccessful attempt.\n\nPassing a request to the next server can be limited by\n[the number of tries](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_next_upstream_tries)\nand by [time](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_next_upstream_timeout).\n\nThe `not_found` parameter cannot be combined\nwith enabled missing-key caching in [`db_cache`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_cache).",
+          "description_html": "<p>Specifies the conditions under which a request can be passed\nto the next database server:</p>\n\n<ul>\n<li><p><code>error</code></p>\n\n<p>an error occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>timeout</code></p>\n\n<p>a timeout has occurred while establishing a connection with the\nserver, passing a request to it, or reading the response header;</p></li>\n\n<li><p><code>invalid_response</code></p>\n\n<p>server returned an invalid response.\nFor the Redis backend, this also includes Redis error replies, such as\nauthentication failures or key-value mismatch errors;</p></li>\n\n<li><p><code>not_found</code></p>\n\n<p>the requested key was not found.\nFor the Redis backend, this corresponds to a nil reply\nto the <code>GET</code> command;</p>\n\n<blockquote>\n<p>The  parameter cannot be used when caching of\n<code>not_found</code> results is enabled with the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_cache\" target=\"_blank\"><code>db_cache</code></a> directive.</p>\n</blockquote>\n</li>\n\n<li><p><code>off</code></p>\n\n<p>disables passing a request to the next server.</p></li>\n</ul>\n\n<p>One should bear in mind that passing a request to the next server is\nonly possible if nothing has been sent to a client yet.\nThat is, if an error or timeout occurs in the middle of the\ntransferring of a response, fixing this is impossible.</p>\n\n<p>The directive also defines what is considered an\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails\" target=\"_blank\">unsuccessful attempt</a> of communication with a server.\nThe cases of <code>error</code> and <code>timeout</code>,\nare always considered unsuccessful attempts,\neven if they are not specified in the directive.\nThe case of <code>invalid_response</code> is\nconsidered an unsuccessful attempt only if it is specified in the directive.\nThe case of <code>not_found</code>\nis never considered an unsuccessful attempt.</p>\n\n<p>Passing a request to the next server can be limited by\n<a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_next_upstream_tries\" target=\"_blank\">the number of tries</a>\nand by <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_next_upstream_timeout\" target=\"_blank\">time</a>.</p>\n\n<p>The <code>not_found</code> parameter cannot be combined\nwith enabled missing-key caching in <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_cache\" target=\"_blank\"><code>db_cache</code></a>.</p>\n"
+        },
+        {
+          "name": "db_next_upstream_timeout",
+          "default": "0",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Limits the time during which a request can be passed to the\n[next server](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_next_upstream).\nThe `0` value turns off this limitation.",
+          "description_html": "<p>Limits the time during which a request can be passed to the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_next_upstream\" target=\"_blank\">next server</a>.\nThe <code>0</code> value turns off this limitation.</p>\n"
+        },
+        {
+          "name": "db_next_upstream_tries",
+          "default": "0",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`number`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>number</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Limits the number of possible tries for passing a request to the\n[next server](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_next_upstream).\nThe limit includes the initial attempt.\nThe `0` value turns off this limitation.",
+          "description_html": "<p>Limits the number of possible tries for passing a request to the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_next_upstream\" target=\"_blank\">next server</a>.\nThe limit includes the initial attempt.\nThe <code>0</code> value turns off this limitation.</p>\n"
+        },
+        {
+          "name": "db_pass",
+          "default": "",
+          "contexts": [
+            "location",
+            "if in location"
+          ],
+          "syntax_md": [
+            "*`name`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>name</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies the upstream group used for database lookups:\n```\ndb_pass redis_backend;\n```\nThe group must be configured with [`db_type`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_type).\nA server address cannot be specified directly.\n\nThe [`db_get`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_get) directive must also be configured,\neither in the current configuration or inherited from a parent location.\n\nOnly `GET` and `HEAD` requests\nare accepted.\nOther methods return\n405 (Method Not Allowed).\nThe client request body is discarded.\nClient headers and the request body are not forwarded to the database.\n\nThe response content type is determined by the\n[`types`](https://nginx.org/en/docs/http/ngx_http_core_module.html#types) and\n[`default_type`](https://nginx.org/en/docs/http/ngx_http_core_module.html#default_type)\ndirectives.",
+          "description_html": "<p>Specifies the upstream group used for database lookups:</p>\n\n<pre><code>db_pass redis_backend;\n</code></pre>\n\n<p>The group must be configured with <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_type\" target=\"_blank\"><code>db_type</code></a>.\nA server address cannot be specified directly.</p>\n\n<p>The <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_get\" target=\"_blank\"><code>db_get</code></a> directive must also be configured,\neither in the current configuration or inherited from a parent location.</p>\n\n<p>Only <code>GET</code> and <code>HEAD</code> requests\nare accepted.\nOther methods return\n405 (Method Not Allowed).\nThe client request body is discarded.\nClient headers and the request body are not forwarded to the database.</p>\n\n<p>The response content type is determined by the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#types\" target=\"_blank\"><code>types</code></a> and\n<a href=\"https://nginx.org/en/docs/http/ngx_http_core_module.html#default_type\" target=\"_blank\"><code>default_type</code></a>\ndirectives.</p>\n"
+        },
+        {
+          "name": "db_read_timeout",
+          "default": "60s",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines a timeout for reading data from a database server.\nThe timeout is set only between two successive read operations,\nnot for the transmission of the whole response.\nIf the database server does not transmit anything within this time,\nthe connection is closed.",
+          "description_html": "<p>Defines a timeout for reading data from a database server.\nThe timeout is set only between two successive read operations,\nnot for the transmission of the whole response.\nIf the database server does not transmit anything within this time,\nthe connection is closed.</p>\n"
+        },
+        {
+          "name": "db_send_timeout",
+          "default": "60s",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines a timeout for sending data to a database server.",
+          "description_html": "<p>Defines a timeout for sending data to a database server.</p>\n"
+        },
+        {
+          "name": "db_socket_keepalive",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Configures the “TCP keepalive” behavior\nfor outgoing connections to a database server.\nIf enabled, the `SO_KEEPALIVE` socket option is turned on.\n\nThis is distinct from caching idle upstream connections,\nwhich is configured using the\n[`keepalive`](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive) directive.",
+          "description_html": "<p>Configures the “TCP keepalive” behavior\nfor outgoing connections to a database server.\nIf enabled, the <code>SO_KEEPALIVE</code> socket option is turned on.</p>\n\n<p>This is distinct from caching idle upstream connections,\nwhich is configured using the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive\" target=\"_blank\"><code>keepalive</code></a> directive.</p>\n"
+        },
+        {
+          "name": "db_ssl",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables TLS for connections to database servers.\n\n> Server certificate verification is disabled by default.\n> Verification is configured separately by\n> [`db_ssl_verify`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_verify).",
+          "description_html": "<p>Enables TLS for connections to database servers.</p>\n\n<blockquote>\n<p>Server certificate verification is disabled by default.\nVerification is configured separately by\n<a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_verify\" target=\"_blank\"><code>db_ssl_verify</code></a>.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "db_ssl_certificate",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a *`file`* with the certificate in the PEM format\nused for authentication to a database server.\nThe corresponding [`db_ssl_certificate_key`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_certificate_key)\nmust also be configured.\n\nThe parameter value can contain variables:\n```\ndb_ssl_certificate /etc/nginx/client-certs/$host.crt;\n```",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with the certificate in the PEM format\nused for authentication to a database server.\nThe corresponding <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_certificate_key\" target=\"_blank\"><code>db_ssl_certificate_key</code></a>\nmust also be configured.</p>\n\n<p>The parameter value can contain variables:</p>\n\n<pre><code>db_ssl_certificate /etc/nginx/client-certs/$host.crt;\n</code></pre>\n"
+        },
+        {
+          "name": "db_ssl_certificate_cache",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`off`",
+            "`max`=*`number`* [`inactive`=*`time`*] [`valid`=*`time`*]"
+          ],
+          "syntax_html": [
+            "<p><code>off</code></p>\n",
+            "<p><code>max</code>=<em><code>number</code></em> [<code>inactive</code>=<em><code>time</code></em>] [<code>valid</code>=<em><code>time</code></em>]</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Defines a cache that stores\n[SSL certificates](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_certificate) and\n[secret keys](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_certificate_key)\nspecified with [variables](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_certificate_key_variables).\n\nThe directive has the following parameters:\n- `max`\n\n    sets the maximum number of elements in the cache;\n    on cache overflow the least recently used (LRU) elements are removed;\n- `inactive`\n\n    defines a time after which an element is removed from the cache\n    if it has not been accessed during this time;\n    by default, it is 10 seconds;\n- `valid`\n\n    defines a time during which\n    an element in the cache is considered valid\n    and can be reused;\n    by default, it is 60 seconds.\n    Certificates that exceed this time will be reloaded or revalidated;\n- `off`\n\n    disables the cache.\n\nExample:\n```\ndb_ssl_certificate_cache max=1000 inactive=20s valid=1m;\n```",
+          "description_html": "<p>Defines a cache that stores\n<a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_certificate\" target=\"_blank\">SSL certificates</a> and\n<a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_certificate_key\" target=\"_blank\">secret keys</a>\nspecified with <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_certificate_key_variables\" target=\"_blank\">variables</a>.</p>\n\n<p>The directive has the following parameters:</p>\n\n<ul>\n<li><p><code>max</code></p>\n\n<p>sets the maximum number of elements in the cache;\non cache overflow the least recently used (LRU) elements are removed;</p></li>\n\n<li><p><code>inactive</code></p>\n\n<p>defines a time after which an element is removed from the cache\nif it has not been accessed during this time;\nby default, it is 10 seconds;</p></li>\n\n<li><p><code>valid</code></p>\n\n<p>defines a time during which\nan element in the cache is considered valid\nand can be reused;\nby default, it is 60 seconds.\nCertificates that exceed this time will be reloaded or revalidated;</p></li>\n\n<li><p><code>off</code></p>\n\n<p>disables the cache.</p></li>\n</ul>\n\n<p>Example:</p>\n\n<pre><code>db_ssl_certificate_cache max=1000 inactive=20s valid=1m;\n</code></pre>\n"
+        },
+        {
+          "name": "db_ssl_certificate_key",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a *`file`* with the secret key in the PEM format\nfor the certificate configured by the\n[`db_ssl_certificate`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_certificate) directive.\n\nThe parameter value can contain variables:\n```\ndb_ssl_certificate_key /etc/nginx/client-certs/$host.key;\n```",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with the secret key in the PEM format\nfor the certificate configured by the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_certificate\" target=\"_blank\"><code>db_ssl_certificate</code></a> directive.</p>\n\n<p>The parameter value can contain variables:</p>\n\n<pre><code>db_ssl_certificate_key /etc/nginx/client-certs/$host.key;\n</code></pre>\n"
+        },
+        {
+          "name": "db_ssl_ciphers",
+          "default": "DEFAULT",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`ciphers`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>ciphers</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies the enabled ciphers for connections to database servers.\nThe ciphers are specified in the format understood by the OpenSSL library.",
+          "description_html": "<p>Specifies the enabled ciphers for connections to database servers.\nThe ciphers are specified in the format understood by the OpenSSL library.</p>\n"
+        },
+        {
+          "name": "db_ssl_conf_command",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`name`* *`value`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>name</code></em> <em><code>value</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets arbitrary OpenSSL configuration\n[commands](https://www.openssl.org/docs/man1.1.1/man3/SSL_CONF_cmd.html)\nwhen establishing a connection with the database server.\n\nSeveral `db_ssl_conf_command` directives\ncan be specified on the same level.\nThese directives are inherited from the previous configuration level\nif and only if there are\nno `db_ssl_conf_command` directives\ndefined on the current level.\n\n> Note that configuring OpenSSL directly\n> might result in unexpected behavior.",
+          "description_html": "<p>Sets arbitrary OpenSSL configuration\n<a href=\"https://www.openssl.org/docs/man1.1.1/man3/SSL_CONF_cmd.html\" target=\"_blank\">commands</a>\nwhen establishing a connection with the database server.</p>\n\n<p>Several <code>db_ssl_conf_command</code> directives\ncan be specified on the same level.\nThese directives are inherited from the previous configuration level\nif and only if there are\nno <code>db_ssl_conf_command</code> directives\ndefined on the current level.</p>\n\n<blockquote>\n<p>Note that configuring OpenSSL directly\nmight result in unexpected behavior.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "db_ssl_crl",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a *`file`* with revoked certificates (CRL)\nin the PEM format used to [verify](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_verify)\nthe certificate of the database server.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with revoked certificates (CRL)\nin the PEM format used to <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the database server.\nWhen using intermediate certificates, their CRLs should be\nspecified in the same file.</p>\n"
+        },
+        {
+          "name": "db_ssl_key_log",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables logging of database server connection SSL keys\nand specifies the path to the key log file.\nKeys are logged in the\n[SSLKEYLOGFILE](https://datatracker.ietf.org/doc/html/rfc9850)\nformat compatible with Wireshark.\n\n> TLS key logs contain sensitive material that can enable decryption\n> of captured traffic.\n> Protect these files and enable logging only when needed.",
+          "description_html": "<p>Enables logging of database server connection SSL keys\nand specifies the path to the key log file.\nKeys are logged in the\n<a href=\"https://datatracker.ietf.org/doc/html/rfc9850\" target=\"_blank\">SSLKEYLOGFILE</a>\nformat compatible with Wireshark.</p>\n\n<blockquote>\n<p>TLS key logs contain sensitive material that can enable decryption\nof captured traffic.\nProtect these files and enable logging only when needed.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "db_ssl_name",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`name`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>name</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Allows overriding the server name used to\n[verify](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_verify)\nthe database server certificate and to be\n[passed through SNI](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_server_name)\nwhen establishing a connection with the database server.",
+          "description_html": "<p>Allows overriding the server name used to\n<a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_verify\" target=\"_blank\">verify</a>\nthe database server certificate and to be\n<a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_server_name\" target=\"_blank\">passed through SNI</a>\nwhen establishing a connection with the database server.</p>\n"
+        },
+        {
+          "name": "db_ssl_password_file",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a *`file`* with passphrases for\n[secret keys](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_certificate_key)\nwhere each passphrase is specified on a separate line.\nPassphrases are tried in turn when loading the key.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with passphrases for\n<a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_certificate_key\" target=\"_blank\">secret keys</a>\nwhere each passphrase is specified on a separate line.\nPassphrases are tried in turn when loading the key.</p>\n"
+        },
+        {
+          "name": "db_ssl_protocols",
+          "default": "TLSv1.2 TLSv1.3",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "[`SSLv2`] [`SSLv3`] [`TLSv1`] [`TLSv1.1`] [`TLSv1.2`] [`TLSv1.3`]"
+          ],
+          "syntax_html": [
+            "<p>[<code>SSLv2</code>] [<code>SSLv3</code>] [<code>TLSv1</code>] [<code>TLSv1.1</code>] [<code>TLSv1.2</code>] [<code>TLSv1.3</code>]</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables the specified protocols for connections to database servers.",
+          "description_html": "<p>Enables the specified protocols for connections to database servers.</p>\n"
+        },
+        {
+          "name": "db_ssl_server_name",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables or disables passing of the\n[server name](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_name) through\n[TLS Server Name Indication extension](http://en.wikipedia.org/wiki/Server_Name_Indication) (SNI, RFC 6066)\nwhen establishing a connection with the database server.",
+          "description_html": "<p>Enables or disables passing of the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_name\" target=\"_blank\">server name</a> through\n<a href=\"http://en.wikipedia.org/wiki/Server_Name_Indication\" target=\"_blank\">TLS Server Name Indication extension</a> (SNI, RFC 6066)\nwhen establishing a connection with the database server.</p>\n"
+        },
+        {
+          "name": "db_ssl_session_reuse",
+          "default": "on",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Determines whether SSL sessions can be reused when working with\nthe database server.\nIf the errors\n“`digest check failed`”\nappear in the logs, try disabling session reuse.",
+          "description_html": "<p>Determines whether SSL sessions can be reused when working with\nthe database server.\nIf the errors\n“<code>digest check failed</code>”\nappear in the logs, try disabling session reuse.</p>\n"
+        },
+        {
+          "name": "db_ssl_trusted_certificate",
+          "default": "",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`file`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>file</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Specifies a *`file`* with trusted CA certificates in the PEM format\nused to [verify](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_verify)\nthe certificate of the database server.",
+          "description_html": "<p>Specifies a <em><code>file</code></em> with trusted CA certificates in the PEM format\nused to <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_verify\" target=\"_blank\">verify</a>\nthe certificate of the database server.</p>\n"
+        },
+        {
+          "name": "db_ssl_verify",
+          "default": "off",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "`on` | `off`"
+          ],
+          "syntax_html": [
+            "<p><code>on</code> | <code>off</code></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Enables or disables verification of the database server certificate.\nThe [`db_ssl_trusted_certificate`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_trusted_certificate) directive\nmust also be configured.\nThe directive is required when [`db_ssl_verify`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_verify) is enabled.",
+          "description_html": "<p>Enables or disables verification of the database server certificate.\nThe <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_trusted_certificate\" target=\"_blank\"><code>db_ssl_trusted_certificate</code></a> directive\nmust also be configured.\nThe directive is required when <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_verify\" target=\"_blank\"><code>db_ssl_verify</code></a> is enabled.</p>\n"
+        },
+        {
+          "name": "db_ssl_verify_depth",
+          "default": "1",
+          "contexts": [
+            "http",
+            "server",
+            "location"
+          ],
+          "syntax_md": [
+            "*`number`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>number</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the verification depth in the database server certificate chain.\nThe directive is required when [`db_ssl_verify`](https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_verify) is enabled.",
+          "description_html": "<p>Sets the verification depth in the database server certificate chain.\nThe directive is required when <a href=\"https://nginx.org/en/docs/http/ngx_http_db_module.html#db_ssl_verify\" target=\"_blank\"><code>db_ssl_verify</code></a> is enabled.</p>\n"
+        },
+        {
+          "name": "db_type",
+          "default": "",
+          "contexts": [
+            "upstream"
+          ],
+          "syntax_md": [
+            "*`type`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>type</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the database protocol used by the upstream group.\nCurrently, only `redis` is supported:\n```\nupstream redis_backend {\n    server  127.0.0.1:6379;\n    db_type redis;\n}\n```\nThe protocol name is case-insensitive.",
+          "description_html": "<p>Sets the database protocol used by the upstream group.\nCurrently, only <code>redis</code> is supported:</p>\n\n<pre><code>upstream redis_backend {\n    server  127.0.0.1:6379;\n    db_type redis;\n}\n</code></pre>\n\n<p>The protocol name is case-insensitive.</p>\n"
+        },
+        {
+          "name": "db_var",
+          "default": "",
+          "contexts": [
+            "server",
+            "location",
+            "if in location"
+          ],
+          "syntax_md": [
+            "*`$variable`* `location`=*`URI`* `query`=*`string`* [`default`=*`string`*]"
+          ],
+          "syntax_html": [
+            "<p><em><code>$variable</code></em> <code>location</code>=<em><code>URI</code></em> <code>query</code>=<em><code>string</code></em> [<code>default</code>=<em><code>string</code></em>]</p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Creates a variable whose value is obtained\nfrom the response body of a subrequest.\nThe `location` parameter sets the subrequest URI.\nThe `query` parameter sets its query string.\nAn empty query string can be specified explicitly:\n```\ndb_var $configuration /_configuration \"\";\n```\nThe parameter values can contain text, variables, and their combination.\n\nIf the subrequest returns the 200 (OK),\nits response body is assigned to the variable.\nAn empty response body is a valid value.\n\nIf the subrequest returns the 404 (Not Found),\nthe value specified by the `default` parameter\nis assigned to the variable.\nThe parameter value can contain variables.\nIf no `default` parameter is specified,\nthe variable is marked as not found.\n\nVariables are populated during the pre-access phase, not when first evaluated.\nThey should be consumed in subsequent processing phases,\nsuch as access or content processing.\nReading them earlier, for example in rewrite-phase\n[`if`](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#if),\n[`set`](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#set), or\n[`return`](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#return) processing,\ndoes not initiate a lookup.",
+          "description_html": "<p>Creates a variable whose value is obtained\nfrom the response body of a subrequest.\nThe <code>location</code> parameter sets the subrequest URI.\nThe <code>query</code> parameter sets its query string.\nAn empty query string can be specified explicitly:</p>\n\n<pre><code>db_var $configuration /_configuration &quot;&quot;;\n</code></pre>\n\n<p>The parameter values can contain text, variables, and their combination.</p>\n\n<p>If the subrequest returns the 200 (OK),\nits response body is assigned to the variable.\nAn empty response body is a valid value.</p>\n\n<p>If the subrequest returns the 404 (Not Found),\nthe value specified by the <code>default</code> parameter\nis assigned to the variable.\nThe parameter value can contain variables.\nIf no <code>default</code> parameter is specified,\nthe variable is marked as not found.</p>\n\n<p>Variables are populated during the pre-access phase, not when first evaluated.\nThey should be consumed in subsequent processing phases,\nsuch as access or content processing.\nReading them earlier, for example in rewrite-phase\n<a href=\"https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#if\" target=\"_blank\"><code>if</code></a>,\n<a href=\"https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#set\" target=\"_blank\"><code>set</code></a>, or\n<a href=\"https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#return\" target=\"_blank\"><code>return</code></a> processing,\ndoes not initiate a lookup.</p>\n"
+        }
+      ]
+    },
+    {
       "id": "/en/docs/http/ngx_http_empty_gif_module.html",
       "name": "ngx_http_empty_gif_module",
       "directives": [
@@ -6900,6 +7479,22 @@
           "isBlock": false,
           "description_md": "Specifies a custom\n[key-value database](https://nginx.org/en/docs/http/ngx_http_keyval_module.html#keyval_zone)\nthat stores session data.\nBy default, an 8-megabyte key-value database named \n`oidc_default_store_<provider name>`\nis created automatically.\n> A separate key-value database should be configured for each Provider\n> to prevent session reuse across providers.",
           "description_html": "<p>Specifies a custom\n<a href=\"https://nginx.org/en/docs/http/ngx_http_keyval_module.html#keyval_zone\" target=\"_blank\">key-value database</a>\nthat stores session data.\nBy default, an 8-megabyte key-value database named\n<code>oidc_default_store_&lt;provider name&gt;</code>\nis created automatically.</p>\n\n<blockquote>\n<p>A separate key-value database should be configured for each Provider\nto prevent session reuse across providers.</p>\n</blockquote>\n"
+        },
+        {
+          "name": "session_sync_leeway",
+          "default": "0",
+          "contexts": [
+            "oidc_provider"
+          ],
+          "syntax_md": [
+            "*`time`*"
+          ],
+          "syntax_html": [
+            "<p><em><code>time</code></em></p>\n"
+          ],
+          "isBlock": false,
+          "description_md": "Sets the maximum wait time for a session to appear in the\n[key-value zone](https://nginx.org/en/docs/http/ngx_http_oidc_module.html#session_store)\nif a request contains a session cookie\nbut the corresponding session is not found.\nThis allows for session\n[synchronization](https://nginx.org/en/docs/stream/ngx_stream_zone_sync_module.html)\ndelays between cluster nodes.\n\nThe value must be in the range from `0` to\n`5s`.\nThe default value of `0` disables waiting.\nIt is recommended to set the smallest possible value.",
+          "description_html": "<p>Sets the maximum wait time for a session to appear in the\n<a href=\"https://nginx.org/en/docs/http/ngx_http_oidc_module.html#session_store\" target=\"_blank\">key-value zone</a>\nif a request contains a session cookie\nbut the corresponding session is not found.\nThis allows for session\n<a href=\"https://nginx.org/en/docs/stream/ngx_stream_zone_sync_module.html\" target=\"_blank\">synchronization</a>\ndelays between cluster nodes.</p>\n\n<p>The value must be in the range from <code>0</code> to\n<code>5s</code>.\nThe default value of <code>0</code> disables waiting.\nIt is recommended to set the smallest possible value.</p>\n"
         },
         {
           "name": "session_timeout",
@@ -13330,8 +13925,8 @@
             "<p><code>on</code> | <code>off</code></p>\n"
           ],
           "isBlock": false,
-          "description_md": "Enables routing of QUIC packets using\n[eBPF](https://ebpf.io/).\nWhen enabled, this allows supporting QUIC connection migration.\n\n> The directive is only supported on Linux 5.7+.",
-          "description_html": "<p>Enables routing of QUIC packets using\n<a href=\"https://ebpf.io/\" target=\"_blank\">eBPF</a>.\nWhen enabled, this allows supporting QUIC connection migration.</p>\n\n<blockquote>\n<p>The directive is only supported on Linux 5.7+.</p>\n</blockquote>\n"
+          "description_md": "Enables routing of QUIC packets using\n[eBPF](https://ebpf.io/).\nWhen enabled, this allows supporting QUIC connection migration.\nSince 1.31.7, this also allows established QUIC connections\nto be preserved during\n[configuration reloads](https://nginx.org/en/docs/control.html#reconfiguration)\nand during [live upgrade](https://nginx.org/en/docs/control.html#upgrade).\n\n> The directive value cannot be changed during a configuration reload.\n> To change the directive value, nginx must be restarted.\n> The directive cannot be disabled during the live upgrade\n> if QUIC BPF maps are inherited from the previous nginx instance.\n\n> The directive is only supported on Linux 5.7+.",
+          "description_html": "<p>Enables routing of QUIC packets using\n<a href=\"https://ebpf.io/\" target=\"_blank\">eBPF</a>.\nWhen enabled, this allows supporting QUIC connection migration.\nSince 1.31.7, this also allows established QUIC connections\nto be preserved during\n<a href=\"https://nginx.org/en/docs/control.html#reconfiguration\" target=\"_blank\">configuration reloads</a>\nand during <a href=\"https://nginx.org/en/docs/control.html#upgrade\" target=\"_blank\">live upgrade</a>.</p>\n\n<blockquote>\n<p>The directive value cannot be changed during a configuration reload.\nTo change the directive value, nginx must be restarted.\nThe directive cannot be disabled during the live upgrade\nif QUIC BPF maps are inherited from the previous nginx instance.</p>\n\n<p>The directive is only supported on Linux 5.7+.</p>\n</blockquote>\n"
         },
         {
           "name": "quic_gso",
@@ -18679,5 +19274,5 @@
       ]
     }
   ],
-  "version": "https://github.com/nginx/nginx.org/commit/03838d44c7bc13bd75cb63fa4308ab7187d4dd9d"
+  "version": "https://github.com/nginx/nginx.org/commit/0ebe7b53ff30e8c4fbf348881b4c8bcec3cf27cb"
 }
